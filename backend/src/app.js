@@ -1,11 +1,20 @@
 const express = require('express');
-const routes = require('./routes'); // Import all routes
+const cors = require('cors');
+const routes = require('./routes');
 const { errorHandler } = require('./middlewares/errorHandler');
 const logger = require('./utils/logger');
 
 const app = express();
 
+corsOptions = {
+    origin: ['http://localhost:5173'],
+    methods: ['*'],
+    allowedHeaders: ['*'],
+    credentials: true
+}
+
 // Middleware
+app.use(cors(corsOptions));
 app.use(express.json()); // Parse JSON bodies
 app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 
