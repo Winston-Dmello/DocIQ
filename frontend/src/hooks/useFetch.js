@@ -1,10 +1,10 @@
 // hooks/useFetch.ts
 import { useState, useEffect } from 'react';
 
-const useFetch = (url: string) => {
+const useFetch = (url) => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -14,7 +14,7 @@ const useFetch = (url: string) => {
         const result = await response.json();
         setData(result);
       } catch (err) {
-        setError(err as Error);
+        setError(err);
       } finally {
         setLoading(false);
       }
