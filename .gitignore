@@ -2,5 +2,3 @@ backend/node_modules
 backend/.env
 frontend/.env
 .vscode/settings.json
-
-
