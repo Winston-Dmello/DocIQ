@@ -11,7 +11,10 @@
         "frontend/tsconfig.app.json": true,
         "frontend/tsconfig.json": true,
         "frontend/tsconfig.node.json": true,
-        "frontend/vite.config.ts": true
+        "frontend/vite.config.ts": true,
+        "backend/package-lock.json": true,
+        "README.md": true,
+        ".gitignore": true
     },
     "hide-files.files": [
         "frontend/eslint.config.js",
@@ -19,6 +22,9 @@
         "frontend/tsconfig.app.json",
         "frontend/tsconfig.json",
         "frontend/tsconfig.node.json",
-        "frontend/vite.config.ts"
+        "frontend/vite.config.ts",
+        "backend/package-lock.json",
+        "README.md",
+        ".gitignore"
     ]
 }
