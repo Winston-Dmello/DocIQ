@@ -12,6 +12,9 @@ const server = http.createServer(app);
   try{
       await sequelize.sync({force: false});
       console.log("All models synchronized successfully");
+
+      const admin = await User.findAll();
+      console.log(admin);
   }catch(err){
       console.log(err)
       console.log("error during sync")

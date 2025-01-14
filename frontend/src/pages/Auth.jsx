@@ -1,8 +1,9 @@
 import userLogin from "../features/Authentication/userLogin"
 import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -12,7 +13,7 @@ const Auth = () => {
         const loginResponse = await userLogin({email, password});
         if(loginResponse.auth){
             alert(loginResponse.message);
-            Navigate("/home");
+            navigate("/home");
         } else {
             alert(loginResponse.message);
         }
