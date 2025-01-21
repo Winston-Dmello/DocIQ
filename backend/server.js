@@ -2,7 +2,7 @@ require('dotenv').config(); // Load environment variables
 const http = require('http');
 const app = require('./src/app'); // Import the app
 const sequelize = require('./src/sequelize');
-const User = require('./src/models/user.model')
+const Form = require('./src/models/form.model');
 
 const PORT = process.env.PORT || 3000;
 
@@ -13,8 +13,6 @@ const server = http.createServer(app);
       await sequelize.sync({force: false});
       console.log("All models synchronized successfully");
 
-      const admin = await User.findAll();
-      console.log(admin);
   }catch(err){
       console.log(err)
       console.log("error during sync")
