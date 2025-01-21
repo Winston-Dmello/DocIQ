@@ -23,16 +23,26 @@
     flex-direction: column;
 }
 
+.nav-container{
+    width: 85vw;
+    display: flex;
+    justify-content: center;
+}
+
 .dashboard-nav{
-    background-color: #EAE7DC;
+    background-color: #4056A1;
+    margin-top: 2vh;
+    width: 70%;
+    border-radius: 1.5vw;
 }
 .dashboard-nav ul{
     display: flex;
     list-style-type: none;
-    color: black;
+    color: whitesmoke;
     justify-content: space-evenly;
     font-size: x-small;
     margin: 0;
     align-items: center;
     height: 7vh;
 }
+
