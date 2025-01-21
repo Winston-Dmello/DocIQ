@@ -1,19 +1,18 @@
-import userLogin from "../features/Authentication/userLogin"
+import adminLogin from "./adminLogin"
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
-const Auth = () => {
-    const navigate = useNavigate();
+const AdminAuth = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
     const onLogin = async (e) => {
         e.preventDefault();
 
-        const loginResponse = await userLogin({email, password});
+        const loginResponse = await adminLogin({email, password});
         if(loginResponse.auth){
             alert(loginResponse.message);
-            navigate("/home");
+            Navigate("/home");
         } else {
             alert(loginResponse.message);
         }
@@ -36,4 +35,4 @@ const Auth = () => {
     )
 }
 
-export default Auth
+export default AdminAuth;

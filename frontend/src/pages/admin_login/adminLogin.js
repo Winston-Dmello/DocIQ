@@ -1,15 +1,15 @@
-const userLogin = async ({email, password}) => {
+const adminLogin = async ({email, password}) => {
     try{
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/login/user`, {
+        const response = await fetch(`${import.meta.env.REACT_APP_API_URL}/login/admin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 email: email,
-                password: password
-            })
-        })
+                password    : password
+            }
+        )})
         if(response.ok){
             return {auth: true, message: 'Login Successful'};
         }else if(response.status === 401){
@@ -26,4 +26,4 @@ const userLogin = async ({email, password}) => {
     }
 }
 
-export default userLogin;
+export default adminLogin;
