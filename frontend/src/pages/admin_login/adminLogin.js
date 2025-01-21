@@ -1,13 +1,13 @@
 const adminLogin = async ({email, password}) => {
     try{
-        const response = await fetch(`${import.meta.env.REACT_APP_API_URL}/login/admin`, {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/login/admin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                email: email,
-                password    : password
+                'email': email,
+                'password' : password
             }
         )})
         if(response.ok){
