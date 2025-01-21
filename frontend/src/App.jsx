@@ -13,7 +13,9 @@ function App() {
       <Routes>
         <Route path="/login/admin" element={<LoginLayout><AdminAuth/></LoginLayout>}/>
         <Route path="/login/user" element={<LoginLayout><UserAuth/></LoginLayout>}/>
-        <Route path="/admin/generate-form" element={<DashboardLayout><GenerateForm/></DashboardLayout>}/>
+        <Route path="/user/dashboard" element={<DashboardLayout><GenerateForm/></DashboardLayout>}/>
+        <Route path="/admin/dashboard" element={<DashboardLayout><GenerateForm/></DashboardLayout>}/>
+        <Route path="/admin/dashboard/generate-form" element={<DashboardLayout><GenerateForm/></DashboardLayout>}/>
         <Route path="*" element={<NotFound/>}/> 
       </Routes>
     </>

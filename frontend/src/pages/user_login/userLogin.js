@@ -1,14 +1,14 @@
 const userLogin = async ({email, password}) => {
     try{
-        const response = await fetch(`${import.meta.env.REACT_APP_API_URL}/login/user`, {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/login/user`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: {
+            body: JSON.stringify({
                 'email': email,
                 'password': password
-            }
+            })
         })
         console.log(response);
         if(response.ok){
