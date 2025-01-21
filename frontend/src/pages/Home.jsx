@@ -23,7 +23,7 @@ const Home = () => {
 
     return (
         <div className="home-container">
-            <nav>
+            <nav className='home-nav'>
                 <ul>
                     <li onClick={() => scrollToBlock(block1Ref)}>Home</li>
                     <li onClick={() => scrollToBlock(block2Ref)}>How?</li>
