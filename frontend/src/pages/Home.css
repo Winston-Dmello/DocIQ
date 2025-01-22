@@ -39,7 +39,12 @@
 }
 
 .block2 {
+
     background: #C5CBE3;
+    background-image: url('../assets/mag_glass_hom.png');
+    background-repeat: no-repeat;
+    background-size: 20vw;
+    background-position: top;
     color: #333;
 }
 

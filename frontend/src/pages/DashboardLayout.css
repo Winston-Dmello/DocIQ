@@ -1,13 +1,18 @@
 .dashboard-body{
     display: flex;
+    background: url('../assets/home_background.png');
     background-color: #F1F0EB;
     color: whitesmoke;
+}
+
+.dociq-logo{
+    width: 3vw;
 }
 
 .side-bar{
     height: 100vh;
     width: 15vw;
-    background-color: #4056A1;
+    background-color: #77A6F7;
     display: flex;
     flex-direction: column;
     align-items: center;
