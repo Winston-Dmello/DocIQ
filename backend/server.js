@@ -2,8 +2,7 @@ require('dotenv').config(); // Load environment variables
 const http = require('http');
 const app = require('./src/app'); // Import the app
 const sequelize = require('./src/sequelize');
-const Form = require('./src/models/form.model');
-
+const User = require('./src/models/user.model');
 const PORT = process.env.PORT || 3000;
 
 const server = http.createServer(app);

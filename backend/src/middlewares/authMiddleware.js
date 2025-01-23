@@ -21,7 +21,7 @@ const authMiddleWare = (req, res, next) => {
         console.log(decoded);
         next();
     }catch(error){
-        console.log("Error occured: ", error);
+        console.log("Error occured: ", "JsonWebTokenError: invalid token");
         return res.status(403).json({message: "Couldn't verify token"});
     }
 }

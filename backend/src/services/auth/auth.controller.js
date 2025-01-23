@@ -9,7 +9,7 @@ exports.loginUser = async (req, res, next) => {
       if (userObject.role != "user") {
         res.sendStatus(403);
       } else if (userObject.password === req.body.password) {
-        const token = generateToken(userObject.email, userObject.name);
+        const token = generateToken(userObject.email, userObject.role);
         res.setHeader('Authorization', `Bearer ${token}`);
         res.sendStatus(200);
       } else {
@@ -30,6 +30,8 @@ exports.loginAdmin = async (req, res, next) => {
       if (userObject.role != "admin") {
         res.sendStatus(403);
       } else if (userObject.password === req.body.password) {
+        const token = generateToken(userObject.email, userObject.role);
+        res.setHeader('Authorization', `Bearer ${token}`);
         res.sendStatus(200);
       } else {
         res.sendStatus(401);
