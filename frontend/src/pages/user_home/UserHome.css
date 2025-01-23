@@ -1,0 +1,80 @@
+.card1, .card2, .card3{
+    background-color: #EAE7DC;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    padding: 2vw;
+    border-radius: 1vw;
+    margin: 1vh;
+    color: #77A6F7;
+}
+
+.dept-details{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5vw;
+    font-weight:600;
+}
+.file-table {
+    width: 100%;
+    height: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    font-size: 2vh;
+    border-radius: 0.5vw;
+    overflow: hidden;
+}
+
+.file-table th, 
+.file-table td {
+    padding: 1vh 1vw;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-table th {
+    background-color: #77A6F7;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.file-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.file-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.file-table td {
+    color: #333;
+    font-weight: 500;
+}
+
+.file-table tr:last-child td {
+    border-bottom: none;
+}
+
+
+.row1{
+    display: flex;
+    flex-direction: row;
+    gap: 2vw;
+}
+
+.card1, .card2{
+    width: 30vw;
+    height: 35vh;
+}
+
+.card3{
+    width: 63vw;
+    height: 35vh;
+}

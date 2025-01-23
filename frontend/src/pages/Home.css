@@ -39,7 +39,12 @@
 }
 
 .block2 {
+
     background: #C5CBE3;
+    background-image: url('../assets/mag_glass_hom.png');
+    background-repeat: no-repeat;
+    background-size: 20vw;
+    background-position: top;
     color: #333;
 }
 
@@ -80,7 +85,7 @@ p {
     transform: scale(1.05);
 }
 
-nav {
+.home-nav {
     margin-top: 5vh;
     background-color: #EAE7DC;
     width: 50vw;
@@ -95,7 +100,7 @@ nav {
     position: fixed;
 }
 
-nav ul {
+.home-nav ul {
     display: flex;
     list-style: none;
     padding: 0;
@@ -105,7 +110,7 @@ nav ul {
     cursor: pointer;
 }
 
-nav ul li:hover {
+.home-nav ul li:hover {
     color: #4056A1;
     font-weight: bold;
 }
