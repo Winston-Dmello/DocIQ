@@ -1,0 +1,22 @@
+1 Users : {user_id, user_name, email, password, designation?, role(user/admin), division(dept/management,etc), Association?, }
+
+
+
+3 Forms : {form_id, form_name, Category, submission_type(one-time/multiple submissions), form_data({JSON})}
+
+ -> Users_to_forms :{user_id(FK), form_id(FK), form_status(open/close)} (Many to Many)
+
+4 Submissions :{Submission_id, submission_data({JSON}), Status(pending/require resubmission/approved), file_path}
+
+ -> Submissions_Mapping : {Submissions_id, user_id, form_id}
+
+5 Documents: {Document_id, File_name, Division Name, Association?, Category, MetaData, file_path, Date...}
+
+
+
+
+S3 Folders:
+
+Pending
+
+Approved

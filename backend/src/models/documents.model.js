@@ -1,43 +1,37 @@
 const {DataTypes} = require('sequelize');
 const sequelize = require('../sequelize');
 
-const User = sequelize.define('user', {
-    user_id:{
+const Documents = sequelize.define('documents', {
+    document_id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
-        unique: true,
-        primaryKey: true,
         autoIncrement: true,
-    },
-    user_name: {
-        type: DataTypes.STRING,
-        allowNull: false, 
-    },
-    email: {
-        type: DataTypes.STRING,
+        primaryKey: true, 
         allowNull: false,
-        unique: true,
     },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false,        
-    },
-    designation: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
-    role: {
+    file_name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    division: {
+    division_name: {
         type: DataTypes.STRING,
         allowNull: false,
     },
     association: {
         type: DataTypes.STRING,
         allowNull: true,
-    }
+    },
+    category: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    meta_data: {
+        type: DataTypes.JSON,
+        allowNull: false,
+    },
+    file_path: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
 });
 
-module.exports = User;  
+module.exports = Documents;
