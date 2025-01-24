@@ -6,7 +6,7 @@ import UserAuth from "./pages/user_login/UserAuth";
 import AdminAuth from "./pages/admin_login/AdminAuth";
 import DashboardLayout from "./pages/DashboardLayout";
 import UserHome from "./pages/user_home/UserHome";
-import GenerateForm from "./pages/form_generator/GenerateForm";
+import GenerateForm from "./pages/form_generator/GenerateForm.jsx";
 
 function App() {
   return (

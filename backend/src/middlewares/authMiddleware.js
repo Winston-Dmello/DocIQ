@@ -17,11 +17,11 @@ const authMiddleWare = (req, res, next) => {
 
     try{
         const decoded = jwt.verify(extractedToken, secretKey);
-        req.user = decoded;
+        req.user = decoded; //email and name -- req.user.email
         console.log(decoded);
         next();
     }catch(error){
-        console.log("Error occured: ", error);
+        console.log("Error occured: ", "JsonWebTokenError: invalid token");
         return res.status(403).json({message: "Couldn't verify token"});
     }
 }
