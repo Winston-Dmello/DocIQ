@@ -7,4 +7,6 @@ const s3 = new AWS.S3({
     region: process.env.AWS_REGION
 });
 
-module.exports = s3;
+const BUCKET_NAME = process.env.S3_BUCKET_NAME;
+
+module.exports = {s3, BUCKET_NAME};
