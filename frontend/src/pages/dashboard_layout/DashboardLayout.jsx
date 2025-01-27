@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import './DashboardLayout.css';
-import dociq_logo from '../assets/dociq_logo.png';
+import dociq_logo from '../../assets/dociq_logo.png';
 
 const DashboardLayout = ({children}) => {
     return <>
