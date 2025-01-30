@@ -1,5 +1,5 @@
 const Form = require('../../models/form.model');
-
+const {ValidationError} = require('sequelize');
 
 const insertFormIntoDB = async (form) => {
     try{
@@ -11,7 +11,14 @@ const insertFormIntoDB = async (form) => {
         });
         return response;
     }catch(error){
-        console.log(error);
+        if(error instanceof ValidationError){
+            throw {
+                status: 400,
+                message: "Validation Error",
+                error: error.errors.map(err => err.message),
+            }
+        }
+        throw error;
     }
 }
 

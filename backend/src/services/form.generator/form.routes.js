@@ -1,10 +1,12 @@
 const express = require('express');
-const {createForm} = require('./form.controller');
+const {createForm, submitForm} = require('./form.controller');
+const {createFormPayload} = require('../../validators/form.validators');
+const validate = require('../../validators/validate');
 
 const router = express.Router();
 
-router.post('/create', createForm); // /api/form/create
-router.delete('/delete')
+router.post('/create', createFormPayload, validate, createForm); // /api/form/create
+router.post('/submit', submitForm); // /api/form/submit
 
 
 module.exports = router;

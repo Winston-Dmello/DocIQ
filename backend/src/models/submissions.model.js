@@ -11,6 +11,14 @@ const Submissions = sequelize.define('submissions', {
     submission_data: {
         type: DataTypes.JSON,
         allowNull: false,
+        validate: {
+            notEmpty: { msg: "Form data is required" },
+            isValidJSON(value) {
+                if (typeof value !== 'object') {
+                    throw new Error("Invalid JSON format");
+                }
+            }
+        }
     },
     status: {
         type: DataTypes.ENUM('pending', 'resubmit', 'approved'),
