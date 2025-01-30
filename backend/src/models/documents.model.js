@@ -32,6 +32,10 @@ const Documents = sequelize.define('documents', {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    date: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    }
 });
 
 module.exports = Documents;
