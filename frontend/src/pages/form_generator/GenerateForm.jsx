@@ -1,5 +1,6 @@
 import "./GenerateForm.css";
 import { useState } from "react";
+import { TextField } from "@mui/material";
 
 const GenerateForm = () => {
   const [formName, setFormName] = useState("");
@@ -30,8 +31,7 @@ const GenerateForm = () => {
     <div className="main-area">
       <div className="edit-column">
         <div className="make-form">
-          <label htmlFor="form-name">Form Name : </label>
-          <input type="text" placeholder="Form Name" onChange={handleTitleChange} id="form-name" />
+          <TextField label="Name" type="text" onChange={handleTitleChange} id="form-name" varient="standard" />
         </div>
         <div className="make-form">
           <label htmlFor="form-division">Form Division : </label>
