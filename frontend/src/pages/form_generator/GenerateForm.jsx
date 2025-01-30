@@ -1,156 +1,84 @@
-import { useState, useEffect } from "react";
-import { initializeFields } from "./generateForm";
+import "./GenerateForm.css";
+import { useState } from "react";
 
 const GenerateForm = () => {
-  const [fields, setFields] = useState({});
-  const [additionalFields, setAdditionalFields] = useState([]);
-  const [showPopup, setShowPopup] = useState(false);
-  const [editingField, setEditingField] = useState(null);
-  const [popupData, setPopupData] = useState({ name: "", type: "text" });
+  const [formName, setFormName] = useState("");
+  const [formDivisions, setFormDivisions] = useState([]);
+  const [formFields, setFormFields] = useState([]);
+  const [newField, setNewField] = useState({ label: "", type: "text" });
 
-  // Initialize default fields on mount
-  useEffect(() => {
-    const defaultFields = initializeFields();
-    setFields(defaultFields);
-  }, []);
-
-  const openPopup = (field = null) => {
-    setEditingField(field);
-    setPopupData(field || { name: "", type: "text" });
-    setShowPopup(true);
+  const handleTitleChange = (e) => {
+    setFormName(e.target.value);
   };
 
-  const closePopup = () => {
-    setShowPopup(false);
-    setPopupData({ name: "", type: "text" });
+  const handleDivisionChange = (e) => {
+    setFormDivisions([...e.target.selectedOptions].map((option) => option.value));
   };
 
-  const handleSaveField = () => {
-    if (editingField) {
-      setAdditionalFields((prev) =>
-        prev.map((f) => (f === editingField ? popupData : f)),
-      );
-    } else {
-      setAdditionalFields((prev) => [...prev, popupData]);
+  const addField = () => {
+    if (newField.label) {
+      setFormFields([...formFields, { id: Date.now(), ...newField }]);
+      setNewField({ label: "", type: "text" });
     }
-    closePopup();
   };
 
-  const handleSubmit = () => {
-    const formData = {
-      default: fields,
-      additional: additionalFields,
-    };
-    console.log("Generated Form Data:", formData);
-    alert("Form submitted! Check the console for output.");
+  const removeField = (id) => {
+    setFormFields(formFields.filter((field) => field.id !== id));
   };
 
   return (
-    <div className="container mt-4">
-      <h1 className="text-center">Form Generator</h1>
-
-      <form className="mt-4">
-        <h2>Default Fields</h2>
-        <div className="row align-items-center">
-          {Object.entries(fields).map(([key, value]) => (
-            <div className="col-md-6 mb-3 " key={key}>
-              <label htmlFor={key} className="form-label">
-                {key}
-              </label>
-              <input
-                type={value}
-                className="form-control"
-                name={key}
-                id={key}
-                disabled
-              />
-            </div>
-          ))}
+    <div className="main-area">
+      <div className="edit-column">
+        <div className="make-form">
+          <label htmlFor="form-name">Form Name : </label>
+          <input type="text" placeholder="Form Name" onChange={handleTitleChange} id="form-name" />
         </div>
-
-        <h2 className="mt-4">Additional Fields</h2>
-        <div className="row">
-          {additionalFields.map((field, index) => (
-            <div className="col-md-6 mb-3" key={index}>
-              <div className="d-flex align-items-center">
-                <span className="me-2">
-                  {field.name} ({field.type})
-                </span>
-                <button
-                  type="button"
-                  className="btn btn-outline-primary btn-sm"
-                  onClick={() => openPopup(field)}
-                >
-                  Edit
-                </button>
-              </div>
-            </div>
-          ))}
+        <div className="make-form">
+          <label htmlFor="form-division">Form Division : </label>
+          <select multiple id="form-division" onChange={handleDivisionChange}>
+            <option value="HR">HR</option>
+            <option value="Finance">Finance</option>
+            <option value="IT">IT</option>
+            <option value="Marketing">Marketing</option>
+          </select>
         </div>
-        <button
-          type="button"
-          className="btn btn-success"
-          onClick={() => openPopup()}
-        >
-          Add Field
-        </button>
-      </form>
-
-      {/* Submit Button */}
-      <button className="btn btn-primary mt-4" onClick={handleSubmit}>
-        Submit Form
-      </button>
-
-      {/* Popup Component */}
-      {showPopup && (
-        <div className="popup-overlay">
-          <div className="popup-content p-4 bg-white rounded shadow">
-            <h3>{editingField ? "Edit Field" : "Add Field"}</h3>
-            <div className="mb-3">
-              <label className="form-label">Field Name:</label>
-              <input
-                type="text"
-                className="form-control"
-                value={popupData.name}
-                onChange={(e) =>
-                  setPopupData({ ...popupData, name: e.target.value })
-                }
-              />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Field Type:</label>
-              <select
-                className="form-select"
-                value={popupData.type}
-                onChange={(e) =>
-                  setPopupData({ ...popupData, type: e.target.value })
-                }
-              >
-                <option value="text">Text</option>
-                <option value="number">Number</option>
-                <option value="email">Email</option>
-                <option value="date">Date</option>
-              </select>
-            </div>
-            <div className="d-flex justify-content-end">
-              <button
-                type="button"
-                className="btn btn-primary me-2"
-                onClick={handleSaveField}
-              >
-                Save
-              </button>
-              <button
-                type="button"
-                className="btn btn-secondary"
-                onClick={closePopup}
-              >
-                Cancel
+        <div className="make-form">
+          <label>Field Label:</label>
+          <input
+            type="text"
+            placeholder="Field Label"
+            value={newField.label}
+            onChange={(e) => setNewField({ ...newField, label: e.target.value })}
+          />
+          <select
+            value={newField.type}
+            onChange={(e) => setNewField({ ...newField, type: e.target.value })}
+          >
+            <option value="text">Text</option>
+            <option value="email">Email</option>
+            <option value="number">Number</option>
+          </select>
+          <button onClick={addField}>Add Field</button>
+        </div>
+        <div className="action">
+          <button>Generate</button>
+          <button onClick={() => setFormFields([])}>Delete</button>
+        </div>
+      </div>
+      <div className="preview-column">
+        <div className="form-name">{formName || "Form Preview"}</div>
+        <form>
+          {formFields.map((field) => (
+            <div key={field.id} className="form-field">
+              <label>{field.label}</label>
+              <input type={field.type} />
+              <button type="button" onClick={() => removeField(field.id)}>
+                Remove
               </button>
             </div>
-          </div>
-        </div>
-      )}
+          ))}
+        </form>
+      </div>
     </div>
   );
 };

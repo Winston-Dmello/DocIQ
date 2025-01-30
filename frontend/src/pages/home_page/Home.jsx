@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
-import dociq_logo from "../assets/dociq_logo.png";
+import dociq_logo from "../../assets/dociq_logo.png";
 import "./Home.css";
 
 const Home = () => {
