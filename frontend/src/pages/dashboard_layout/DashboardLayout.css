@@ -82,11 +82,17 @@
 }
 
 .main-content{
-    width: 83vw;
+    width: 80vw;
+    height: 80vh;
+    color: black;
     display: flex;
+    background-color: #EAE7DC;
     margin-top: 15vh;
+    margin-bottom: 5vh;
     margin-left: 2vw;
+    margin-right: 2vw;
     flex-direction: column;
-    gap: 2vw;
     align-items: center;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }

@@ -8,6 +8,6 @@ const router = express.Router();
 // Define route modules
 router.use('/login', authRoutes); // /api/login
 router.use('/users', authMiddleWare, userRoutes); // All user-related routes
-router.use('/form', authMiddleWare, formRoutes);
+router.use('/form', formRoutes);
 
 module.exports = router;
