@@ -1,7 +1,5 @@
 1 Users : {user_id, user_name, email, password, designation?, role(user/admin), division(dept/management,etc), Association?, }
 
-
-
 3 Forms : {form_id, form_name, Category, submission_type(one-time/multiple submissions), form_data({JSON})}
 
  -> Users_to_forms :{user_id(FK), form_id(FK), form_status(open/close)} (Many to Many)
@@ -13,6 +11,15 @@
 5 Documents: {Document_id, File_name, Division Name, Association?, Category, MetaData, file_path, Date...}
 
 
+
+form creation payload:
+{
+    form_name: "form name",
+    category: "",
+    submission_type: "",
+    recipients: [],
+    form_data: {JSON}
+}
 
 
 S3 Folders:
