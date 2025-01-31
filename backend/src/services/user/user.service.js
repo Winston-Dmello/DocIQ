@@ -1,7 +1,8 @@
-// Dummy data (replace with a database later)
-const users = [];
+const User = require('../../models/user.model');
 
 exports.getAllUsers = async () => {
+  const users = await User.findAll();
+  console.log(users);
   return users;
 };
 
