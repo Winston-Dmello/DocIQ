@@ -1,85 +1,189 @@
-import "./GenerateForm.css";
 import { useState } from "react";
-import { TextField } from "@mui/material";
+import {
+  Typography,
+  Container,
+  FormControl,
+  TextField,
+  Select,
+  InputLabel,
+  MenuItem,
+  Button,
+  Stack,
+} from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import { generateForm } from "./generateForm";
 
 const GenerateForm = () => {
   const [formName, setFormName] = useState("");
-  const [formDivisions, setFormDivisions] = useState([]);
-  const [formFields, setFormFields] = useState([]);
-  const [newField, setNewField] = useState({ label: "", type: "text" });
+  const [recipients, setRecipients] = useState([]);
+  const [category, setCategory] = useState("");
+  const [submissionType, setSubmissionType] = useState("one-time");
+  const [customFields, setCustomFields] = useState([]);
+  const [newField, setNewField] = useState("");
+  const [newFieldType, setNewFieldType] = useState("text");
 
-  const handleTitleChange = (e) => {
-    setFormName(e.target.value);
-  };
-
-  const handleDivisionChange = (e) => {
-    setFormDivisions([...e.target.selectedOptions].map((option) => option.value));
-  };
-
-  const addField = () => {
-    if (newField.label) {
-      setFormFields([...formFields, { id: Date.now(), ...newField }]);
-      setNewField({ label: "", type: "text" });
+  const addCustomField = () => {
+    if (newField.trim()) {
+      setCustomFields([
+        ...customFields,
+        { name: newField, type: newFieldType },
+      ]);
+      setNewField("");
+      setNewFieldType("text");
     }
   };
 
-  const removeField = (id) => {
-    setFormFields(formFields.filter((field) => field.id !== id));
+  const removeCustomField = (index) => {
+    const updatedFields = [...customFields];
+    updatedFields.splice(index, 1);
+    setCustomFields(updatedFields);
+  };
+
+  const handleSubmitForm = async () => {
+    const response = await generateForm(
+      formName,
+      recipients,
+      category,
+      submissionType,
+      customFields
+    );
+    if (response.type === "success") {
+      alert(response.message);
+    } else {
+      alert(response.message);
+    }
   };
 
   return (
-    <div className="main-area">
-      <div className="edit-column">
-        <div className="make-form">
-          <TextField label="Name" type="text" onChange={handleTitleChange} id="form-name" varient="standard" />
-        </div>
-        <div className="make-form">
-          <label htmlFor="form-division">Form Division : </label>
-          <select multiple id="form-division" onChange={handleDivisionChange}>
-            <option value="HR">HR</option>
-            <option value="Finance">Finance</option>
-            <option value="IT">IT</option>
-            <option value="Marketing">Marketing</option>
-          </select>
-        </div>
-        <div className="make-form">
-          <label>Field Label:</label>
-          <input
-            type="text"
-            placeholder="Field Label"
-            value={newField.label}
-            onChange={(e) => setNewField({ ...newField, label: e.target.value })}
-          />
-          <select
-            value={newField.type}
-            onChange={(e) => setNewField({ ...newField, type: e.target.value })}
-          >
-            <option value="text">Text</option>
-            <option value="email">Email</option>
-            <option value="number">Number</option>
-          </select>
-          <button onClick={addField}>Add Field</button>
-        </div>
-        <div className="action">
-          <button>Generate</button>
-          <button onClick={() => setFormFields([])}>Delete</button>
-        </div>
-      </div>
-      <div className="preview-column">
-        <div className="form-name">{formName || "Form Preview"}</div>
-        <form>
-          {formFields.map((field) => (
-            <div key={field.id} className="form-field">
-              <label>{field.label}</label>
-              <input type={field.type} />
-              <button type="button" onClick={() => removeField(field.id)}>
-                Remove
-              </button>
-            </div>
+    <Container maxWidth sx={{ mt: 4, overflowY: "scroll" }}>
+      <Typography variant="h4" align="center" gutterBottom>
+        Form Generator
+      </Typography>
+    
+      <FormControl fullWidth margin="normal">
+        <TextField
+          id="form_name"
+          label="Form Name"
+          variant="outlined"
+          fullWidth
+          required
+          value={formName}
+          onChange={(e) => setFormName(e.target.value)}
+        />
+      </FormControl>
+
+      <FormControl fullWidth margin="normal">
+        <InputLabel shrink>Recipients</InputLabel>
+        <Select
+          multiple
+          value={recipients}
+          onChange={(e) => setRecipients(e.target.value)}
+          renderValue={(selected) => selected.join(", ")}
+        >
+          {["HR", "Finance", "IT", "Marketing"].map((dept) => (
+            <MenuItem key={dept} value={dept}>
+              {dept}
+            </MenuItem>
           ))}
-        </form>
-      </div>
-    </div>
+        </Select>
+      </FormControl>
+
+      <FormControl fullWidth margin="normal">
+        <InputLabel shrink>Category</InputLabel>
+        <Select value={category} onChange={(e) => setCategory(e.target.value)}>
+          {["Event", "Department Data", "Achievements", "Other"].map((cat) => (
+            <MenuItem key={cat} value={cat}>
+              {cat}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      <FormControl fullWidth margin="normal">
+        <InputLabel shrink>Submission Type</InputLabel>
+        <Select
+          value={submissionType}
+          onChange={(e) => setSubmissionType(e.target.value)}
+        >
+          <MenuItem value="one-time">One Time</MenuItem>
+          <MenuItem value="multiple">Multiple</MenuItem>
+        </Select>
+      </FormControl>
+
+      <Button
+        variant="contained"
+        component="label"
+        startIcon={<CloudUploadIcon />}
+        fullWidth
+        sx={{ mt: 2 }}
+        disabled
+      >
+        Upload File
+        <input type="file" hidden />
+      </Button>
+
+      <Stack direction="row" spacing={2} alignItems="center" sx={{ mt: 2 }}>
+        <TextField
+          label="Form Field Name"
+          fullWidth
+          value={newField}
+          onChange={(e) => setNewField(e.target.value)}
+        />
+        <FormControl sx={{ minWidth: 120 }}>
+          <InputLabel>Type</InputLabel>
+          <Select
+            value={newFieldType}
+            onChange={(e) => setNewFieldType(e.target.value)}
+          >
+            <MenuItem value="text">Text</MenuItem>
+            <MenuItem value="number">Number</MenuItem>
+            <MenuItem value="date">Date</MenuItem>
+          </Select>
+        </FormControl>
+        <Button variant="contained" onClick={addCustomField}>
+          Add
+        </Button>
+      </Stack>
+
+      <hr />
+
+      <Typography variant="h5" color="initial">
+        Fields
+      </Typography>
+
+      {customFields.map((field, index) => (
+        <Stack
+          direction="row"
+          spacing={2}
+          alignItems="center"
+          sx={{ mt: 4 }}
+          key={index}
+        >
+          <TextField
+            key={index}
+            label={field.name}
+            type={field.type}
+            sx={{ mt: 2 }}
+            disabled
+          />
+          <Button
+            varient="contained"
+            onClick={() => removeCustomField(index)}
+            sx={{ mt: 2 }}
+          >
+            Remove
+          </Button>
+        </Stack>
+      ))}
+
+      <Stack direction={"row"} spacing={2} alignItems="center" justifyContent="center" maxWidth>
+        <Button variant="outlined" color="primary" onClick={handleSubmitForm}>
+          Generate
+        </Button>
+        <Button varient="outlined">Cancel</Button>
+      </Stack>
+
+    </Container>
   );
 };
 
