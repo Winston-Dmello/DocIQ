@@ -1,4 +1,5 @@
 exports.errorHandler = (err, req, res, next) => {
+    console.log(err);
     console.error(err.stack);
     res.status(err.status || 500).json({
       error: {

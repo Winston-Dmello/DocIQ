@@ -42,6 +42,5 @@ const Form = sequelize.define('form', {
 });
 
 
-
 module.exports = Form;
 

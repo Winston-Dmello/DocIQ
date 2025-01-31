@@ -9,8 +9,11 @@ const Divisions = sequelize.define('divisions',{
     },
     division_name : {
         type: DataTypes.STRING,
+        unique: true,
         allowNull: false,
     }
+}, {
+    timestamps: true,
 });
 
 module.exports = Divisions;

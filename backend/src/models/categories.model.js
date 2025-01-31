@@ -9,8 +9,11 @@ const Categories = sequelize.define('categories', {
     },
     category_name : {
         type: DataTypes.STRING,
+        unique: true,
         allowNull: false,
     }
+}, {
+    timestamps: true,
 });
 
 module.exports = Categories;
