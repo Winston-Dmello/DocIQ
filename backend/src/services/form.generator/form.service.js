@@ -22,4 +22,14 @@ const insertFormIntoDB = async (form) => {
     }
 }
 
-module.exports = {insertFormIntoDB};
+const getFormsFromDB = async () => {
+    try{
+        const forms = await Form.findAll();
+        console.log(forms);
+        return forms;
+    }catch(error){
+        throw error;
+    }
+}
+
+module.exports = {insertFormIntoDB, getFormsFromDB};

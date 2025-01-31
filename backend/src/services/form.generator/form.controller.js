@@ -1,4 +1,4 @@
-const {insertFormIntoDB} = require('./form.service');
+const {insertFormIntoDB, getFormsFromDB} = require('./form.service');
 
 
 //Validate payload in controller?   
@@ -25,4 +25,14 @@ const submitForm = async (req, res, next) => {
 
 }
 
-module.exports = {createForm, submitForm};
+
+const getAllForms = async (req, res, next) => {
+    try{
+        const forms = await getFormsFromDB();
+        return res.status(200).json({forms: forms});
+    }catch(error){
+        next(error);
+    }
+}
+
+module.exports = {createForm, submitForm, getAllForms};
