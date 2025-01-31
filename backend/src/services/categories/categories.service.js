@@ -9,7 +9,6 @@ const getAllCatgeories = async () => {
     }
 }
 
-
 const createCategory = async (category_name) => {
     try{
         const response = await Categories.create({
@@ -21,4 +20,16 @@ const createCategory = async (category_name) => {
     }
 }
 
-module.exports = { getAllCatgeories, createCategory };
+const getCategoryByName = async (category_name) => {
+    try{
+        const response = await Categories.findOne({
+            where: {category_name: category_name}
+        });
+        return response;
+    }catch(err){
+        throw err;
+    }
+}
+
+
+module.exports = { getAllCatgeories, createCategory, getCategoryByName };

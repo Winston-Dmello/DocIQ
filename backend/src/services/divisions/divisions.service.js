@@ -20,4 +20,15 @@ const createDivision = async (division_name) => {
     }
 }
 
-module.exports = { createDivision, getAllDivisions };
+const getDivisionByName = async (division_name) => {
+    try{
+        const response = await Divisions.findOne({
+            where: {division_name: division_name}
+        });
+        return response;
+    }catch(err){
+        throw err;
+    }
+}
+
+module.exports = { createDivision, getAllDivisions, getDivisionByName };

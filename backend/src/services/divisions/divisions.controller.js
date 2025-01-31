@@ -1,4 +1,4 @@
-const { getAllDivisions, createDivision } = require('./divisions.service');
+const { getAllDivisions, createDivision, getDivisionByName } = require('./divisions.service');
 
 
 const getDivisionsController = async (req, res, next) => {
@@ -13,9 +13,14 @@ const getDivisionsController = async (req, res, next) => {
 
 
 const createDivisionsController = async (req, res, next) => {
-    try{
-        const division = await createDivision(req.body.division_name);
-        return res.status(200).json({division: division});
+    try{        
+
+        const division = await getDivisionByName(req.body.division_name);
+        if(division){
+            return res.status(400).json({error: "Division already exists"});
+        }
+        const newDivision = await createDivision(req.body.division_name);
+        return res.status(200).json({division: newDivision});
     }catch(err){
         next(err);
     }
