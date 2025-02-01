@@ -3,26 +3,26 @@ import { createTheme } from "@mui/material/styles";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#4056A1",  // Professional dark blue
+      main: "#253544",  // Dark blue-gray for primary elements
     },
     secondary: {
-      main: "#77A6F7",  // Light blue for accents
+      main: "#f2f7fb",  // Light blueish gray for accents
     },
     background: {
-      default: "#F1F0EB", // Overall background color
-      paper: "#EAE7DC",   // Card-like elements
+      default: "#ffffff", // Clean white background
+      paper: "#f2f2f2",   // Light gray for card-like elements
     },
     text: {
-      primary: "#212121",  // Dark gray for text
-      secondary: "#4056A1", // Blue accents in text
+      primary: "#253544",  // Dark blue-gray for readability
+      secondary: "#f2f7fb", // Light blue-gray for subtle text
     },
   },
   typography: {
-    fontFamily: "Poppins, Arial, sans-serif",
+    fontFamily: "Monserrat, sans-serif",
     h1: {
       fontSize: "2rem",
       fontWeight: 600,
-      color: "#4056A1",
+      color: "#253544",
     },
     h2: {
       fontSize: "1.5rem",
@@ -46,7 +46,7 @@ const theme = createTheme({
           textTransform: "none",
           boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
           "&:hover": {
-            backgroundColor: "#4056A1",
+            backgroundColor: "#253544",
             color: "#fff",
           },
         },

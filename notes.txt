@@ -27,3 +27,22 @@ S3 Folders:
 Pending
 
 Approved
+
+
+
+Category, Divisions
+
+
+Division id: division Name
+
+
+[1, 7, 3 ,5]
+
+
+forms_to_divisions
+
+
+form_id: division_id
+
+
+user_id | division_id

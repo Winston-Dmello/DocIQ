@@ -1,67 +1,180 @@
-import "./UserHome.css";
+import {
+  Box,
+  Typography,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
+
 const UserHome = () => {
   return (
-    <>
-      <div className="row1">
-        <div className="card1">
-          <div className="dept-details">Department of Computer Science</div>
-        </div>
-        <div className="card2">
-          <div className="files-submitted">
-            <table className="file-table">
-              <tr>
-                <th>Pending</th>
-                <th>Date</th>
-                <th>Submission Date</th>
-              </tr>
-              <tr>
-                <td>Extra Curriculars</td>
-                <td>20/01/2025</td>
-                <td>24/01/2025</td>
-              </tr>
-              <tr>
-                <td>Lab Report</td>
-                <td>20/01/2025</td>
-                <td>24/01/2025</td>
-              </tr>
-              <tr>
-                <td>Student Achievements</td>
-                <td>20/01/2025</td>
-                <td>24/01/2025</td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div className="row2">
-        <div className="card3">
-          <div className="files-submitted">
-            <table className="file-table">
-              <tr>
-                <th>File Name</th>
-                <th>Date</th>
-                <th>Signed By</th>
-              </tr>
-              <tr>
-                <td>Staff Info</td>
-                <td>20/01/2025</td>
-                <td>HOD</td>
-              </tr>
-              <tr>
-                <td>Student Performance</td>
-                <td>15/01/2025</td>
-                <td>Document Head</td>
-              </tr>
-              <tr>
-                <td>Exam Report</td>
-                <td>12/01/2025</td>
-                <td>HOD</td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </div>
-    </>
+    <Box sx={{ padding: 2, width: "100%" }}>
+      {/* Row 1 */}
+      <Box sx={{ display: "flex", gap: 2, marginBottom: 2 }}>
+        {/* Card 1 */}
+        <Paper
+          sx={{
+            backgroundColor: "background.paper",
+            boxShadow: 3,
+            borderRadius: 2,
+            padding: 2,
+            width: "30%",
+            height: "35vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography
+            variant="h5"
+            sx={{
+              color: "primary.main",
+              fontWeight: 600,
+              textAlign: "center",
+            }}
+          >
+            Department of Computer Science
+          </Typography>
+        </Paper>
+
+        {/* Card 2 */}
+        <Paper
+          sx={{
+            backgroundColor: "background.paper",
+            boxShadow: 3,
+            borderRadius: 2,
+            padding: 2,
+            width: "70%",
+            height: "35vh",
+          }}
+        >
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell
+                    sx={{
+                      backgroundColor: "primary.main",
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Pending
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor: "primary.main",
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Date
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor: "primary.main",
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Submission Date
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Extra Curriculars</TableCell>
+                  <TableCell>20/01/2025</TableCell>
+                  <TableCell>24/01/2025</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Lab Report</TableCell>
+                  <TableCell>20/01/2025</TableCell>
+                  <TableCell>24/01/2025</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Student Achievements</TableCell>
+                  <TableCell>20/01/2025</TableCell>
+                  <TableCell>24/01/2025</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </Box>
+
+      {/* Row 2 */}
+      <Box>
+        {/* Card 3 */}
+        <Paper
+          sx={{
+            backgroundColor: "background.paper",
+            boxShadow: 3,
+            borderRadius: 2,
+            padding: 2,
+            width: "100%",
+            height: "35vh",
+          }}
+        >
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell
+                    sx={{
+                      backgroundColor: "primary.main",
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    File Name
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor: "primary.main",
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Date
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor: "primary.main",
+                      color: "white",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    Signed By
+                  </TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                <TableRow>
+                  <TableCell>Staff Info</TableCell>
+                  <TableCell>20/01/2025</TableCell>
+                  <TableCell>HOD</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Student Performance</TableCell>
+                  <TableCell>15/01/2025</TableCell>
+                  <TableCell>Document Head</TableCell>
+                </TableRow>
+                <TableRow>
+                  <TableCell>Exam Report</TableCell>
+                  <TableCell>12/01/2025</TableCell>
+                  <TableCell>HOD</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Paper>
+      </Box>
+    </Box>
   );
 };
 

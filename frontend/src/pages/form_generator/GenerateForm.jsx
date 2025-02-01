@@ -56,10 +56,17 @@ const GenerateForm = () => {
 
   return (
     <Container maxWidth sx={{ mt: 4, overflowY: "scroll" }}>
-      <Typography variant="h4" align="center" gutterBottom>
+      {/* Title */}
+      <Typography
+        variant="h4"
+        align="center"
+        gutterBottom
+        sx={{ color: "text.primary", fontWeight: 600 }}
+      >
         Form Generator
       </Typography>
-    
+
+      {/* Form Name */}
       <FormControl fullWidth margin="normal">
         <TextField
           id="form_name"
@@ -69,85 +76,210 @@ const GenerateForm = () => {
           required
           value={formName}
           onChange={(e) => setFormName(e.target.value)}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "primary.main",
+              },
+              "&:hover fieldset": {
+                borderColor: "primary.dark",
+              },
+              "& input": {
+                color: "text.primary",
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "text.primary",
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "primary.main",
+            },
+          }}
         />
       </FormControl>
 
+      {/* Recipients */}
       <FormControl fullWidth margin="normal">
-        <InputLabel shrink>Recipients</InputLabel>
+        <InputLabel shrink sx={{ color: "text.primary" }}>
+          Recipients
+        </InputLabel>
         <Select
           multiple
           value={recipients}
           onChange={(e) => setRecipients(e.target.value)}
           renderValue={(selected) => selected.join(", ")}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "primary.main",
+              },
+              "&:hover fieldset": {
+                borderColor: "primary.dark",
+              },
+              "& input": {
+                color: "text.primary",
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "text.primary",
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "primary.main",
+            },
+          }}
         >
           {["HR", "Finance", "IT", "Marketing"].map((dept) => (
-            <MenuItem key={dept} value={dept}>
+            <MenuItem key={dept} value={dept} sx={{ color: "text.primary" }}>
               {dept}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
 
+      {/* Category */}
       <FormControl fullWidth margin="normal">
-        <InputLabel shrink>Category</InputLabel>
-        <Select value={category} onChange={(e) => setCategory(e.target.value)}>
+        <InputLabel shrink sx={{ color: "text.primary" }}>
+          Category
+        </InputLabel>
+        <Select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "primary.main",
+              },
+              "&:hover fieldset": {
+                borderColor: "primary.dark",
+              },
+            },
+          }}
+        >
           {["Event", "Department Data", "Achievements", "Other"].map((cat) => (
-            <MenuItem key={cat} value={cat}>
+            <MenuItem key={cat} value={cat} sx={{ color: "text.primary" }}>
               {cat}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
 
+      {/* Submission Type */}
       <FormControl fullWidth margin="normal">
-        <InputLabel shrink>Submission Type</InputLabel>
+        <InputLabel shrink sx={{ color: "text.primary" }}>
+          Submission Type
+        </InputLabel>
         <Select
           value={submissionType}
           onChange={(e) => setSubmissionType(e.target.value)}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "primary.main",
+              },
+              "&:hover fieldset": {
+                borderColor: "primary.dark",
+              },
+            },
+          }}
         >
-          <MenuItem value="one-time">One Time</MenuItem>
-          <MenuItem value="multiple">Multiple</MenuItem>
+          <MenuItem value="one-time" sx={{ color: "text.primary" }}>
+            One Time
+          </MenuItem>
+          <MenuItem value="multiple" sx={{ color: "text.primary" }}>
+            Multiple
+          </MenuItem>
         </Select>
       </FormControl>
 
+      {/* Upload Button */}
       <Button
         variant="contained"
         component="label"
         startIcon={<CloudUploadIcon />}
         fullWidth
-        sx={{ mt: 2 }}
+        sx={{ mt: 2, backgroundColor: "primary.main", color: "secondary.main" }}
         disabled
       >
         Upload File
         <input type="file" hidden />
       </Button>
 
+      {/* Add Custom Field Section */}
       <Stack direction="row" spacing={2} alignItems="center" sx={{ mt: 2 }}>
         <TextField
           label="Form Field Name"
           fullWidth
           value={newField}
           onChange={(e) => setNewField(e.target.value)}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                borderColor: "primary.main",
+              },
+              "&:hover fieldset": {
+                borderColor: "primary.dark",
+              },
+              "& input": {
+                color: "text.primary",
+              },
+            },
+            "& .MuiInputLabel-root": {
+              color: "text.primary",
+            },
+            "& .MuiInputLabel-root.Mui-focused": {
+              color: "primary.main",
+            },
+          }}
         />
         <FormControl sx={{ minWidth: 120 }}>
-          <InputLabel>Type</InputLabel>
+          <InputLabel sx={{ color: "text.primary" }}>Type</InputLabel>
           <Select
             value={newFieldType}
             onChange={(e) => setNewFieldType(e.target.value)}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "primary.main",
+                },
+                "&:hover fieldset": {
+                  borderColor: "primary.dark",
+                },
+                "& input": {
+                  color: "text.primary",
+                },
+              },
+              "& .MuiInputLabel-root": {
+                color: "text.primary",
+              },
+              "& .MuiInputLabel-root.Mui-focused": {
+                color: "primary.main",
+              },
+            }}
           >
-            <MenuItem value="text">Text</MenuItem>
-            <MenuItem value="number">Number</MenuItem>
-            <MenuItem value="date">Date</MenuItem>
+            <MenuItem value="text" sx={{ color: "text.primary" }}>
+              Text
+            </MenuItem>
+            <MenuItem value="number" sx={{ color: "text.primary" }}>
+              Number
+            </MenuItem>
+            <MenuItem value="date" sx={{ color: "text.primary" }}>
+              Date
+            </MenuItem>
           </Select>
         </FormControl>
-        <Button variant="contained" onClick={addCustomField}>
+        <Button
+          variant="contained"
+          onClick={addCustomField}
+          sx={{ backgroundColor: "primary.main", color: "secondary.main" }}
+        >
           Add
         </Button>
       </Stack>
 
-      <hr />
+      <hr style={{ borderColor: "primary.main", margin: "20px 0" }} />
 
-      <Typography variant="h5" color="initial">
+      {/* Custom Fields List */}
+      <Typography variant="h5" sx={{ color: "text.primary", fontWeight: 600 }}>
         Fields
       </Typography>
 
@@ -160,29 +292,47 @@ const GenerateForm = () => {
           key={index}
         >
           <TextField
-            key={index}
             label={field.name}
             type={field.type}
-            sx={{ mt: 2 }}
+            sx={{ mt: 2, flexGrow: 1 }}
             disabled
           />
           <Button
-            varient="contained"
+            variant="contained"
             onClick={() => removeCustomField(index)}
-            sx={{ mt: 2 }}
+            sx={{
+              mt: 2,
+              backgroundColor: "primary.main",
+              color: "secondary.main",
+            }}
           >
             Remove
           </Button>
         </Stack>
       ))}
 
-      <Stack direction={"row"} spacing={2} alignItems="center" justifyContent="center" maxWidth>
-        <Button variant="outlined" color="primary" onClick={handleSubmitForm}>
+      {/* Generate and Cancel Buttons */}
+      <Stack
+        direction="row"
+        spacing={2}
+        alignItems="center"
+        justifyContent="center"
+        sx={{ mt: 4 }}
+      >
+        <Button
+          variant="contained"
+          onClick={handleSubmitForm}
+          sx={{ backgroundColor: "primary.main", color: "secondary.main" }}
+        >
           Generate
         </Button>
-        <Button varient="outlined">Cancel</Button>
+        <Button
+          variant="outlined"
+          sx={{ borderColor: "primary.main", color: "text.primary" }}
+        >
+          Cancel
+        </Button>
       </Stack>
-
     </Container>
   );
 };
