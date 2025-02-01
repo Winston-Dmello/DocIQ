@@ -12,6 +12,7 @@ const Form = sequelize.define('form', {
     form_name : {
         type: DataTypes.STRING,
         allowNull: false,
+        unique: true,
         validate: {
             notEmpty: {msg: "Form name is required"},
             len: {args: [2, 100], msg: "Form name must be 3 and 100 characters"},
