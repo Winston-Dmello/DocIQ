@@ -39,6 +39,10 @@ const Form = sequelize.define('form', {
     form_data: {
         type: DataTypes.ARRAY(DataTypes.JSON),
         allowNull: false,
+    },
+    recipients: {
+        type: DataTypes.ARRAY(DataTypes.INTEGER),
+        allowNull: false,
     }
 });
 

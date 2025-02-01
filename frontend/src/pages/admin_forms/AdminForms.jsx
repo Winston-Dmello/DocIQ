@@ -81,7 +81,7 @@ import { useEffect } from "react";
                 >
                   Category
                 </TableCell>
-                {/* <TableCell
+                <TableCell
                   sx={{
                     backgroundColor: "primary.main",
                     color: "text.secondary",
@@ -89,7 +89,7 @@ import { useEffect } from "react";
                   }}
                 >
                   Recipients
-                </TableCell> */}
+                </TableCell>
                 <TableCell
                   sx={{
                     backgroundColor: "primary.main",
@@ -104,15 +104,15 @@ import { useEffect } from "react";
             <TableBody sx={{backgroundColor: "background.default"}}>
               {forms.map((form, index) => (
                 <TableRow key={form.id}>
-                  <TableCell>{index}</TableCell>
+                  <TableCell>{index+1}</TableCell>
                   <TableCell>{form.form_name}</TableCell>
                   <TableCell>{form.category}</TableCell>
-                  {/* <TableCell>
-                    <Button onClick={() => handleOpen(form.recipients)}>
-                      {form.recipients.slice(0, 2).join(", ")}
+                  <TableCell>
+                    <Button onClick={() => handleOpen(form.recipients.map(user => user.email))}>
+                      {form.recipients.map((user) => user.email).slice(0, 2).join(", ")}
                       {form.recipients.length > 2 && "..."}
                     </Button>
-                  </TableCell> */}
+                  </TableCell>
                   <TableCell>{form.submission_type}</TableCell>
                 </TableRow>
               ))}
