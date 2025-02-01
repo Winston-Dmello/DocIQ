@@ -1,26 +1,37 @@
 const Form = require('../../models/form.model');
 const {ValidationError} = require('sequelize');
+const sequelize = require('../../sequelize');
+const UsersToForms = require('../../models/usersToForms.model');
 
 const insertFormIntoDB = async (form) => {
+    // const transaction = await sequelize.transaction();
     try{
-        const response = await Form.create({
+        const newForm = await Form.create({
             form_name: form.form_name,
             category: form.category,
             submission_type: form.submission_type,
             form_data: form.form_data
         });
-        return response;
+        // }, { transaction });
+
+        // const recipients = form.recipients;
+
+        // if(recipients && recipients.length > 0){
+        //     const recipientEntries = recipients.map(user_id => ({
+        //         user_id: user_id,
+        //         form_id: newForm.form_id,
+        //         form_status: 'open',
+        //     }));
+
+        //     await UsersToForms.bulkCreate(recipientEntries, { transaction });
+        // }   
+        // await transaction.commit();
+        return newForm;
     }catch(error){
-        if(error instanceof ValidationError){
-            throw {
-                status: 400,
-                message: "Validation Error",
-                error: error.errors.map(err => err.message),
-            }
-        }
+        // await transaction.rollback();
         throw error;
     }
-}
+};
 
 const getFormsFromDB = async () => {
     try{

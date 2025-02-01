@@ -14,7 +14,7 @@ const Form = sequelize.define('form', {
         allowNull: false,
         validate: {
             notEmpty: {msg: "Form name is required"},
-            len: {args: [3, 100], msg: "Form name must be 3 and 100 characters"},
+            len: {args: [2, 100], msg: "Form name must be 3 and 100 characters"},
         },
     },
     category: {
@@ -22,7 +22,7 @@ const Form = sequelize.define('form', {
         allowNull: false,
         validate: {
             notEmpty: {msg: "Category is required"},
-            len: {args: [3, 30], msg: "Category must be between 3 and 30 characters"},
+            len: {args: [2, 30], msg: "Category must be between 3 and 30 characters"},
         },
     },
     submission_type: {
