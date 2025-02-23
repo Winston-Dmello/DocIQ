@@ -46,3 +46,37 @@ form_id: division_id
 
 
 user_id | division_id
+
+
+
+
+**********UPDATE 23rd FEB 2025**********
+forms
+-Get form by form-id (user-dashboard)
+
+{
+    form_id: id,
+    form_name: name,
+    form_fields: [],
+    submission_type: type,
+    category: cat,
+
+}
+
+-Get forms by user_id (viewing all forms)
+{
+    forms: [{form1}, {form2}, {form3}]
+}
+
+submissions
+- Post create a Submission 
+- Get all submissions by user_id
+- Get submission by submimssion_id
+- Put submission by id (update an existing submission made)
+- Delete submission by id (only if pending or rejected state)
+
+remove submission_mappings table
+put user_id, form_id and form name in submissions itself
+
+
+Functionality (should just work) deadline: Monday night, Tuesday Morning
