@@ -1,9 +1,8 @@
 const Form = require('../../models/form.model');
-const {ValidationError} = require('sequelize');
 const sequelize = require('../../sequelize');
 const UsersToForms = require('../../models/usersToForms.model');
 const User = require('../../models/user.model');
-const { map } = require('../../app');
+
 
 const insertFormIntoDB = async (form) => {
     const transaction = await sequelize.transaction();
@@ -60,5 +59,32 @@ const getFormsFromDB = async () => {
     }
 };
 
+const getFormById = async(form_id) => {
+    try{
+        const form = await Form.findOne({where: {form_id: form_id}});
+        return form;
+    }catch(error){
+        console.error("Error fetching form");
+        throw error;
+    }
+}
 
-module.exports = {insertFormIntoDB, getFormsFromDB};
+const getFormsByUser = async(user_id) => {
+    try{
+        const usersToFormsRecords = await UsersToForms.findAll({where: {user_id: user_id}});
+        let forms = [];
+        for(let i = 0; i < usersToFormsRecords.length; i++){
+            let form_id = usersToFormsRecords[i].form_id;
+            const form = await Form.findOne({where: {form_id: form_id}});
+            const { form_name } = form;
+            const status = usersToFormsRecords[i].form_status;
+            forms.push({form_id, form_name, status});
+        }
+        return forms;
+    }catch(error){  
+        console.error("Error fetching forms by user");
+        throw error;
+    }
+}
+
+module.exports = {insertFormIntoDB, getFormsFromDB, getFormById, getFormsByUser};

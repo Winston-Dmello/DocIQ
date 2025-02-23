@@ -1,4 +1,4 @@
-const {insertFormIntoDB, getFormsFromDB} = require('./form.service');
+const {insertFormIntoDB, getFormsFromDB, getFormById, getFormsByUser} = require('./form.service');
 
 
 //Validate payload in controller?   
@@ -20,12 +20,6 @@ const createForm = async (req, res, next) => {
     }
 }
 
-
-const submitForm = async (req, res, next) => {
-
-}
-
-
 const getAllForms = async (req, res, next) => {
     try{
         const forms = await getFormsFromDB();
@@ -35,4 +29,30 @@ const getAllForms = async (req, res, next) => {
     }
 }
 
-module.exports = {createForm, submitForm, getAllForms};
+const getFormsByUserController = async (req, res, next) => {
+    try{
+        const {user_id}= req.params;
+        const forms = await getFormsByUser(user_id);
+        if (!forms){
+            return res.status(404).json({message: 'No Forms Found'});
+        }
+        return res.json(forms);
+    }catch(error){
+        next(error);
+    }
+}
+
+const getFormByIdController = async (req, res, next) => {
+    try{
+        const {form_id} = req.params;
+        const form = await getFormById(form_id);
+        if (!form){
+            return res.status(404).json({message: 'Form not found'});
+        }
+        return res.json(form);
+    }catch(error){
+        next(error);
+    }
+}
+
+module.exports = {createForm, getAllForms, getFormByIdController, getFormsByUserController};

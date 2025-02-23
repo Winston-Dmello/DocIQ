@@ -65,7 +65,7 @@ forms
 
 -Get forms by user_id (viewing all forms)
 {
-    forms: [{form1}, {form2}, {form3}]
+    forms: [{form1}, {form2}, {form3}] -- form_id, form_name, status
 }
 
 submissions
