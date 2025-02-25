@@ -70,9 +70,22 @@ forms
 
 submissions
 - Post create a Submission 
+{
+    user_id: int,
+    form_id: int,
+    files: [], --multer
+    submission_data: JSON, 
+}
 - Get all submissions by user_id
 - Get submission by submimssion_id
 - Put submission by id (update an existing submission made)
+{
+    form_name
+    status
+    submission_data
+    uploaded docs:
+    filenames 
+}
 - Delete submission by id (only if pending or rejected state)
 
 remove submission_mappings table
@@ -80,3 +93,4 @@ put user_id, form_id and form name in submissions itself
 
 
 Functionality (should just work) deadline: Monday night, Tuesday Morning
+

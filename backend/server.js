@@ -6,7 +6,6 @@ const User = require('./src/models/user.model');
 const Form = require('./src/models/form.model');
 const UsersToForms = require('./src/models/usersToForms.model');
 const Submissions = require('./src/models/submissions.model');
-const SubmissionMappings = require('./src/models/submissionMappings.model');
 const Documents = require('./src/models/documents.model');
 const Categories = require('./src/models/categories.model');
 const Divisions = require('./src/models/divisions.model');

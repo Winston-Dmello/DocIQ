@@ -4,6 +4,7 @@ const authRoutes = require('../services/auth/auth.routes');
 const formRoutes = require('../services/form.generator/form.routes');
 const categoryRoutes = require('../services/categories/categories.routes.js');
 const divisionRoutes = require('../services/divisions/divisions.routes.js');
+const submissionRoutes = require('../services/submissions/submissions.routes.js');
 const authMiddleWare = require('../middlewares/authMiddleware.js');
 const router = express.Router();
 
@@ -13,6 +14,7 @@ router.use('/users', userRoutes); // middleware temporarily disabled for testing
 router.use('/form', formRoutes); //middleware temporarily disabled for testing purposes
 router.use('/categories', categoryRoutes);
 router.use('/divisions', divisionRoutes);
+router.use('/submissions', submissionRoutes);
 
 
 module.exports = router;
