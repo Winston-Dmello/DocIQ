@@ -1,9 +1,10 @@
 const getforms = async () => {
     try{
         const userID = localStorage.getItem("UserID");
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/form/user/${userID}`);
+        console.log(userID)
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/form/user/1`);
         const data = await response.json();
-        return data.forms;
+        return data;
     }catch{
         return [];
     }
