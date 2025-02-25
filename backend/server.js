@@ -17,7 +17,6 @@ const server = http.createServer(app);
 (async () => {
   try{
       await sequelize.sync({force: false});
-      
       console.log("All models synchronized successfully");
   }catch(err){
       console.log(err)

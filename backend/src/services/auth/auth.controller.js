@@ -11,7 +11,7 @@ exports.loginUser = async (req, res, next) => {
       } else if (userObject.password === req.body.password) {
         const token = generateToken(userObject.email, userObject.role);
         res.setHeader('Authorization', `Bearer ${token}`);
-        res.sendStatus(200);
+        res.status(200).json({message: "Success", user: userObject});
       } else {
         res.sendStatus(401);
       }
