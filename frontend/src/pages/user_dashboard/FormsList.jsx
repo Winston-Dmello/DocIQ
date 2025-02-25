@@ -16,7 +16,7 @@ import {useState, useEffect} from "react";
 
 const FormsList = () => {
 
-    const [forms, setForms] = useState({});
+    const [forms, setForms] = useState([]);
 
     async function fetchForms() {
         const response = await getforms();
@@ -90,7 +90,7 @@ const FormsList = () => {
                     <TableRow key={form.id}>
                         <TableCell>{index+1}</TableCell>
                         <TableCell>{form.form_name}</TableCell>
-                        <TableCell>{form.form_status}</TableCell>
+                        <TableCell>{form.status}</TableCell>
                         <TableCell><Button>Edit</Button></TableCell>
                     </TableRow>
                 )

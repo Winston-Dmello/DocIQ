@@ -1,14 +1,21 @@
-import { Container } from "@mui/material";
-import getform from "./form";
+import { Button, Container, Input } from "@mui/material";
+import {getform} from "./form";
 import { useEffect, useState } from "react";
 
 const Forms = () => {
     const [form, setForm] = useState({});
+    const [formdata, setFormData] = useState([]);
+    const [file, setFile] = useState([]);
 
     async function fetchForms() {
         const response = await getform();
         setForm(response);
-        console.log(response);
+        setFormData(response.form_data);
+    }
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+
     }
 
     useEffect(() => {
@@ -16,17 +23,20 @@ const Forms = () => {
     }, [])
 
 
+
     return (
         <Container>
-            <h1>{form.form_name}</h1>
+            <h3>{form.form_name}</h3>
             <form>
-                {form.form_data.map((field, index) => (
+                {formdata.map((field, index) => (
                     <div key={index}>
-                        <label>{field.name}</label>
-                        <input type={field.type} name={field.name} />
+                        <label>{field.name}</label><br/>
+                        <Input varient="filled" type={field.type} name={field.name} required />
                     </div>
                 ))}
-                <button type="submit">Submit</button>
+                <Input type="file" onChange={(e) => setFile(e.target.files[0])}/>
+                <br /><br />
+                <Button type="submit" onClick={onSubmit}>Submit</Button>
             </form>
         </Container>
     )

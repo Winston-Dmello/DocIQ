@@ -1,11 +1,32 @@
 const getform = async () => {
     try{
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/form/get/1`);
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/form/get/3`);
         const data = await response.json();
-        return data.forms;
+        return data;
     }catch{
         return [];
     }
 }
 
-export default getform;
+const submitform = async (data) => {
+    try{
+        const response = await fetch(
+            `${import.meta.env.VITE_BASE_URL}/submissions/create`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }
+
+        );
+        const reply = await response.json();
+        console.log(reply);
+        return reply;
+    }catch{
+        return [];
+    }
+}
+
+export {getform, submitform};

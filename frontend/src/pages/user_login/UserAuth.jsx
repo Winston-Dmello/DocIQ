@@ -19,6 +19,7 @@ const UserAuth = () => {
 
         if (loginResponse.auth) {
             localStorage.setItem("UserID", loginResponse.userid);
+            console.log()
             navigate("/user/dashboard");
         }
     };
