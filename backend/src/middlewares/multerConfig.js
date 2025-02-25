@@ -5,7 +5,18 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/');
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);
+        try{
+            if(!req.file_list && req.body.file_list){
+                req.file_list = JSON.parse(req.body.file_list);
+            }
+            const timeStamp = Date.now();
+            const matchingFile = req.file_list?.find(f => f.original_name === file.originalname);
+
+            const newFileName = matchingFile ? `${timeStamp}-${matchingFile.file_name}` : `${timeStamp}-${file.originalname}`;
+            cb(null, newFileName);
+        }catch(error){
+            cb(error, null);
+        }
     }
 });
 

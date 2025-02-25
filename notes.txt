@@ -74,13 +74,15 @@ submissions
     user_id: int,
     form_id: int,
     submission_data: JSON,
-    files: [
+    file_list: [
         {
-            "file_name": Filename, divisionname@username@formname@Filename
+            "file_name": Filename, divisionname@username@formname@Filename,
+            "original_name": "", 
             "file": fileObject
         },
         {
             "file_name": Filename,
+            "original_name": "",
             "file": fileObject
         },
     ],
