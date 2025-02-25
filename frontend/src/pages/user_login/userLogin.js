@@ -12,7 +12,7 @@ const userLogin = async ({email, password}) => {
         })
         console.log(response);
         if(response.ok){
-            return {auth: true, message: 'Login Successful'};
+            return {auth: true, message: 'Login Successful', userid: response.userid};
         }else if(response.status === 401){
             return {auth: false, message: 'Email or Password Incorrect'};
         }else if(response.status === 403){

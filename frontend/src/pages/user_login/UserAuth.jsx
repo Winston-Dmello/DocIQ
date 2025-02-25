@@ -18,6 +18,7 @@ const UserAuth = () => {
         setAlertType(loginResponse.auth ? "success" : "danger");
 
         if (loginResponse.auth) {
+            localStorage.setItem("UserID", loginResponse.userid);
             navigate("/user/dashboard");
         }
     };
