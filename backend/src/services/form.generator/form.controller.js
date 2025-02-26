@@ -1,4 +1,4 @@
-const {insertFormIntoDB, getFormsFromDB, getFormById, getFormsByUser} = require('./form.service');
+const {insertFormIntoDB, getFormsFromDB, getFormById, getFormsByUser, getUsers} = require('./form.service');
 
 
 //Validate payload in controller?   
@@ -55,4 +55,16 @@ const getFormByIdController = async (req, res, next) => {
     }
 }
 
-module.exports = {createForm, getAllForms, getFormByIdController, getFormsByUserController};
+const getUsersController = async (req, res, next) => {
+    try{
+        const users = await getUsers();
+        if(!users){
+            return res.status(404).json({message: 'Users not found'});
+        }
+        return res.json(users); 
+    }catch(error){
+        next(error);
+    }
+}
+
+module.exports = {createForm, getAllForms, getFormByIdController, getFormsByUserController, getUsersController};

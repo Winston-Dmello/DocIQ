@@ -87,4 +87,15 @@ const getFormsByUser = async(user_id) => {
     }
 }
 
-module.exports = {insertFormIntoDB, getFormsFromDB, getFormById, getFormsByUser};
+const getUsers = async () => {
+    try{
+        const users = await User.findAll({
+            attributes: ['user_id', 'user_name']
+        });
+        return users;
+    }catch(error){
+        throw error;
+    }
+}
+
+module.exports = {insertFormIntoDB, getFormsFromDB, getFormById, getFormsByUser, getUsers};

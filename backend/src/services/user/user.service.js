@@ -1,9 +1,13 @@
 const User = require('../../models/user.model');
 
 exports.getAllUsers = async () => {
-  const users = await User.findAll();
-  console.log(users);
-  return users;
+  try{
+    const users = await User.findAll();
+    console.log(users);
+    return users;
+  }catch(error){
+    throw error;
+  }
 };
 
 exports.addUser = async (userData) => {
