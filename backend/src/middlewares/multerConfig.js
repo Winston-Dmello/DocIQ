@@ -13,6 +13,12 @@ const storage = multer.diskStorage({
             const matchingFile = req.file_list?.find(f => f.original_name === file.originalname);
 
             const newFileName = matchingFile ? `${timeStamp}-${matchingFile.file_name}` : `${timeStamp}-${file.originalname}`;
+            console.log("File Name", newFileName);
+
+            if(!req.file_paths){
+                req.file_paths = [];
+            }
+            req.file_paths.push(`uploads/${newFileName}`);
             cb(null, newFileName);
         }catch(error){
             cb(error, null);

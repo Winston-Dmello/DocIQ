@@ -12,7 +12,7 @@ const createSubmissionController = async (req, res, next) => {
         //         mappedFiles[fieldName] = {filename: file.filename, path: file.path};
         //     }
         // });
-        // const newSubmission = await createSubmission(req.body, mappedFiles);
+        const newSubmission = await createSubmission(req.body, req.file_paths);
 
         
         return res.status(200).json({message: "Submission successful", details: newSubmission});
