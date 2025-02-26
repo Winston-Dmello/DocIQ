@@ -8,10 +8,10 @@ import {
   Typography,
   List,
   ListItem,
-  ListItemText
+  ListItemText,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { getform } from "./form";
+import { getform, submitform } from "./form";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -28,7 +28,26 @@ const Form = () => {
   }
 
   const handleFileChange = (e) => {
-    setFiles([...e.target.files]); // Store multiple files
+    if (!e.target.files.length) return;
+
+    const newFiles = Array.from(e.target.files).map((file) => ({
+      file_name: "",
+      file: file,
+    }));
+
+    setFiles((prevFiles) => [...prevFiles, ...newFiles]); // Append new files
+  };
+
+  const handleRemoveFile = (index) => {
+    setFiles((prevFiles) => prevFiles.filter((_, i) => i !== index));
+  };
+
+  const handleDescriptionChange = (index, value) => {
+    setFiles((prevFiles) =>
+      prevFiles.map((fileObj, i) =>
+        i === index ? { ...fileObj, file_name: value } : fileObj
+      )
+    );
   };
 
   const onSubmit = (e) => {
@@ -37,7 +56,24 @@ const Form = () => {
       alert("Please upload at least one file.");
       return;
     }
-    console.log("Submitted files:", files);
+    const file_list = [];
+    files.forEach((file, index) => {
+      file_list.push({
+        original_name: file.file.name,
+        file_name: file.file_name,
+        file: file.file
+      })
+    })
+    const data  = {
+      form_id: formID,
+      user_id: 1,
+      submission_data: JSON.stringify(formdata),
+      file_list: JSON.stringify(file_list)
+    }
+    console.log(data);
+    const res = submitform(data);
+    console.log(res);
+    alert("form Submitted");
   };
 
   useEffect(() => {
@@ -48,7 +84,13 @@ const Form = () => {
     <Container maxWidth sx={{ height: "100%" }}>
       <Card
         elevation={4}
-        sx={{ height: "95%", p: 4, borderRadius: 3, padding: 5, overflowY: "auto" }}
+        sx={{
+          height: "95%",
+          p: 4,
+          borderRadius: 3,
+          padding: 5,
+          overflowY: "auto",
+        }}
       >
         <Typography variant="h5" gutterBottom align="center" fontWeight="bold">
           {form.form_name || "Loading..."}
@@ -112,10 +154,27 @@ const Form = () => {
                 <Typography variant="body1" color="text.primary">
                   Selected Files:
                 </Typography>
-                <List dense>
-                  {files.map((file, index) => (
-                    <ListItem key={index} sx={{ p: 0 }}>
-                      <ListItemText primary={file.name} />
+                <List dense sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
+                  {files.map((fileObj, index) => (
+                    <ListItem
+                      key={index}
+                      sx={{ p: 0, display: "flex", gap: 2, width: "50%" }}
+                    >
+                      <TextField
+                        label="File Description"
+                        variant="outlined"
+                        required
+                        value={fileObj.file_description}
+                        onChange={(e) =>
+                          handleDescriptionChange(index, e.target.value)
+                        }
+                      />
+                      <ListItemText primary={fileObj.file.name} />
+                      <Button
+                        onClick={() => handleRemoveFile(index)}
+                      >
+                        Remove
+                      </Button>
                     </ListItem>
                   ))}
                 </List>
