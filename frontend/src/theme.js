@@ -3,22 +3,22 @@ import { createTheme } from "@mui/material/styles";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#253544",  // Dark blue-gray for primary elements
+      main: "#253544", // Dark blue-gray for primary elements
     },
     secondary: {
-      main: "#f2f7fb",  // Light blueish gray for accents
+      main: "#f2f7fb", // Light blueish gray for accents
     },
     background: {
-      default: "#ffffff", // Clean white background
-      paper: "#f2f2f2",   // Light gray for card-like elements
+      default: "#f2f2f2", // Clean white background
+      paper: "#ffffff", // Light gray for card-like elements
     },
     text: {
-      primary: "#253544",  // Dark blue-gray for readability
-      secondary: "#f2f7fb", // Light blue-gray for subtle text
+      primary: "#253544", // Dark blue-gray for readability
+      secondary: "#ffffff", // Ensuring label and placeholder are readable
     },
   },
   typography: {
-    fontFamily: "Monserrat, sans-serif",
+    fontFamily: "Montserrat, sans-serif",
     h1: {
       fontSize: "2rem",
       fontWeight: 600,
@@ -55,8 +55,40 @@ const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
+          backgroundColor: "#f7fafc", // Subtle contrast from the main container
           borderRadius: "10px",
           boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)",
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          "& .MuiInputBase-input": {
+            color: "#000", // Ensures input text is black
+          },
+          "& .MuiInputLabel-root": {
+            color: "#000 !important", // Ensures label text is black before clicking
+          },
+          "& .MuiInputLabel-root.Mui-focused": {
+            color: "#253544", // Changes label to primary color when focused
+          },
+          "& .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#253544", // Keeps border consistent
+          },
+          "&:hover .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#253544",
+          },
+          "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+            borderColor: "#253544",
+          },
+        },
+      },
+    },
+    MuiInputLabel: {
+      styleOverrides: {
+        root: {
+          color: "#000 !important", // Forces label to always be black
         },
       },
     },

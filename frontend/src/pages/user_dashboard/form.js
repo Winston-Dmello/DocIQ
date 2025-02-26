@@ -1,6 +1,6 @@
-const getform = async () => {
+const getform = async (formID) => {
     try{
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/form/get/3`);
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/form/get/${formID}`);
         const data = await response.json();
         return data;
     }catch{
