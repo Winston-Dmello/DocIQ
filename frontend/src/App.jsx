@@ -8,7 +8,7 @@ import UserHome from "./pages/user_dashboard/UserHome";
 import GenerateForm from "./pages/form_generator/GenerateForm.jsx";
 import AdminForms from "./pages/admin_forms/AdminForms.jsx";
 import FormsList from "./pages/user_dashboard/FormsList.jsx";
-import Forms from "./pages/user_dashboard/Form.jsx";
+import Form from "./pages/user_dashboard/Form.jsx";
 
 function App() {
   return (
@@ -19,7 +19,7 @@ function App() {
         <Route path="/login/user" element={<LoginLayout><UserAuth/></LoginLayout>}/>
         <Route path="/user/dashboard" element={<DashboardLayout><UserHome/></DashboardLayout>}/>
         <Route path="/user/dashboard/formlist" element={<DashboardLayout><FormsList/></DashboardLayout>}/>
-        <Route path="/user/dashboard/form" element={<DashboardLayout><Forms/></DashboardLayout>}/>
+        <Route path="/user/dashboard/form/:formID" element={<DashboardLayout><Form/></DashboardLayout>}/>
 
         <Route path="/admin/dashboard/" element={<DashboardLayout><AdminForms/></DashboardLayout>}/>
         <Route path="/admin/dashboard/generate-form" element={<DashboardLayout><GenerateForm/></DashboardLayout>}/>

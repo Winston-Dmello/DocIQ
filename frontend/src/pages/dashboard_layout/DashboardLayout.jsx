@@ -13,17 +13,30 @@ import {
 } from "@mui/material";
 import dociq_logo from "../../assets/dociq_logo.png";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const drawerWidth = 240;
 
 const DashboardLayout = ({ children }) => {
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  const menuItems = [
+    { text: "User Dashboard", path: "/user/dashboard" },
+    { text: "Forms List", path: "/user/dashboard/formlist" },
+    { text: "Admin Dashboard", path: "/admin/dashboard" },
+    { text: "Generate Form", path: "/admin/dashboard/generate-form" },
+  ];
 
-    const navigate = useNavigate();
-    const handleBack = () => {
-        navigate(-1);
-    }
+  const breadcrumbItems = [
+    { text: "User Dashboard", path: "/user/dashboard" },
+    { text: "Forms List", path: "/user/dashboard/formlist" },
+    { text: "Form", path: "/user/dashboard/form/"},
+    { text: "Admin Dashboard", path: "/admin/dashboard" },
+    { text: "Generate Form", path: "/admin/dashboard/generate-form" },
+  ]
+
+  const handleBack = () => navigate(-1);
 
   return (
     <Box
@@ -43,8 +56,8 @@ const DashboardLayout = ({ children }) => {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            backgroundColor: "primary.dark", // Dark-blue grey from theme
-            color: "text.secondary", // Better contrast
+            backgroundColor: "primary.dark",
+            color: "text.secondary",
           },
         }}
       >
@@ -57,13 +70,34 @@ const DashboardLayout = ({ children }) => {
           <Typography variant="h6">DocIQ</Typography>
         </Toolbar>
         <List>
-          {["Forms", "Create Forms"].map((text) => (
-            <ListItem button key={text}>
-              <ListItemText primary={text} />
+          {menuItems.map(({ text, path }) => (
+            <ListItem
+              button
+              key={text}
+              onClick={() => navigate(path)}
+              selected={location.pathname === path}
+              sx={{
+                backgroundColor:
+                  location.pathname === path ? "primary.main" : "transparent",
+                "&:hover": { backgroundColor: "primary.light" },
+                borderRadius: 1,
+                marginBottom: 1,
+                cursor: "pointer",
+              }}
+            >
+              <ListItemText
+                primary={text}
+                sx={{
+                  color:
+                    location.pathname === path ? "white" : "text.secondary",
+                  fontWeight: location.pathname === path ? "bold" : "normal",
+                }}
+              />
             </ListItem>
           ))}
         </List>
       </Drawer>
+
       <Box
         component="main"
         sx={{
@@ -78,7 +112,6 @@ const DashboardLayout = ({ children }) => {
           gap: 2,
         }}
       >
-        {/* Space for Back Button and Breadcrumbs */}
         <Box
           sx={{
             width: "100%",
@@ -88,31 +121,45 @@ const DashboardLayout = ({ children }) => {
             alignItems: "center",
           }}
         >
-          {/* Back Button */}
-          <IconButton aria-label="back" sx={{ color: "text.primary" }} onClick={handleBack}>
+          <IconButton
+            aria-label="back"
+            sx={{ color: "text.primary" }}
+            onClick={handleBack}
+          >
             <ArrowBackIcon />
           </IconButton>
 
-          {/* Breadcrumbs */}
           <Breadcrumbs aria-label="breadcrumb" sx={{ color: "text.primary" }}>
-            <Link underline="hover" color="inherit" href="/">
+            <Link
+              underline="hover"
+              color="inherit"
+              onClick={() => navigate("/")}
+              sx={{ cursor: "pointer" }}
+            >
               Home
             </Link>
-            <Link underline="hover" color="inherit" href="/forms">
-              Forms
-            </Link>
+            {breadcrumbItems
+              .filter((item) => location.pathname.startsWith(item.path)) // Match current path
+              .map((item, index, array) => (
+                <Typography
+                  key={item.path}
+                  color={
+                    index === array.length - 1 ? "text.primary" : "inherit"
+                  }
+                >
+                  {item.text}
+                </Typography>
+              ))}
           </Breadcrumbs>
         </Box>
 
-        {/* Main Content Area */}
         <Box
           sx={{
             flexGrow: 1,
-            backgroundColor: "background.paper",
-            borderRadius: 3,
-            boxShadow: 3,
-            width: "100%", // Ensure full width minus drawer
-            height: "80%", // Leave space for breadcrumbs
+            backgroundColor: "transparent",
+            backdropFilter: "blur(8px)",
+            width: "100%",
+            height: "95%",
             display: "flex",
             justifyContent: "center",
             padding: 3,
