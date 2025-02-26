@@ -4,12 +4,14 @@ const Documents = require('../../models/documents.model');
 
 const createSubmission = async (data, file_paths) => {
 
-    console.log(data);
+    console.log(data.form_id);
+    console.log(file_paths);
     try{    
+        const sub_data = JSON.parse(data.submission_data);
         const newSubmission = await Submissions.create({
             form_id: data.form_id,
             user_id: data.user_id,
-            submission_data: data.submission_data,
+            submission_data: sub_data,
             file_paths: file_paths,
         });
 

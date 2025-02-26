@@ -8,16 +8,13 @@ const getform = async (formID) => {
     }
 }
 
-const submitform = async (data) => {
+const submitform = async (formData) => {
     try{
         const response = await fetch(
             `${import.meta.env.VITE_BASE_URL}/submissions/create`,
             {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
+                body: formData
             }
 
         );

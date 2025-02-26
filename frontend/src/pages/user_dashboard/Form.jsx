@@ -61,17 +61,28 @@ const Form = () => {
       file_list.push({
         original_name: file.file.name,
         file_name: file.file_name,
-        file: file.file
-      })
-    })
-    const data  = {
-      form_id: formID,
-      user_id: 1,
-      submission_data: JSON.stringify(formdata),
-      file_list: JSON.stringify(file_list)
-    }
-    console.log(data);
-    const res = submitform(data);
+      });
+    });
+    // const data  = {
+    //   form_id: formID,
+    //   user_id: 1,
+    //   submission_data: JSON.stringify(formdata),
+    //   file_list: JSON.stringify(file_list),
+    //   files: files
+    // }
+    const formData = new FormData();
+    formData.append("form_id", formID);
+    formData.append("user_id", 1);
+    formData.append("submission_data", JSON.stringify(formdata));
+    formData.append("file_list", JSON.stringify(file_list));
+
+    // Append files individually
+    files.forEach((fileObj, index) => {
+      formData.append(`files`, fileObj.file);
+    });
+
+    console.log(formData);
+    const res = submitform(formData);
     console.log(res);
     alert("form Submitted");
   };
@@ -170,9 +181,7 @@ const Form = () => {
                         }
                       />
                       <ListItemText primary={fileObj.file.name} />
-                      <Button
-                        onClick={() => handleRemoveFile(index)}
-                      >
+                      <Button onClick={() => handleRemoveFile(index)}>
                         Remove
                       </Button>
                     </ListItem>
