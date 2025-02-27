@@ -23,7 +23,6 @@ const FormsList = () => {
   async function fetchForms() {
     const response = await getforms();
     setForms(response);
-    console.log(response);
   }
 
   useEffect(() => {

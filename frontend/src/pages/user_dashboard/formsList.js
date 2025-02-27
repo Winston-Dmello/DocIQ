@@ -6,6 +6,7 @@ const getforms = async () => {
       `${import.meta.env.VITE_BASE_URL}/form/user/${userID}`
     );
     const data = await response.json();
+    console.log(data);
     return data;
   } catch {
     return [];

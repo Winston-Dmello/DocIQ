@@ -19,7 +19,7 @@ const UserAuth = () => {
 
         if (loginResponse.auth) {
             localStorage.setItem("UserID", loginResponse.userid);
-            console.log()
+            console.log("User ID is set!")
             navigate("/user/dashboard");
         }
     };
