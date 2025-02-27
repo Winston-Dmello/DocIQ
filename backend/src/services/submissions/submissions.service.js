@@ -44,19 +44,20 @@ const approveSubmission = async (id, status, reason) => { // status is 0 (reject
     try{
         const submission = await getSubmissionById(id);
         if (status){
-            
+            //need to bulk create documents here
+            await submission.update({status: 'approved'}); 
         }else{
-            
+            await submission.update({status: 'rejected', reason: reason || 'no reason provided'});
         }
     }catch(error){
-        throw error;
+        throw error;    
     }
 }
 
 const getSubmissionsByUser = async (id) => {
     try{
         const submissions = await Submissions.findAll({
-            attributes: ['status', 'updatedAt'],
+            attributes: ['submission_id', 'status', 'updatedAt'],
             include: [{
                 model: Form,
                 attributes: ['form_name'], // Fetching the form name from Forms table
