@@ -22,4 +22,16 @@ const createSubmission = async (data, file_paths) => {
 
 }
 
-module.exports = { createSubmission };
+const getAllSubmissions = async () => {
+    try{
+        const submissions = await Submissions.findAll({
+            attributes: ['submission_id', 'submission_data'],
+        });
+        return submissions;
+    }catch(error){
+        throw error;
+    }
+}
+
+
+module.exports = { createSubmission, getAllSubmissions };

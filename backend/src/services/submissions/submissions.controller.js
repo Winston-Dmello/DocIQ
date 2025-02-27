@@ -1,24 +1,38 @@
-const { createSubmission } = require('./submissions.service');
+const { createSubmission, getAllSubmissions } = require('./submissions.service');
 
 const createSubmissionController = async (req, res, next) => {
 
     try{
-        // const { file_map } = req.body;
-        // const parsedFileMap = JSON.parse(file_map);
-        // const mappedFiles = {};
-        // req.files.forEach(file => {
-        //     const fieldName = parsedFileMap[file.originalname];
-        //     if (fieldName) {
-        //         mappedFiles[fieldName] = {filename: file.filename, path: file.path};
-        //     }
-        // });
         const newSubmission = await createSubmission(req.body, req.file_paths);
-
-        
         return res.status(200).json({message: "Submission successful", details: newSubmission});
     }catch(error){
         next(error);
     }
 }
 
-module.exports = { createSubmissionController }
+const getSubmissionsController = async (req, res, next) => {
+    try{
+        const submissions = await getAllSubmissions();
+        if(!submissions) return res.status(404).json({message: 'No submissions found'});
+        return res.json(submissions);
+    }catch(error){
+        next(error);
+    }
+}
+
+const getSubmissionByIdController = async (req, res, next) => {
+    try{
+
+    }catch(error){
+        next(error);
+    }
+}
+
+const updateSubmissionController = async (req, res, next) => {
+    try{
+
+    }catch(error){
+        next(error);
+    }
+}
+module.exports = { createSubmissionController, getSubmissionByIdController, getSubmissionsController };
