@@ -20,6 +20,14 @@ const Form = () => {
   const [formdata, setFormData] = useState([]);
   const [files, setFiles] = useState([]);
   const { formID } = useParams();
+  const [formValues, setFormValues] = useState({});
+
+  const handleInputChange = (e, fieldName) => {
+    setFormValues((prevValues) => ({
+      ...prevValues,
+      [fieldName]: e.target.value,
+    }));
+  };
 
   async function fetchForms() {
     const response = await getform(formID);
@@ -56,35 +64,32 @@ const Form = () => {
       alert("Please upload at least one file.");
       return;
     }
-    const file_list = [];
-    files.forEach((file, index) => {
-      file_list.push({
-        original_name: file.file.name,
-        file_name: file.file_name,
-      });
-    });
-    // const data  = {
-    //   form_id: formID,
-    //   user_id: 1,
-    //   submission_data: JSON.stringify(formdata),
-    //   file_list: JSON.stringify(file_list),
-    //   files: files
-    // }
+
+    // Convert formValues into the required format
+    const submissionData = Object.entries(formValues).map(([field, value]) => ({
+      field_name: field,
+      value: value,
+    }));
+
+    const file_list = files.map((file) => ({
+      original_name: file.file.name,
+      file_name: file.file_name,
+    }));
+
     const formData = new FormData();
     formData.append("form_id", formID);
     formData.append("user_id", 1);
-    formData.append("submission_data", JSON.stringify(formdata));
+    formData.append("submission_data", JSON.stringify(submissionData));
     formData.append("file_list", JSON.stringify(file_list));
 
-    // Append files individually
-    files.forEach((fileObj, index) => {
-      formData.append(`files`, fileObj.file);
+    files.forEach((fileObj) => {
+      formData.append("files", fileObj.file);
     });
 
     console.log(formData);
     const res = submitform(formData);
     console.log(res);
-    alert("form Submitted");
+    alert("Form Submitted");
   };
 
   useEffect(() => {
@@ -121,6 +126,8 @@ const Form = () => {
                     name={field.name}
                     label={field.name}
                     required
+                    value={formValues[field.name] || ""}
+                    onChange={(e) => handleInputChange(e, field.name)}
                     InputLabelProps={
                       field.type === "date" ? { shrink: true } : {}
                     }

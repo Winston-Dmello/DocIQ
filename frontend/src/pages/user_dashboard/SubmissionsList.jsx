@@ -1,41 +1,35 @@
-import { getforms } from "./formsList";
-
+import { getsubmissions } from "./submissionsList";
 import {
-  Typography,
-  Container,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Button,
-  Card,
-  CardContent,
-} from "@mui/material";
-import { useNavigate } from "react-router-dom";
+    Typography,
+    Container,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Button,
+    Card,
+    CardContent,
+  }  from '@mui/material/Container';
+
 import { useState, useEffect } from "react";
 
-const FormsList = () => {
-  const [forms, setForms] = useState([]);
-  const navigate = useNavigate();
+const SubmissionsList = () => {
 
-  async function fetchForms() {
-    const response = await getforms();
-    setForms(response);
-    console.log(response);
-  }
+    const [submissions, setSubmissions] = useState([]);
 
-  useEffect(() => {
-    fetchForms();
-  }, []);
+    const fetchSubmissions = () => {
+        const data = getsubmissions();
+        setSubmissions(data);
+    }
 
-  const onButtonClick = (formID) => {
-    navigate(`/user/dashboard/form/${formID}`);
-  };
+    useEffect(() => {
+        fetchSubmissions();
+    }, []);
 
-  return (
-    <Container maxWidth>
+    return (
+        <Container maxWidth>
       <Card sx={{height: "95%", padding: 6, overflowY: "auto"}}>
         <CardContent>
           <Typography
@@ -76,7 +70,7 @@ const FormsList = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Form Status
+                    Submission Status
                   </TableCell>
                   <TableCell
                     sx={{
@@ -90,14 +84,14 @@ const FormsList = () => {
                 </TableRow>
               </TableHead>
               <TableBody sx={{ backgroundColor: "background.default", overflowY: "auto" }}>
-                {forms.map((form, index) => {
+                {submissions.map((submission, index) => {
                   return (
-                    <TableRow key={form.form_id}>
+                    <TableRow key={submission.submission_id}>
                       <TableCell>{index + 1}</TableCell>
-                      <TableCell>{form.form_name}</TableCell>
-                      <TableCell>{form.status}</TableCell>
+                      <TableCell>{submission.submission_name}</TableCell>
+                      <TableCell>{submission.status}</TableCell>
                       <TableCell>
-                        <Button onClick={() => onButtonClick(form.form_id)}>Fill</Button>
+                        <Button onClick={() => onButtonClick(submission.submission_id)}>Fill</Button>
                       </TableCell>
                     </TableRow>
                   );
@@ -108,7 +102,7 @@ const FormsList = () => {
         </CardContent>
       </Card>
     </Container>
-  );
-};
+    )
+}
 
-export default FormsList;
+export default SubmissionsList;
