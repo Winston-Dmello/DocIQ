@@ -1,4 +1,4 @@
-const { createSubmission, getAllSubmissions } = require('./submissions.service');
+const { createSubmission, getAllSubmissions, getSubmissionById, getSubmissionsByUser } = require('./submissions.service');
 
 const createSubmissionController = async (req, res, next) => {
 
@@ -22,7 +22,10 @@ const getSubmissionsController = async (req, res, next) => {
 
 const getSubmissionByIdController = async (req, res, next) => {
     try{
-
+        const id = req.params.id;
+        const submission = await getSubmissionById(id);
+        if(!submission) return res.status(404).json({message: 'Submission not found'});
+        return res.json(submission);
     }catch(error){
         next(error);
     }
@@ -35,4 +38,31 @@ const updateSubmissionController = async (req, res, next) => {
         next(error);
     }
 }
-module.exports = { createSubmissionController, getSubmissionByIdController, getSubmissionsController };
+
+const approveSubmissionController = async (req, res, next) => {
+    try{
+
+    }catch(error){
+        next(error);
+    }
+}
+
+const getSubmissionsByUserController = async (req, res, next) => {
+    try{
+        const user_id = req.params.user_id;
+        const submissions = getSubmissionsByUser(user_id);
+        if(!submissions) return res.status(404).json({message: 'Submissions not found'});
+        return res.json(submissions);
+    }catch(error){
+        next(error);
+    }
+}
+
+module.exports = { 
+    createSubmissionController,
+    getSubmissionByIdController,
+    getSubmissionsController,
+    updateSubmissionController,
+    approveSubmissionController,
+    getSubmissionsByUserController
+};

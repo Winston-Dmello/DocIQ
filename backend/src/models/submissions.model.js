@@ -41,9 +41,13 @@ const Submissions = sequelize.define('submissions', {
         allowNull: false,
         defaultValue: 'pending',
     },
-    file_paths: {
+    file_paths : {
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
+    },
+    reason: {
+        type: DataTypes.STRING,
+        allowNull: true,
     }
 });
 

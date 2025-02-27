@@ -8,6 +8,18 @@ const Documents = sequelize.define('documents', {
         primaryKey: true, 
         allowNull: false,
     },
+    form_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    user_name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    submission_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
     file_name: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -15,10 +27,6 @@ const Documents = sequelize.define('documents', {
     division_name: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
-    association: {
-        type: DataTypes.STRING,
-        allowNull: true,
     },
     category: {
         type: DataTypes.STRING,
