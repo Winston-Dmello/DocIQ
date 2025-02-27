@@ -1,5 +1,6 @@
 const sequelize = require('../../sequelize');
 const Submissions = require('../../models/submissions.model');
+const Form = require('../../models/form.model');
 const { createDocument } = require('../../services/documents/documents.service');
 
 const createSubmission = async (data, file_paths) => {

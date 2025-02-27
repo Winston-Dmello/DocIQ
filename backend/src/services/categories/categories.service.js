@@ -3,6 +3,7 @@ const Categories = require('../../models/categories.model');
 const getAllCatgeories = async () => {
     try{
         const categories = await Categories.findAll();
+        if(!categories) throw new Error('No categories found');
         return categories;
     }catch(error){
         throw error;
