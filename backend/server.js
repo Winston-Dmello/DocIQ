@@ -1,4 +1,5 @@
 require('dotenv').config(); // Load environment variables
+require('./src/models/associations');
 const http = require('http');
 const app = require('./src/app'); // Import the app
 const sequelize = require('./src/sequelize');
