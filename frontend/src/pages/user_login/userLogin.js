@@ -10,9 +10,9 @@ const userLogin = async ({email, password}) => {
                 'password': password
             })
         })
-        console.log(response);
         if(response.ok){
-            return {auth: true, message: 'Login Successful', userid: response.userid};
+            const data = await response.json();
+            return {auth: true, message: 'Login Successful', userid: data.user.user_id};
         }else if(response.status === 401){
             return {auth: false, message: 'Email or Password Incorrect'};
         }else if(response.status === 403){

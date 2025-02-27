@@ -23,14 +23,16 @@ const DashboardLayout = ({ children }) => {
 
   const menuItems = [
     { text: "User Dashboard", path: "/user/dashboard" },
-    { text: "Forms List", path: "/user/dashboard/formlist" },
+    { text: "Forms List", path: "/user/dashboard/formslist" },
+    { text: "Submissions List", path: "/user/dashboard/submissionslist" },
     { text: "Admin Dashboard", path: "/admin/dashboard" },
     { text: "Generate Form", path: "/admin/dashboard/generate-form" },
   ];
 
   const breadcrumbItems = [
     { text: "User Dashboard", path: "/user/dashboard" },
-    { text: "Forms List", path: "/user/dashboard/formlist" },
+    { text: "Forms List", path: "/user/dashboard/formslist" },
+    { text: "Submissions List", path: "/user/dashboard/submissionslist" },
     { text: "Form", path: "/user/dashboard/form/"},
     { text: "Admin Dashboard", path: "/admin/dashboard" },
     { text: "Generate Form", path: "/admin/dashboard/generate-form" },

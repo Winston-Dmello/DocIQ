@@ -8,10 +8,9 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Button,
     Card,
     CardContent,
-  }  from '@mui/material/Container';
+  }  from '@mui/material';
 
 import { useState, useEffect } from "react";
 
@@ -19,14 +18,15 @@ const SubmissionsList = () => {
 
     const [submissions, setSubmissions] = useState([]);
 
-    const fetchSubmissions = () => {
-        const data = getsubmissions();
-        setSubmissions(data);
-    }
-
     useEffect(() => {
+        const fetchSubmissions = async () => {
+            const data = await getsubmissions();
+            setSubmissions(data);
+        };
         fetchSubmissions();
     }, []);
+    
+
 
     return (
         <Container maxWidth>
@@ -79,6 +79,15 @@ const SubmissionsList = () => {
                       fontWeight: "bold",
                     }}
                   >
+                    Last Modified
+                  </TableCell>
+                  <TableCell
+                    sx={{
+                      backgroundColor: "primary.main",
+                      color: "text.secondary",
+                      fontWeight: "bold",
+                    }}
+                  >
                     Actions
                   </TableCell>
                 </TableRow>
@@ -88,10 +97,11 @@ const SubmissionsList = () => {
                   return (
                     <TableRow key={submission.submission_id}>
                       <TableCell>{index + 1}</TableCell>
-                      <TableCell>{submission.submission_name}</TableCell>
+                      <TableCell>{submission.form_name}</TableCell>
                       <TableCell>{submission.status}</TableCell>
+                      <TableCell>{submission.updatedAt}</TableCell>
                       <TableCell>
-                        <Button onClick={() => onButtonClick(submission.submission_id)}>Fill</Button>
+                        {/* <Button onClick={() => onButtonClick(submission.submission_id)}>Edit</Button> */}
                       </TableCell>
                     </TableRow>
                   );
