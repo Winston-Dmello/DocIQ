@@ -1,7 +1,6 @@
-const { createSubmission, getAllSubmissions, getSubmissionById, getSubmissionsByUser } = require('./submissions.service');
+const { createSubmission, getAllSubmissions, getSubmissionById, getSubmissionsByUser, approveSubmission } = require('./submissions.service');
 
-const createSubmissionController = async (req, res, next) => {
-
+const createSubmissionController = async (req, res, next) => {  
     try{
         const newSubmission = await createSubmission(req.body, req.file_paths);
         return res.status(200).json({message: "Submission successful", details: newSubmission});
@@ -41,7 +40,10 @@ const updateSubmissionController = async (req, res, next) => {
 
 const approveSubmissionController = async (req, res, next) => {
     try{
-
+        const {submission_id, status, reason} = req.body;
+        const response = await approveSubmission(submission_id, status, reason);
+        if(!response) return res.status(500).json({message: 'Error approving submission'});
+        return res.status(200).json(response);
     }catch(error){
         next(error);
     }

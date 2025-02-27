@@ -1,5 +1,6 @@
 const sequelize = require('../../sequelize');
 const Submissions = require('../../models/submissions.model');
+const { createDocument } = require('../../services/documents/documents.service');
 
 const createSubmission = async (data, file_paths) => {
     console.log(data.form_id);
@@ -41,15 +42,24 @@ const getSubmissionById = async (id) => {
 }
 
 const approveSubmission = async (id, status, reason) => { // status is 0 (rejected) or 1 (approved)
+    const transaction = await sequelize.transaction();
     try{
         const submission = await getSubmissionById(id);
+        if(!submission) throw new Error('Submission not found');
+
         if (status){
-            //need to bulk create documents here
-            await submission.update({status: 'approved'}); 
+            const file_paths = submission.file_paths || [];
+            
+            await submission.update({status: 'approved'}, { transaction }); 
+
         }else{
-            await submission.update({status: 'rejected', reason: reason || 'no reason provided'});
+            await submission.update({status: 'rejected', reason: reason || 'no reason provided'}, { transaction });
         }
+
+        await transaction.commit();
+        return submission;
     }catch(error){
+        await transaction.rollback(); //roll back on error
         throw error;    
     }
 }
@@ -65,6 +75,7 @@ const getSubmissionsByUser = async (id) => {
             }]
         });
         const response = submissions.map(submission => ({
+            submission_id: submission.submission_id,
             form_name: submission.Form.form_name,
             status: submission.status,
             updatedAt: submission.updatedAt,
