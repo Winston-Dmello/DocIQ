@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Typography,
   Container,
@@ -14,10 +14,11 @@ import {
   Box,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { generateForm } from "./generateForm";
+import { generateForm, getUsers } from "./generateForm";
 
 const GenerateForm = () => {
   const [formName, setFormName] = useState("");
+  const [users, setUsers] = useState([]);
   const [recipients, setRecipients] = useState([]);
   const [category, setCategory] = useState("");
   const [submissionType, setSubmissionType] = useState("one-time");
@@ -36,6 +37,11 @@ const GenerateForm = () => {
     }
   };
 
+  async function fetchUsers() {
+    const response = await getUsers();
+    setUsers(response);
+  }
+
   const removeCustomField = (index) => {
     const updatedFields = [...customFields];
     updatedFields.splice(index, 1);
@@ -52,6 +58,10 @@ const GenerateForm = () => {
     );
     alert(response.message);
   };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   return (
     <Container maxWidth>
@@ -102,15 +112,21 @@ const GenerateForm = () => {
                 multiple
                 value={recipients}
                 onChange={(e) => setRecipients(e.target.value)}
-                renderValue={(selected) => selected.join(", ")}
+                renderValue={(selectedIds) =>
+                  selectedIds.length > 0
+                    ? selectedIds
+                        .map((id) => users.find((user) => user.user_id === id)?.user_name || "Unknown")
+                        .join(", ")
+                    : ""
+                }
               >
-                {["HR", "Finance", "IT", "Marketing"].map((dept) => (
+                {users.map((user, index) => (
                   <MenuItem
-                    key={dept}
-                    value={dept}
+                    key={index}
+                    value={user.user_id}
                     sx={{ color: "text.primary" }}
                   >
-                    {dept}
+                    {user.user_name}
                   </MenuItem>
                 ))}
               </Select>
