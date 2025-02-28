@@ -37,8 +37,19 @@ const Submission = () => {
   }
 
   const handleOnApproveClick = async () => {
-    const response = await approveSubmission(submissionID, 1);
+    const response = await approveSubmission(submissionID, 1, "approved");
     alert(response.message);
+    fetchSubmission();
+  };
+
+  const handleUndoClick = async () => {
+    const response = await approveSubmission(
+      submissionID,
+      2,
+      "sorry i made a mistake"
+    );
+    alert(response.message);
+    fetchSubmission();
   };
 
   const handleOpenRejectDialog = () => {
@@ -59,6 +70,7 @@ const Submission = () => {
     const response = await approveSubmission(submissionID, 0, rejectReason);
     alert("Submission Rejected", response.message);
     handleCloseRejectDialog();
+    fetchSubmission();
   };
 
   useEffect(() => {
@@ -151,46 +163,68 @@ const Submission = () => {
               </Box>
             )}
 
-            {/* Submit Button */}
-            <Box sx={{ mt: 3, display: "flex", gap: 2 }}>
-              <Button
-                variant="contained"
-                color="primary"
-                fullWidth
-                onClick={handleOpenRejectDialog}
-              >
-                Resubmit
-              </Button>
+            {/* Conditionally render buttons based on status */}
+            {submission.status === "pending" ? (
+              <Box sx={{ mt: 3, display: "flex", gap: 2 }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  onClick={handleOpenRejectDialog}
+                >
+                  Resubmit
+                </Button>
 
-              <Button
-                variant="contained"
-                color="success"
-                fullWidth
-                onClick={handleOnApproveClick}
-              >
-                Approve
+                <Button
+                  variant="contained"
+                  color="success"
+                  fullWidth
+                  onClick={handleOnApproveClick}
+                >
+                  Approve
+                </Button>
+
+                {/* Reject Dialog */}
+                <Dialog
+                  open={openRejectDialog}
+                  onClose={handleCloseRejectDialog}
+                >
+                  <DialogTitle>Reject Submission - Reason?</DialogTitle>
+                  <DialogContent>
+                    <TextField
+                      fullWidth
+                      variant="outlined"
+                      required
+                      value={rejectReason}
+                      onChange={(e) => setRejectReason(e.target.value)}
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      onClick={handleCloseRejectDialog}
+                      variant="contained"
+                      color="inherit"
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleRejectClick}
+                      variant="contained"
+                      color="error"
+                    >
+                      OK
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+              </Box>
+            ) : (
+              <Box sx={{ mt: 3 }}>
+                Regret what you did?
+              <Button variant="contained" color="primary" onClick={handleUndoClick} fullWidth>
+                Undo
               </Button>
-              <Dialog open={openRejectDialog} onClose={handleCloseRejectDialog}>
-                <DialogTitle>Reject Submission-Reason?</DialogTitle>
-                <DialogContent>
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    required
-                    value={rejectReason}
-                    onChange={(e) => setRejectReason(e.target.value)}
-                  />
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleCloseRejectDialog} varient="contained" color="inherit">
-                    Cancel
-                  </Button>
-                  <Button onClick={handleRejectClick} varient="contained" color="error">
-                    OK
-                  </Button>
-                </DialogActions>
-              </Dialog>
-            </Box>
+              </Box>
+            )}
           </form>
         </CardContent>
       </Card>
