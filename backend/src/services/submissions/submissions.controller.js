@@ -52,7 +52,7 @@ const approveSubmissionController = async (req, res, next) => {
 const getSubmissionsByUserController = async (req, res, next) => {
     try{
         const user_id = req.params.user_id;
-        const submissions = getSubmissionsByUser(user_id);
+        const submissions = await getSubmissionsByUser(user_id);
         if(!submissions) return res.status(404).json({message: 'Submissions not found'});
         return res.json(submissions);
     }catch(error){

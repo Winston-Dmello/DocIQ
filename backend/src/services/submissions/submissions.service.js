@@ -33,9 +33,14 @@ const getAllSubmissions = async () => {
 
 const getSubmissionById = async (id) => {
     try{
-        const submission = await Submissions.findOne({
+        const submission = await Submissions.findAll({
+            include: [{
+                model: Form,
+                attributes: ['form_name'], // Fetch only the form_name
+                required: true // Ensures only submissions with a valid form_id are included
+            }],
             where: {submission_id: id},
-        });
+        });    
         return submission;
     }catch(error){  
         throw error;
@@ -66,26 +71,31 @@ const approveSubmission = async (id, status, reason) => { // status is 0 (reject
 }
 
 const getSubmissionsByUser = async (id) => {
-    try{
+    try {
         const submissions = await Submissions.findAll({
-            attributes: ['submission_id', 'status', 'updatedAt'],
+            attributes: ['submission_id', 'status', 'updatedAt', 'form_id'], // Ensure 'form_id' is selected
             include: [{
                 model: Form,
-                attributes: ['form_name'], // Fetching the form name from Forms table
-                required: true
-            }]
+                attributes: ['form_name'], // Fetch only the form_name
+                required: true // Ensures only submissions with a valid form_id are included
+            }],
+            where: {user_id: id},
         });
+
         const response = submissions.map(submission => ({
             submission_id: submission.submission_id,
-            form_name: submission.Form.form_name,
+            form_id: submission.form_id, // Ensure form_id is included
+            form_name: submission.form.form_name, // Access form_name correctly
             status: submission.status,
-            updatedAt: submission.updatedAt,
+            updatedAt: submission.updatedAt.toISOString().split('T')[0],
         }));
+        console.log(response);
         return response;
-    }catch(error){
+    } catch (error) {
         throw error;
     }
-}
+};
+
 
 module.exports = { 
     createSubmission, 

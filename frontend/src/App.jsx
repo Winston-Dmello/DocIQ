@@ -10,6 +10,7 @@ import AdminForms from "./pages/admin_forms/AdminForms.jsx";
 import FormsList from "./pages/user_dashboard/FormsList.jsx";
 import Form from "./pages/user_dashboard/Form.jsx";
 import SubmissionsList from "./pages/user_dashboard/SubmissionsList.jsx";
+import Submission from "./pages/user_dashboard/Submission.jsx";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/user/dashboard/formslist" element={<DashboardLayout><FormsList/></DashboardLayout>}/>
         <Route path="/user/dashboard/form/:formID" element={<DashboardLayout><Form/></DashboardLayout>}/>
         <Route path="/user/dashboard/submissionslist" element={<DashboardLayout><SubmissionsList/></DashboardLayout>}/>
+        <Route path="/user/dashboard/submission/:submissionID" element={<DashboardLayout><Submission/></DashboardLayout>}/>
 
         <Route path="/admin/dashboard/" element={<DashboardLayout><AdminForms/></DashboardLayout>}/>
         <Route path="/admin/dashboard/generate-form" element={<DashboardLayout><GenerateForm/></DashboardLayout>}/>

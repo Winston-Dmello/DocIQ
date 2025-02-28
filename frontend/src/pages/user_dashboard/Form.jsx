@@ -22,10 +22,14 @@ const Form = () => {
   const { formID } = useParams();
   const [formValues, setFormValues] = useState({});
 
-  const handleInputChange = (e, fieldName) => {
+  const handleInputChange = (e, idx, fieldName, fieldType) => {
     setFormValues((prevValues) => ({
       ...prevValues,
-      [fieldName]: e.target.value,
+      [idx]: {
+        field_name: fieldName,
+        value: e.target.value,
+        field_type: fieldType,
+      },
     }));
   };
 
@@ -64,33 +68,30 @@ const Form = () => {
       alert("Please upload at least one file.");
       return;
     }
-
-    // Convert formValues into the required format
-    const submissionData = Object.entries(formValues).map(([field, value]) => ({
-      field_name: field,
-      value: value,
-    }));
-
+  
+    const submissionData = Object.values(formValues);
+  
     const file_list = files.map((file) => ({
       original_name: file.file.name,
       file_name: file.file_name,
     }));
-
+  
     const formData = new FormData();
     formData.append("form_id", formID);
     formData.append("user_id", 1);
     formData.append("submission_data", JSON.stringify(submissionData));
     formData.append("file_list", JSON.stringify(file_list));
-
+  
     files.forEach((fileObj) => {
       formData.append("files", fileObj.file);
     });
-
+  
     console.log(formData);
     const res = submitform(formData);
     console.log(res);
     alert("Form Submitted");
   };
+  
 
   useEffect(() => {
     fetchForms();
@@ -126,8 +127,8 @@ const Form = () => {
                     name={field.name}
                     label={field.name}
                     required
-                    value={formValues[field.name] || ""}
-                    onChange={(e) => handleInputChange(e, field.name)}
+                    value={formValues[index]?.value || ""}
+                    onChange={(e) => handleInputChange(e, index, field.name, field.type)}
                     InputLabelProps={
                       field.type === "date" ? { shrink: true } : {}
                     }
@@ -204,6 +205,7 @@ const Form = () => {
                 color="success"
                 fullWidth
                 onClick={onSubmit}
+                type="submit"
               >
                 Submit
               </Button>

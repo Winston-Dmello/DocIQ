@@ -33,10 +33,10 @@ const DashboardLayout = ({ children }) => {
     { text: "User Dashboard", path: "/user/dashboard" },
     { text: "Forms List", path: "/user/dashboard/formslist" },
     { text: "Submissions List", path: "/user/dashboard/submissionslist" },
-    { text: "Form", path: "/user/dashboard/form/"},
+    { text: "Form", path: "/user/dashboard/form/" },
     { text: "Admin Dashboard", path: "/admin/dashboard" },
     { text: "Generate Form", path: "/admin/dashboard/generate-form" },
-  ]
+  ];
 
   const handleBack = () => navigate(-1);
 
@@ -143,14 +143,17 @@ const DashboardLayout = ({ children }) => {
             {breadcrumbItems
               .filter((item) => location.pathname.startsWith(item.path)) // Match current path
               .map((item, index, array) => (
-                <Typography
+                <Link
                   key={item.path}
                   color={
                     index === array.length - 1 ? "text.primary" : "inherit"
                   }
+                  onClick={() => navigate(item.path)}
+                  underline="hover"
+                  sx={{ cursor: "pointer" }}
                 >
                   {item.text}
-                </Typography>
+                </Link>
               ))}
           </Breadcrumbs>
         </Box>

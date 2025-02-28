@@ -9,23 +9,33 @@ import {
     TableHead,
     TableRow,
     Card,
+    Button,
     CardContent,
   }  from '@mui/material';
-
+import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { IconButton } from '@mui/material';
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const SubmissionsList = () => {
 
     const [submissions, setSubmissions] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchSubmissions = async () => {
             const data = await getsubmissions();
+            console.log(data);
             setSubmissions(data);
         };
         fetchSubmissions();
     }, []);
     
+    const onButtonClick = (submissionID) => {
+      console.log(submissionID);
+      navigate(`/user/dashboard/submission/${submissionID}`);
+    };
 
 
     return (
@@ -101,7 +111,14 @@ const SubmissionsList = () => {
                       <TableCell>{submission.status}</TableCell>
                       <TableCell>{submission.updatedAt}</TableCell>
                       <TableCell>
-                        {/* <Button onClick={() => onButtonClick(submission.submission_id)}>Edit</Button> */}
+                        <IconButton>
+                            <EditIcon/>
+                        </IconButton>
+                        <IconButton
+                        onClick={() => onButtonClick(submission.submission_id)}
+                        >
+                            <VisibilityIcon/>
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   );
