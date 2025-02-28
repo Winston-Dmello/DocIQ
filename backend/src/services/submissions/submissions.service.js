@@ -60,7 +60,7 @@ const getSubmissionById = async (id) => {
     }
 }
 
-const approveSubmission = async (id, status, reason = "Ok") => { // status is 0 (rejected) or 1 (approved)
+const approveSubmission = async (id, status, reason) => { // status is 0 (rejected) or 1 (approved)
     const transaction = await sequelize.transaction();
     try{
         const submission = await getSubmissionById(id);
@@ -75,13 +75,13 @@ const approveSubmission = async (id, status, reason = "Ok") => { // status is 0 
                 file_paths.map(async (file_path) => await createDocument(file_path, submission, transaction))
             ); 
             await Submissions.update(
-                { status: 'approved' },
+                { status: 'approved', reason: reason ? reason : "OK" },
                 { where: { submission_id: id }, transaction }
             ); 
 
         }else{ //Submission Rejected
             await Submissions.update(
-                { status: 'resubmit', reason: reason },
+                { status: 'resubmit', reason: reason ? reason : "No reason" },
                 { where: { submission_id: id }, transaction }
             )
         }
