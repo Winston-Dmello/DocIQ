@@ -22,6 +22,8 @@ app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
 app.use(logger);
 // Routes
 app.use('/api', routes); // Prefix all routes with /api
+//serve files from the uploads directory
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 
 // Error Handling

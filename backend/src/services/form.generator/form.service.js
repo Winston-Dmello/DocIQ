@@ -44,7 +44,7 @@ const getFormsFromDB = async () => {
                         where: {
                             user_id: recipientId
                         }, 
-                        attributes: ["user_id", "email"]
+                        attributes: ["user_id", "division", "email"]
                     });
                 })
             );

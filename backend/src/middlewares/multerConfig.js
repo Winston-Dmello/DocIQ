@@ -18,12 +18,13 @@ const storage = multer.diskStorage({
             if(!req.file_list && req.body.file_list){
                 req.file_list = JSON.parse(req.body.file_list);
             }
-            const timeStamp = "winston";
+            const separator = "$#$!";
+            const timeStamp = Date.now().toISOString().split('T')[1];
             const originalName = file.originalname || `unknown_${timeStamp}.file`; // Ensure a valid filename
             const matchingFile = req.file_list?.find(f => f.original_name === originalName);
 
             const newFileName = matchingFile 
-                ? `${timeStamp}-${matchingFile.file_name}` 
+                ? `${timeStamp}-${separator}${matchingFile.file_name}` 
                 : `${timeStamp}-${originalName}`;
             console.log("Multer: ", newFileName);
 

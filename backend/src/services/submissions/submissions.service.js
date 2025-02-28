@@ -47,7 +47,7 @@ const getSubmissionById = async (id) => {
     }
 }
 
-const approveSubmission = async (id, status, reason) => { // status is 0 (rejected) or 1 (approved)
+const approveSubmission = async (id, status, reason = "Ok") => { // status is 0 (rejected) or 1 (approved)
     const transaction = await sequelize.transaction();
     try{
         const submission = await getSubmissionById(id);

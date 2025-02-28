@@ -12,7 +12,7 @@ const {
 router.post('/create', upload.array('files', 10) ,createSubmissionController);
 router.get('/', getSubmissionsController);
 router.get('/:id', getSubmissionByIdController);
-router.post('/approve', approveSubmissionController);
+router.put('/approve', approveSubmissionController);
 router.get('/user/:user_id', getSubmissionsByUserController);
 router.put('/', upload.array('files', 10), updateSubmissionController);
 
