@@ -67,7 +67,7 @@ const approveSubmission = async (id, status, reason) => { // status is 0 (reject
         if(!submission) throw new Error('Submission not found');
         console.log("Submission: ******", submission);
         console.log("Submission ID: ",submission.submission_id);
-        if (status){ //Submission Approved
+        if (status === 1){ //Submission Approved
             const file_paths = submission.file_paths || [];
             console.log("File_paths: ",file_paths);
             
@@ -78,12 +78,16 @@ const approveSubmission = async (id, status, reason) => { // status is 0 (reject
                 { status: 'approved', reason: reason ? reason : "OK" },
                 { where: { submission_id: id }, transaction }
             ); 
-
-        }else{ //Submission Rejected
+        }else if(status === 0){ //Submission Rejected
             await Submissions.update(
                 { status: 'resubmit', reason: reason ? reason : "No reason" },
                 { where: { submission_id: id }, transaction }
-            )
+            );
+        }else if(status === 2){ //Submission Pending
+            await Submissions.update(
+                { status: 'pending', reason: reason ? reason : "No reason" },
+                { where: { submission_id: id }, transaction }
+            );
         }
         await transaction.commit();
         return submission;
