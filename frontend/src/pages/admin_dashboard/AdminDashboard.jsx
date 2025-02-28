@@ -25,12 +25,14 @@ const AdminDashboard = ({ children }) => {
     { text: "Admin Dashboard", path: "/admin/dashboard" },
     { text: "Form List", path: "/admin/dashboard/forms" },
     { text: "Generate Form", path: "/admin/dashboard/generate-form" },
+    { text: "Submissions List", path: "/admin/dashboard/submissions" },
   ];
 
   const breadcrumbItems = [
     { text: "Admin Dashboard", path: "/admin/dashboard" },
     { text: "Generate Form", path: "/admin/dashboard/generate-form" },
     { text: "Form List", path: "/admin/dashboard/forms" },
+    { text: "Submissions List", path: "/admin/dashboard/submissions" },
   ];
 
   const handleBack = () => navigate(-1);
