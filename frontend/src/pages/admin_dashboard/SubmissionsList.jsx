@@ -12,6 +12,11 @@ import {
   CardContent,
   IconButton,
   Box,
+  TextField,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RefreshIcon from "@mui/icons-material/Refresh";
@@ -22,13 +27,17 @@ import { useState, useEffect } from "react";
 
 const SubmissionsList = () => {
   const [submissions, setSubmissions] = useState([]);
+  const [filteredSubmissions, setFilteredSubmissions] = useState([]);
   const [page, setPage] = useState(0);
-  const itemsPerPage = 6;
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const itemsPerPage = 5;
   const navigate = useNavigate();
 
   const fetchSubmissions = async () => {
     const data = await getsubmissions();
     setSubmissions(data);
+    setFilteredSubmissions(data);
   };
 
   useEffect(() => {
@@ -40,7 +49,7 @@ const SubmissionsList = () => {
   };
 
   const handleNext = () => {
-    if ((page + 1) * itemsPerPage < submissions.length) {
+    if ((page + 1) * itemsPerPage < filteredSubmissions.length) {
       setPage(page + 1);
     }
   };
@@ -49,6 +58,35 @@ const SubmissionsList = () => {
     if (page > 0) {
       setPage(page - 1);
     }
+  };
+
+  const handleSearch = (e) => {
+    const value = e.target.value.toLowerCase();
+    setSearchQuery(value);
+    filterSubmissions(value, statusFilter);
+  };
+
+  const handleStatusChange = (e) => {
+    const value = e.target.value;
+    setStatusFilter(value);
+    filterSubmissions(searchQuery, value);
+  };
+
+  const filterSubmissions = (search, status) => {
+    let filtered = submissions;
+
+    if (search) {
+      filtered = filtered.filter((submission) =>
+        submission.form_name.toLowerCase().includes(search)
+      );
+    }
+
+    if (status !== "All") {
+      filtered = filtered.filter((submission) => submission.status === status);
+    }
+
+    setFilteredSubmissions(filtered);
+    setPage(0); // Reset to first page after filtering
   };
 
   return (
@@ -70,6 +108,26 @@ const SubmissionsList = () => {
           >
             Submissions
           </Typography>
+
+          {/* Search and Filter Controls */}
+          <Box sx={{ display: "flex", gap: 2 ,marginBottom: 2, justifyContent: "flex-end" }}>
+            <TextField
+              label="Search by Form Name"
+              variant="outlined"
+              value={searchQuery}
+              onChange={handleSearch}
+            />
+            <FormControl variant="outlined" sx={{ minWidth: 200 }}>
+              <InputLabel>Status</InputLabel>
+              <Select value={statusFilter} onChange={handleStatusChange} label="Status">
+                <MenuItem value="All">All</MenuItem>
+                <MenuItem value="pending">Pending</MenuItem>
+                <MenuItem value="approved">Approved</MenuItem>
+                <MenuItem value="resubmit">Resubmit</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
+
           <TableContainer sx={{ borderRadius: 2 }}>
             <Table>
               <TableHead>
@@ -122,7 +180,7 @@ const SubmissionsList = () => {
                 </TableRow>
               </TableHead>
               <TableBody sx={{ backgroundColor: "background.default" }}>
-                {submissions
+                {filteredSubmissions
                   .slice(page * itemsPerPage, (page + 1) * itemsPerPage)
                   .map((submission, index) => (
                     <TableRow key={submission.submission_id}>
@@ -173,13 +231,13 @@ const SubmissionsList = () => {
 
             {/* Page Indicator */}
             <Typography sx={{ marginX: 1, color: "text.primary" }}>
-              {page + 1} / {Math.ceil(submissions.length / itemsPerPage) || 1}
+              {page + 1} / {Math.ceil(filteredSubmissions.length / itemsPerPage) || 1}
             </Typography>
 
             {/* Next Button */}
             <IconButton
               onClick={handleNext}
-              disabled={(page + 1) * itemsPerPage >= submissions.length}
+              disabled={(page + 1) * itemsPerPage >= filteredSubmissions.length}
               sx={{ color: "text.primary" }}
             >
               <NavigateNextIcon />
