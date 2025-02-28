@@ -33,7 +33,7 @@ const getAllSubmissions = async () => {
 
 const getSubmissionById = async (id) => {
     try{
-        const submission = await Submissions.findAll({
+        const submission = await Submissions.findOne({
             include: [{
                 model: Form,
                 attributes: ['form_name'], // Fetch only the form_name
@@ -52,16 +52,26 @@ const approveSubmission = async (id, status, reason) => { // status is 0 (reject
     try{
         const submission = await getSubmissionById(id);
         if(!submission) throw new Error('Submission not found');
-
-        if (status){
+        console.log("Submission: ******", submission);
+        console.log("Submission ID: ",submission.submission_id);
+        if (status){ //Submission Approved
             const file_paths = submission.file_paths || [];
+            console.log("File_paths: ",file_paths);
             
-            await submission.update({status: 'approved'}, { transaction }); 
+            await Promise.all(
+                file_paths.map(async (file_path) => await createDocument(file_path, submission, transaction))
+            ); 
+            await Submissions.update(
+                { status: 'approved' },
+                { where: { submission_id: id }, transaction }
+            ); 
 
-        }else{
-            await submission.update({status: 'rejected', reason: reason || 'no reason provided'}, { transaction });
+        }else{ //Submission Rejected
+            await Submissions.update(
+                { status: 'resubmit', reason: reason },
+                { where: { submission_id: id }, transaction }
+            )
         }
-
         await transaction.commit();
         return submission;
     }catch(error){
