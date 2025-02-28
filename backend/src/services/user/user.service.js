@@ -1,4 +1,5 @@
 const User = require('../../models/user.model');
+const { hashPassword } = require('../../utils/password');
 
 exports.getAllUsers = async () => {
   try{
@@ -11,11 +12,12 @@ exports.getAllUsers = async () => {
 };
 
 exports.addUser = async (userData) => {
-  try{
+  try{  
+      const hashedPassword = await hashPassword(userData.password);
       const user = await User.create({
         user_name: userData.user_name,
         email: userData.email,
-        password: userData.password,
+        password: hashedPassword,
         designation: userData.designation,
         role: userData.role,
         division: userData.division,
@@ -36,3 +38,4 @@ exports.getUserById = async (user_id) => {
     throw error;
   }
 }
+

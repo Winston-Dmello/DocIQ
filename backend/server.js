@@ -20,8 +20,8 @@ const server = http.createServer(app);
       await sequelize.sync({force: false});
       console.log("All models synchronized successfully");
   }catch(err){
-      console.log(err)
-      console.log("error during sync")
+      console.log(err);
+      console.log("error during sync");
   }
 })();
 

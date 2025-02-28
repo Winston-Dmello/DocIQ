@@ -47,3 +47,5 @@ const Documents = sequelize.define('documents', {
 });
 
 module.exports = Documents;
+
+//document_id, form_name, user_name, file_name, division_name, category, file_path, date
