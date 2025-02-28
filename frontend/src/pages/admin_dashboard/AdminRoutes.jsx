@@ -4,6 +4,7 @@ import GenerateForm from "./GenerateForm";
 import AdminDashboard from "./AdminDashboard";
 import SubmissionsList from "./SubmissionsList";
 import Submission from "./Submission";
+import DocumentsList from "./DocumentsList";
 
 const AdminRoutes = () => {
     return (
@@ -13,6 +14,7 @@ const AdminRoutes = () => {
             <Route path="/forms" element={<AdminDashboard><AdminForms/></AdminDashboard>}/>
             <Route path="/submissions" element={<AdminDashboard><SubmissionsList/></AdminDashboard>}/>
             <Route path="/submissions/:submissionID" element={<AdminDashboard><Submission/></AdminDashboard>}/>
+            <Route path="/documents" element={<AdminDashboard><DocumentsList/></AdminDashboard>}/>
         </Routes>
     )
 }

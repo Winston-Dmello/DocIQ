@@ -1,41 +1,76 @@
 import {
-    Typography,
-    Container,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Modal,
-    Box,
-    Button,
-    IconButton,
-    Card,
-    CardContent,
-  } from "@mui/material";
-  import RefreshIcon from "@mui/icons-material/Refresh";
-  import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
-  import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-  
-  import { useState, useEffect } from "react";
-  import { getDocuments } from "./documentsList";
+  Typography,
+  Container,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Box,
+  IconButton,
+  Card,
+  CardContent,
+  TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
+import RefreshIcon from "@mui/icons-material/Refresh";
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import DownloadIcon from "@mui/icons-material/Download";
+
+import { useState, useEffect } from "react";
+import { getDocuments } from "./documentsList";
 
 const DocumentsList = () => {
+  const [documents, setDocuments] = useState([]);
+  const [page, setPage] = useState(0);
+  const itemsPerPage = 5;
 
-    const [documents, setDocuments] = useState([]);
+  // Search and filter states
+  const [fileName, setFileName] = useState("");
+  const [formName, setFormName] = useState("");
+  const [divisionName, setDivisionName] = useState("");
+  const [submittedBy, setSubmittedBy] = useState("");
 
-    const fetchDocuments = async () => {
-        const data = await getDocuments();
-        setDocuments(data);
+  const fetchDocuments = async () => {
+    const data = await getDocuments();
+    setDocuments(data);
+  };
+
+  useEffect(() => {
+    fetchDocuments();
+  }, []);
+
+  // Apply filters
+  const filteredDocuments = documents.filter((document) => {
+    return (
+      (fileName === "" ||
+        document.file_name.toLowerCase().includes(fileName.toLowerCase())) &&
+      (formName === "" ||
+        document.form_name.toLowerCase().includes(formName.toLowerCase())) &&
+      (divisionName === "" || document.division_name === divisionName) &&
+      (submittedBy === "" || document.user_name === submittedBy)
+    );
+  });
+
+  const handleNext = () => {
+    if ((page + 1) * itemsPerPage < filteredDocuments.length) {
+      setPage(page + 1);
     }
+  };
 
-    useEffect(() => {
-        fetchDocuments();
-    })
+  const handlePrev = () => {
+    if (page > 0) {
+      setPage(page - 1);
+    }
+  };
 
-    return(
-        <Container maxWidth sx={{ overflowY: "scroll" }}>
+  return (
+    <Container maxWidth sx={{ overflowY: "scroll" }}>
       <Card sx={{ height: "95%", padding: 6 }}>
         <CardContent>
           <Typography
@@ -46,6 +81,62 @@ const DocumentsList = () => {
           >
             Documents
           </Typography>
+
+          {/* Search and Filter Fields */}
+          <Box sx={{ display: "flex", gap: 2, marginBottom: 2 }}>
+            <TextField
+              label="Search File Name"
+              variant="outlined"
+              fullWidth
+              value={fileName}
+              onChange={(e) => setFileName(e.target.value)}
+            />
+            <TextField
+              label="Search Form Name"
+              variant="outlined"
+              fullWidth
+              value={formName}
+              onChange={(e) => setFormName(e.target.value)}
+            />
+
+            <FormControl fullWidth>
+              <InputLabel>Submitted By</InputLabel>
+              <Select
+                label="Submitted By"
+                value={submittedBy}
+                onChange={(e) => setSubmittedBy(e.target.value)}
+              >
+                <MenuItem value="">All</MenuItem>
+                {[...new Set(documents.map((doc) => doc.user_name))].map(
+                  (user) => (
+                    <MenuItem key={user} value={user}>
+                      {user}
+                    </MenuItem>
+                  )
+                )}
+              </Select>
+            </FormControl>
+
+            <FormControl fullWidth>
+              <InputLabel>Division Name</InputLabel>
+              <Select
+                label="Division Name"
+                value={divisionName}
+                onChange={(e) => setDivisionName(e.target.value)}
+              >
+                <MenuItem value="">All</MenuItem>
+                {[...new Set(documents.map((doc) => doc.division_name))].map(
+                  (division) => (
+                    <MenuItem key={division} value={division}>
+                      {division}
+                    </MenuItem>
+                  )
+                )}
+              </Select>
+            </FormControl>
+          </Box>
+
+          {/* Table */}
           <TableContainer sx={{ borderRadius: 2 }}>
             <Table>
               <TableHead>
@@ -116,64 +207,36 @@ const DocumentsList = () => {
                 </TableRow>
               </TableHead>
               <TableBody sx={{ backgroundColor: "background.default" }}>
-                {forms
+                {filteredDocuments
                   .slice(page * itemsPerPage, (page + 1) * itemsPerPage)
-                  .map((form, index) => (
-                  <TableRow key={form.id}>
-                    <TableCell>{page * itemsPerPage + index + 1}</TableCell>
-                    <TableCell>{form.form_name}</TableCell>
-                    <TableCell>{form.category}</TableCell>
-                    <TableCell>
-                      <Button
-                        onClick={() =>
-                          handleOpen(form.recipients.map((user) => user.email))
-                        }
-                      >
-                        {form.recipients
-                          .map((user) => user.email)
-                          .slice(0, 1)
-                          .join(", ")}
-                        {form.recipients.length > 1 && "..."}
-                      </Button>
-                    </TableCell>
-                    <TableCell>{form.submission_type}</TableCell>
-                    <TableCell>
-                        <IconButton>
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton>
-                          <VisibilityIcon />
+                  .map((document, index) => (
+                    <TableRow key={document.document_id}>
+                      <TableCell>{page * itemsPerPage + index + 1}</TableCell>
+                      <TableCell>
+                        {document.file_name.split("$$$")[1]}
+                      </TableCell>
+                      <TableCell>{document.form_name}</TableCell>
+                      <TableCell>{document.user_name}</TableCell>
+                      <TableCell>{document.division_name}</TableCell>
+                      <TableCell>{document.date}</TableCell>
+                      <TableCell>
+                        <IconButton
+                          onClick={() =>
+                            window.open(
+                              `http://localhost:3000/${document.file_path}`,
+                              "_blank"
+                            )
+                          }
+                        >
+                          <DownloadIcon />
                         </IconButton>
                       </TableCell>
-                  </TableRow>
-                ))}
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
 
-          <Modal open={open} onClose={handleClose}>
-            <Box
-              sx={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 400,
-                bgcolor: "background.paper",
-                boxShadow: 24,
-                p: 4,
-                borderRadius: 2,
-              }}
-            >
-              <Typography variant="h6" gutterBottom>
-                Recipients
-              </Typography>
-              <Typography>{selectedRecipients.join(", ")}</Typography>
-              <Button onClick={handleClose} sx={{ mt: 2 }}>
-                Close
-              </Button>
-            </Box>
-          </Modal>
           {/* Pagination & Refresh Controls */}
           <Box
             sx={{
@@ -183,15 +246,9 @@ const DocumentsList = () => {
               marginTop: 2,
             }}
           >
-            {/* Refresh Button */}
-            <IconButton
-              onClick={fetchForms}
-              sx={{ color: "text.primary" }}
-            >
+            <IconButton onClick={fetchDocuments} sx={{ color: "text.primary" }}>
               <RefreshIcon />
             </IconButton>
-
-            {/* Previous Button */}
             <IconButton
               onClick={handlePrev}
               disabled={page === 0}
@@ -199,16 +256,13 @@ const DocumentsList = () => {
             >
               <NavigateBeforeIcon />
             </IconButton>
-
-            {/* Page Indicator */}
             <Typography sx={{ marginX: 1, color: "text.primary" }}>
-              {page + 1} / {Math.ceil(forms.length / itemsPerPage) || 1}
+              {page + 1} /{" "}
+              {Math.ceil(filteredDocuments.length / itemsPerPage) || 1}
             </Typography>
-
-            {/* Next Button */}
             <IconButton
               onClick={handleNext}
-              disabled={(page + 1) * itemsPerPage >= forms.length}
+              disabled={(page + 1) * itemsPerPage >= filteredDocuments.length}
               sx={{ color: "text.primary" }}
             >
               <NavigateNextIcon />
@@ -217,7 +271,7 @@ const DocumentsList = () => {
         </CardContent>
       </Card>
     </Container>
-    )
-}
+  );
+};
 
 export default DocumentsList;
