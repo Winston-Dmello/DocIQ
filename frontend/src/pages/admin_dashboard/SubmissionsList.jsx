@@ -1,3 +1,4 @@
+import { getsubmissions } from "./submissionsList";
 import {
   Typography,
   Container,
@@ -7,52 +8,39 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Modal,
-  Box,
-  Button,
-  IconButton,
   Card,
   CardContent,
+  IconButton,
+  Box,
 } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore"; // "<" icon
 import NavigateNextIcon from "@mui/icons-material/NavigateNext"; // ">" icon
-import EditIcon from "@mui/icons-material/Edit";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { getforms } from "./adminForms";
-// import { useNavigate } from "react-router-dom";
 
-const AdminForms = () => {
-  const [forms, setForms] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [selectedRecipients, setSelectedRecipients] = useState([]);
+const SubmissionsList = () => {
+  const [submissions, setSubmissions] = useState([]);
   const [page, setPage] = useState(0);
   const itemsPerPage = 6;
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  async function fetchForms() {
-    const response = await getforms();
-    setForms(response);
-    console.log(response);
-  }
-
-  useEffect(() => {
-    fetchForms();
-  }, []);
-
-  const handleOpen = (recipients) => {
-    setSelectedRecipients(recipients);
-    setOpen(true);
+  const fetchSubmissions = async () => {
+    const data = await getsubmissions();
+    setSubmissions(data);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  useEffect(() => {
+    fetchSubmissions();
+  }, []);
+
+  const onButtonClick = (submissionID) => {
+    navigate(`/admin/dashboard/submissions/${submissionID}`);
   };
 
   const handleNext = () => {
-    if ((page + 1) * itemsPerPage < forms.length) {
+    if ((page + 1) * itemsPerPage < submissions.length) {
       setPage(page + 1);
     }
   };
@@ -64,8 +52,15 @@ const AdminForms = () => {
   };
 
   return (
-    <Container maxWidth sx={{ overflowY: "scroll" }}>
-      <Card sx={{ height: "95%", padding: 6 }}>
+    <Container maxWidth>
+      <Card
+        sx={{
+          height: "95%",
+          padding: 6,
+          overflowY: "auto",
+          position: "relative",
+        }}
+      >
         <CardContent>
           <Typography
             variant="h4"
@@ -73,7 +68,7 @@ const AdminForms = () => {
             gutterBottom
             sx={{ color: "text.primary", fontWeight: 600 }}
           >
-            Forms
+            Submissions
           </Typography>
           <TableContainer sx={{ borderRadius: 2 }}>
             <Table>
@@ -104,7 +99,7 @@ const AdminForms = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Category
+                    Submission Status
                   </TableCell>
                   <TableCell
                     sx={{
@@ -113,7 +108,7 @@ const AdminForms = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Recipients
+                    Last Modified
                   </TableCell>
                   <TableCell
                     sx={{
@@ -122,78 +117,34 @@ const AdminForms = () => {
                       fontWeight: "bold",
                     }}
                   >
-                    Submission Type
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      backgroundColor: "primary.main",
-                      color: "text.secondary",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Action
+                    Actions
                   </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody sx={{ backgroundColor: "background.default" }}>
-                {forms
+                {submissions
                   .slice(page * itemsPerPage, (page + 1) * itemsPerPage)
-                  .map((form, index) => (
-                  <TableRow key={form.id}>
-                    <TableCell>{page * itemsPerPage + index + 1}</TableCell>
-                    <TableCell>{form.form_name}</TableCell>
-                    <TableCell>{form.category}</TableCell>
-                    <TableCell>
-                      <Button
-                        onClick={() =>
-                          handleOpen(form.recipients.map((user) => user.email))
-                        }
-                      >
-                        {form.recipients
-                          .map((user) => user.email)
-                          .slice(0, 1)
-                          .join(", ")}
-                        {form.recipients.length > 1 && "..."}
-                      </Button>
-                    </TableCell>
-                    <TableCell>{form.submission_type}</TableCell>
-                    <TableCell>
-                        <IconButton>
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton>
+                  .map((submission, index) => (
+                    <TableRow key={submission.submission_id}>
+                      <TableCell>{page * itemsPerPage + index + 1}</TableCell>
+                      <TableCell>{submission.form_name}</TableCell>
+                      <TableCell>{submission.status}</TableCell>
+                      <TableCell>{submission.updatedAt}</TableCell>
+                      <TableCell>
+                        <IconButton
+                          onClick={() =>
+                            onButtonClick(submission.submission_id)
+                          }
+                        >
                           <VisibilityIcon />
                         </IconButton>
                       </TableCell>
-                  </TableRow>
-                ))}
+                    </TableRow>
+                  ))}
               </TableBody>
             </Table>
           </TableContainer>
 
-          <Modal open={open} onClose={handleClose}>
-            <Box
-              sx={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                width: 400,
-                bgcolor: "background.paper",
-                boxShadow: 24,
-                p: 4,
-                borderRadius: 2,
-              }}
-            >
-              <Typography variant="h6" gutterBottom>
-                Recipients
-              </Typography>
-              <Typography>{selectedRecipients.join(", ")}</Typography>
-              <Button onClick={handleClose} sx={{ mt: 2 }}>
-                Close
-              </Button>
-            </Box>
-          </Modal>
           {/* Pagination & Refresh Controls */}
           <Box
             sx={{
@@ -205,7 +156,7 @@ const AdminForms = () => {
           >
             {/* Refresh Button */}
             <IconButton
-              onClick={fetchForms}
+              onClick={fetchSubmissions}
               sx={{ color: "text.primary" }}
             >
               <RefreshIcon />
@@ -222,13 +173,13 @@ const AdminForms = () => {
 
             {/* Page Indicator */}
             <Typography sx={{ marginX: 1, color: "text.primary" }}>
-              {page + 1} / {Math.ceil(forms.length / itemsPerPage) || 1}
+              {page + 1} / {Math.ceil(submissions.length / itemsPerPage) || 1}
             </Typography>
 
             {/* Next Button */}
             <IconButton
               onClick={handleNext}
-              disabled={(page + 1) * itemsPerPage >= forms.length}
+              disabled={(page + 1) * itemsPerPage >= submissions.length}
               sx={{ color: "text.primary" }}
             >
               <NavigateNextIcon />
@@ -240,4 +191,4 @@ const AdminForms = () => {
   );
 };
 
-export default AdminForms;
+export default SubmissionsList;

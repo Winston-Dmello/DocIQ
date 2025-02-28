@@ -21,12 +21,25 @@ const createSubmission = async (data, file_paths) => {
 }
 
 const getAllSubmissions = async () => {
-    try{
+    try {
         const submissions = await Submissions.findAll({
-            attributes: ['submission_id', 'submission_data'],
+            attributes: ['submission_id', 'status', 'updatedAt', 'form_id'], // Ensure 'form_id' is selected
+            include: [{
+                model: Form,
+                attributes: ['form_name'], // Fetch only the form_name
+                required: true // Ensures only submissions with a valid form_id are included
+            }],
         });
-        return submissions;
-    }catch(error){
+
+        const response = submissions.map(submission => ({
+            submission_id: submission.submission_id,
+            form_id: submission.form_id, // Ensure form_id is included
+            form_name: submission.form.form_name, // Access form_name correctly
+            status: submission.status,
+            updatedAt: submission.updatedAt.toISOString().split('T')[0],
+        }));
+        return response;
+    } catch (error) {
         throw error;
     }
 }
@@ -99,7 +112,6 @@ const getSubmissionsByUser = async (id) => {
             status: submission.status,
             updatedAt: submission.updatedAt.toISOString().split('T')[0],
         }));
-        console.log(response);
         return response;
     } catch (error) {
         throw error;
