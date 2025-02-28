@@ -159,7 +159,7 @@ const Submission = () => {
                 fullWidth
                 onClick={handleOpenRejectDialog}
               >
-                Reject
+                Resubmit
               </Button>
 
               <Button
