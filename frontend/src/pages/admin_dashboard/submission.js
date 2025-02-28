@@ -10,6 +10,7 @@ const getsubmission = async (id) => {
 
 const approveSubmission = async (id, status, reason = "Ok") => {
     try{
+        console.log(id, status, reason);
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/submissions/approve`, {
             method: 'PUT',
             headers: {
