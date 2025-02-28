@@ -11,9 +11,20 @@ exports.getAllUsers = async () => {
 };
 
 exports.addUser = async (userData) => {
-  const newUser = { id: users.length + 1, ...userData };
-  users.push(newUser);
-  return newUser;
+  try{
+      const user = await User.create({
+        user_name: userData.user_name,
+        email: userData.email,
+        password: userData.password,
+        designation: userData.designation,
+        role: userData.role,
+        division: userData.division,
+        association: userData.association,
+      });
+      return user;
+  }catch(error){
+    throw error;
+  }
 };
 
 exports.getUserById = async (user_id) => {
