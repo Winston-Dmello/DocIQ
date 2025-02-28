@@ -1,4 +1,3 @@
-const sequelize = require('../../sequelize');
 const Documents = require('../../models/documents.model');
 const { getUserById } = require('../user/user.service');
 const { getFormById } = require('../form.generator/form.service');
@@ -27,5 +26,30 @@ const createDocument = async (file_path, submission, transaction = null) => {
     }
 }
 
+//document_id, form_name, user_name, file_name, division_name, category, file_path, date
+const getDocuments = async () => {
+    try{
+        const documents = await Documents.findAll({
+            attributes: ['document_id', 'form_name', 'user_name', 'file_name', 'division_name', 'category', 'file_path', 'date']
+        });
+        if (!documents) throw new Error('No Documents Found');
+        return documents;
+    }catch(error){
+        throw error;
+    }
+}
 
-module.exports = { createDocument }; 
+const getDocumentsBySubmission = async (submission_id) => {
+    try{
+        const documents = await Documents.findAll({
+            attributes: ['document_id', 'form_name', 'user_name', 'file_name', 'division_name', 'category', 'file_path', 'date'],
+            where: {submission_id: submission_id}
+        });
+        if (!documents) throw new Error('No Documents Found');
+        return documents;
+    }catch(error){
+        throw error;
+    }
+}
+
+module.exports = { createDocument, getDocuments, getDocumentsBySubmission }; 
