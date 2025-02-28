@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
                 req.file_list = JSON.parse(req.body.file_list);
             }
             const separator = "$#$!";
-            const date = new Date().toISOString().split('T')[1];
+            const date = new Date().toISOString().split('T')[0];
             const originalName = file.originalname || `unknown_${date}.file`; // Ensure a valid filename
             const matchingFile = req.file_list?.find(f => f.original_name === originalName);
 
