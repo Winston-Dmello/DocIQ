@@ -33,7 +33,10 @@ const getDocuments = async () => {
             attributes: ['document_id', 'form_name', 'user_name', 'file_name', 'division_name', 'category', 'file_path', 'date']
         });
         if (!documents) throw new Error('No Documents Found');
-        return documents;
+        return documents.map(document => ({
+            ...document.get({ plain: true }), // Convert to plain object
+            date: document.date.toISOString().split('T')[0] // Format date
+        }));
     }catch(error){
         throw error;
     }
@@ -46,10 +49,13 @@ const getDocumentsBySubmission = async (submission_id) => {
             where: {submission_id: submission_id}
         });
         if (!documents) throw new Error('No Documents Found');
-        return documents;
+        return documents.map(document => ({
+            ...document.get({ plain: true }), // Convert to plain object
+            date: document.date.toISOString().split('T')[0] // Format date
+        }));
     }catch(error){
         throw error;
     }
 }
 
-module.exports = { createDocument, getDocuments, getDocumentsBySubmission }; 
+module.exports = { createDocument, getDocuments, getDocumentsBySubmission   }; 
