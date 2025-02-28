@@ -78,7 +78,7 @@ const Form = () => {
   
     const formData = new FormData();
     formData.append("form_id", formID);
-    formData.append("user_id", 1);
+    formData.append("user_id", localStorage.getItem("UserID"));
     formData.append("submission_data", JSON.stringify(submissionData));
     formData.append("file_list", JSON.stringify(file_list));
   
@@ -132,6 +132,7 @@ const Form = () => {
                     InputLabelProps={
                       field.type === "date" ? { shrink: true } : {}
                     }
+                    
                   />
                 </Box>
               ))}
