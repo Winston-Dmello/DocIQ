@@ -10,26 +10,49 @@ import {
   ListItem,
   ListItemText,
 } from "@mui/material";
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getSubmission } from "./submission";
+import { getsubmission } from "./submission";
 
 const Submission = () => {
-
-  const [submission, setSubmission] = useState([]);
+  const [submission, setSubmission] = useState(null);
+  const [loading, setLoading] = useState(true);
   const { submissionID } = useParams();
 
   async function fetchSubmission() {
-    console.log("Calling API");
-    const data = await getSubmission(submissionID);
-    console.log(data);
-    setSubmission(data);
+    try {
+      const data = await getsubmission(submissionID);
+      setSubmission(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
     fetchSubmission();
-  }, []);
+  }, [submissionID]);
 
+  if (loading) {
+    return (
+      <Container maxWidth="sm" sx={{ mt: 5 }}>
+        <Typography variant="h6" align="center">
+          Loading submission...
+        </Typography>
+      </Container>
+    );
+  }
+
+  if (!submission) {
+    return (
+      <Container maxWidth="sm" sx={{ mt: 5 }}>
+        <Typography variant="h6" align="center" color="error">
+          Failed to load submission.
+        </Typography>
+      </Container>
+    );
+  }
 
   return (
     <Container maxWidth sx={{ height: "100%" }}>
@@ -44,12 +67,12 @@ const Submission = () => {
         }}
       >
         <Typography variant="h5" gutterBottom align="center" fontWeight="bold">
-          {submission.form.form_name || "Loading..."}
+          {submission.form?.form_name || "No Form Name"}
         </Typography>
         <CardContent>
           <form>
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
-              {submission.submission_data.map((field, index) => (
+              {submission.submission_data?.map((field, index) => (
                 <Box
                   key={index}
                   sx={{ flex: "1 1 calc(50% - 8px)", minWidth: "250px" }}
@@ -72,7 +95,7 @@ const Submission = () => {
             </Box>
 
             {/* Display Selected Files */}
-            {submission.file_paths.length > 0 && (
+            {submission.file_paths?.length > 0 && (
               <Box
                 sx={{
                   mt: 2,
@@ -90,13 +113,7 @@ const Submission = () => {
                       key={index}
                       sx={{ p: 0, display: "flex", gap: 2, width: "50%" }}
                     >
-                      <TextField
-                        label="File Description"
-                        variant="outlined"
-                        disabled
-                        value={fileObj}
-                      />
-                      <ListItemText primary={fileObj.file.name} />
+                      <ListItemText primary={fileObj || "Unknown"} />
                     </ListItem>
                   ))}
                 </List>
@@ -104,14 +121,14 @@ const Submission = () => {
             )}
 
             {/* Submit Button */}
-            <Box sx={{ mt: 3 }}>
-              <Button
-                variant="contained"
-                color="success"
-                fullWidth 
-              >
-                Submit
+            <Box sx={{ mt: 3, display: "flex", gap: 2 }}>
+              <Button variant="contained" color="inherit" fullWidth>
+                Close
               </Button>
+              <Button variant="contained" color="success" fullWidth>
+                Edit
+              </Button>
+              
             </Box>
           </form>
         </CardContent>

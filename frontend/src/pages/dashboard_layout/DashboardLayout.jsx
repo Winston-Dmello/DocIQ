@@ -74,7 +74,7 @@ const DashboardLayout = ({ children }) => {
         <List>
           {menuItems.map(({ text, path }) => (
             <ListItem
-              button
+              button={true}
               key={text}
               onClick={() => navigate(path)}
               selected={location.pathname === path}
