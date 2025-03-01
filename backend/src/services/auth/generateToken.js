@@ -9,3 +9,4 @@ const generateToken = (email, role) => {
 }
 
 module.exports = generateToken;
+

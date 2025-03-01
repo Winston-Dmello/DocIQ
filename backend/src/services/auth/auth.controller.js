@@ -13,7 +13,7 @@ exports.loginUser = async (req, res, next) => {
         res.sendStatus(403);
       } else if (check) {
         const token = generateToken(userObject.email, userObject.role);
-        res.setHeader('Authorization', `Bearer ${token}`);
+        res.setHeader('Authorization', `Bearer ${token}`); 
         res.status(200).json({message: "Success", user: userObject});
       } else {
         res.sendStatus(401);

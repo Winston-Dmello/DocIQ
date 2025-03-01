@@ -29,6 +29,7 @@ const getAllSubmissions = async () => {
                 attributes: ['form_name'], // Fetch only the form_name
                 required: true // Ensures only submissions with a valid form_id are included
             }],
+            order: [['updatedAt', 'DESC']]
         });
 
         const response = submissions.map(submission => ({
@@ -107,6 +108,7 @@ const getSubmissionsByUser = async (id) => {
                 required: true // Ensures only submissions with a valid form_id are included
             }],
             where: {user_id: id},
+            order: [['updatedAt', 'DESC']]
         });
 
         const response = submissions.map(submission => ({
