@@ -8,16 +8,17 @@ import {
   Typography,
   List,
   ListItem,
-  ListItemText,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getsubmission } from "./submission";
+import { useNavigate } from "react-router-dom";
 
 const Submission = () => {
   const [submission, setSubmission] = useState(null);
   const [loading, setLoading] = useState(true);
   const { submissionID } = useParams();
+  const navigate = useNavigate();
 
   async function fetchSubmission() {
     try {
@@ -53,6 +54,10 @@ const Submission = () => {
       </Container>
     );
   }
+
+  const handleCloseButton = () => {
+    navigate(-1);
+  };
 
   return (
     <Container maxWidth sx={{ height: "100%" }}>
@@ -113,7 +118,21 @@ const Submission = () => {
                       key={index}
                       sx={{ p: 0, display: "flex", gap: 2, width: "50%" }}
                     >
-                      <ListItemText primary={fileObj || "Unknown"} />
+                      <Typography
+                        component="a"
+                        href={`http://192.168.193.27:3000/${fileObj}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        sx={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                          color: "blue",
+                        }}
+                      >
+                        {fileObj.includes("$$$")
+                          ? fileObj.split("$$$")[1]
+                          : fileObj}
+                      </Typography>
                     </ListItem>
                   ))}
                 </List>
@@ -122,13 +141,17 @@ const Submission = () => {
 
             {/* Submit Button */}
             <Box sx={{ mt: 3, display: "flex", gap: 2 }}>
-              <Button variant="contained" color="inherit" fullWidth>
+              <Button
+                variant="contained"
+                color="inherit"
+                fullWidth
+                onClick={handleCloseButton}
+              >
                 Close
               </Button>
               <Button variant="contained" color="success" fullWidth>
                 Edit
               </Button>
-              
             </Box>
           </form>
         </CardContent>

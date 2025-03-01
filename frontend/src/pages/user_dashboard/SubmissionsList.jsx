@@ -24,7 +24,7 @@ import { useState, useEffect } from "react";
 const SubmissionsList = () => {
   const [submissions, setSubmissions] = useState([]);
   const [page, setPage] = useState(0);
-  const itemsPerPage = 6;
+  const itemsPerPage = 5;
   const navigate = useNavigate();
 
   const fetchSubmissions = async () => {
@@ -69,7 +69,7 @@ const SubmissionsList = () => {
             gutterBottom
             sx={{ color: "text.primary", fontWeight: 600 }}
           >
-            Forms
+            Submissions
           </Typography>
           <TableContainer sx={{ borderRadius: 2 }}>
             <Table>
