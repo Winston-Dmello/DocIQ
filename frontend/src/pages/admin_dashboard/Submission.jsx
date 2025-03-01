@@ -12,7 +12,6 @@ import {
   Typography,
   List,
   ListItem,
-  ListItemText,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -156,7 +155,21 @@ const Submission = () => {
                       key={index}
                       sx={{ p: 0, display: "flex", gap: 2, width: "50%" }}
                     >
-                      <ListItemText primary={fileObj || "Unknown"} />
+                      <Typography
+                        component="a"
+                        href={`http://192.168.193.27:3000/${fileObj}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        sx={{
+                          cursor: "pointer",
+                          textDecoration: "underline",
+                          color: "blue",
+                        }}
+                      >
+                        {fileObj.includes("$$$")
+                          ? fileObj.split("$$$")[1]
+                          : fileObj}
+                      </Typography>
                     </ListItem>
                   ))}
                 </List>

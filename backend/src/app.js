@@ -9,7 +9,7 @@ const logger = require('./middlewares/logger');
 const app = express();
 
 corsOptions = {
-    origin: ['http://localhost:5173'],
+    origin: ['http://localhost:5173', 'http://192.168.193.27:5173'],
     methods: ['*'],
     allowedHeaders: ['*'],
     credentials: true
