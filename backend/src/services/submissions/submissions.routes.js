@@ -7,7 +7,8 @@ const {
     getSubmissionByIdController, 
     updateSubmissionController,
     approveSubmissionController,
-    getSubmissionsByUserController } = require('./submissions.controller');
+    getSubmissionsByUserController,
+    delSubmissionController } = require('./submissions.controller');
 
 router.post('/create', upload.array('files', 10) ,createSubmissionController);
 router.get('/', getSubmissionsController);
@@ -15,5 +16,6 @@ router.get('/:id', getSubmissionByIdController);
 router.put('/approve', approveSubmissionController);
 router.get('/user/:user_id', getSubmissionsByUserController);
 router.put('/', upload.array('files', 10), updateSubmissionController);
+router.delete('/:id', delSubmissionController);
 
 module.exports = router;

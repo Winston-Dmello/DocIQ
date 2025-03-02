@@ -1,5 +1,5 @@
 const User = require('../../models/user.model');
-const { hashPassword } = require('../../utils/password');
+const { hashPassword } = require('../../utils/auth.utils');
 
 exports.getAllUsers = async () => {
   try{

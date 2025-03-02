@@ -1,4 +1,10 @@
-const { createSubmission, getAllSubmissions, getSubmissionById, getSubmissionsByUser, approveSubmission } = require('./submissions.service');
+const { 
+    createSubmission, 
+    getAllSubmissions, 
+    getSubmissionById, 
+    getSubmissionsByUser, 
+    approveSubmission,
+    delSubmission } = require('./submissions.service');
 
 const createSubmissionController = async (req, res, next) => {  
     try{
@@ -60,11 +66,22 @@ const getSubmissionsByUserController = async (req, res, next) => {
     }
 }
 
+const delSubmissionController = async (req, res, next) => {
+    try{
+        const submission_id = req.params.id;
+        const response = await delSubmission(submission_id);
+        return res.status(200).json(response);
+    }catch(error){
+        next(error);
+    }
+}
+
 module.exports = { 
     createSubmissionController,
     getSubmissionByIdController,
     getSubmissionsController,
     updateSubmissionController,
     approveSubmissionController,
-    getSubmissionsByUserController
+    getSubmissionsByUserController,
+    delSubmissionController
 };
