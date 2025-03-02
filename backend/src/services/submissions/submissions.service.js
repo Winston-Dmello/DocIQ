@@ -145,7 +145,25 @@ const delSubmission = async (submission_id) => {
     }catch(error){
         throw error;
     }
-}   
+}  
+
+const updateSubmission = async (submission_id, updateData) => {
+    try{
+        const submission = await Submissions.findByPk(submission_id);
+        if (!submission) throw new Error('Submission not found');
+        if (submission.status != "pending" && submission.status != "resubmit") {
+            const error = new Error('Cannot Delete Approved Submission');
+            error.statusCode = 403; // Forbidden
+            throw error;
+        }
+        await deleteFiles(submission.file_paths);
+        
+        const updatedSubmission = await submission.update(updateData);
+        return updatedSubmission;
+    }catch (error) {
+        throw new Error(error.message);
+    }
+}
 
 module.exports = { 
     createSubmission, 
@@ -153,5 +171,6 @@ module.exports = {
     getSubmissionById, 
     approveSubmission,
     getSubmissionsByUser,
-    delSubmission
+    delSubmission,
+    updateSubmission
  };

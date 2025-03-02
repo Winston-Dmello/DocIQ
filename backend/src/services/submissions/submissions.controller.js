@@ -1,10 +1,12 @@
+const Submissions = require('../../models/submissions.model');
 const { 
     createSubmission, 
     getAllSubmissions, 
     getSubmissionById, 
     getSubmissionsByUser, 
     approveSubmission,
-    delSubmission } = require('./submissions.service');
+    delSubmission,
+    updateSubmission } = require('./submissions.service');
 
 const createSubmissionController = async (req, res, next) => {  
     try{
@@ -36,14 +38,6 @@ const getSubmissionByIdController = async (req, res, next) => {
     }
 }
 
-const updateSubmissionController = async (req, res, next) => {
-    try{
-
-    }catch(error){
-        next(error);
-    }
-}
-
 const approveSubmissionController = async (req, res, next) => {
     try{
         const {submission_id, status, reason} = req.body;
@@ -70,6 +64,18 @@ const delSubmissionController = async (req, res, next) => {
     try{
         const submission_id = req.params.id;
         const response = await delSubmission(submission_id);
+        return res.status(200).json(response);
+    }catch(error){
+        next(error);
+    }
+}
+
+const updateSubmissionController = async (req, res, next) => {
+    try{
+        const submission_id = req.params.id;
+        const updateData = {submission_data: req.body.submission_data, file_paths: req.file_paths}
+        
+        const response = await updateSubmission(submission_id, updateData);
         return res.status(200).json(response);
     }catch(error){
         next(error);

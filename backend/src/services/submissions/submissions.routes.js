@@ -15,7 +15,7 @@ router.get('/', getSubmissionsController);
 router.get('/:id', getSubmissionByIdController);
 router.put('/approve', approveSubmissionController);
 router.get('/user/:user_id', getSubmissionsByUserController);
-router.put('/', upload.array('files', 10), updateSubmissionController);
+router.put('/:id', upload.array('files', 10), updateSubmissionController);
 router.delete('/:id', delSubmissionController);
 
 module.exports = router;
