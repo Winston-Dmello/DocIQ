@@ -32,5 +32,35 @@ const getCategoryByName = async (category_name) => {
     }
 }
 
+const getCategoryByID = async (category_id) => {
+    try{
+        const category = await Categories.findByPk(category_id);
+        if (!category) throw new Error('Category not found');
+        return category;
+    }catch(err){
+        throw err;
+    }
+}
 
-module.exports = { getAllCatgeories, createCategory, getCategoryByName };
+const delUser = async (category_id) => {
+    try{
+        const category = await getCategoryByID(category_id);
+        await category.destroy();
+        return {message: 'Category destroyed successfully!'};
+    }catch(err){
+        throw err;
+    }
+}
+
+const updateCategory = async (category_id, category_name) => {
+    try{
+        const category = await getCategoryByID(category_id);
+        category.category_name = category_name;
+        await category.save();
+        return category;
+    }catch(err){
+        throw err;
+    }
+}
+
+module.exports = { getAllCatgeories, createCategory, getCategoryByName, delUser, updateCategory };

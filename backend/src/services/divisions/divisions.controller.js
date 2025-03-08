@@ -1,4 +1,5 @@
-const { getAllDivisions, createDivision, getDivisionByName } = require('./divisions.service');
+const Divisions = require('../../models/divisions.model');
+const { getAllDivisions, createDivision, getDivisionByName, delDivision, updateDivision } = require('./divisions.service');
 
 
 const getDivisionsController = async (req, res, next) => {
@@ -26,4 +27,32 @@ const createDivisionsController = async (req, res, next) => {
     }
 }
 
-module.exports = { getDivisionsController, createDivisionsController };
+
+
+const updateDivisionController = async (req, res, next) => {
+    try{
+        const divison_id = req.params.id;
+        const { division_name } = req.body;
+        const updatedDivision = await updateDivision(divison_id, division_name);
+        return res.status(200).json({message: 'Division Updated Successfully', division: updatedDivision});
+    }catch(err){
+        next(err);
+    }
+}
+
+const delDivisionController = async (req, res, next) => {
+    try{
+        const division_id = req.params.id;
+        const deletedDivision = await delDivision(division_id);
+        return res.status(200).json({message: 'Division deleted successfully', division: deletedDivision});
+    }catch(err){
+        next(err);
+    }
+}
+
+module.exports = { 
+    getDivisionsController, 
+    createDivisionsController,
+    updateDivisionController,
+    delDivisionController 
+};
