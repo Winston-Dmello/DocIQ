@@ -10,6 +10,7 @@ import {
   IconButton,
   Breadcrumbs,
   Link,
+  Button,
 } from "@mui/material";
 import dociq_logo from "../../assets/dociq_logo.png";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -21,12 +22,16 @@ const AdminDashboard = ({ children }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Get the username from localStorage
+  const username = localStorage.getItem("username") || "Admin";
+
   const menuItems = [
     { text: "Admin Dashboard", path: "/admin/dashboard" },
     { text: "Form List", path: "/admin/dashboard/forms" },
     { text: "Generate Form", path: "/admin/dashboard/generate-form" },
     { text: "Submissions List", path: "/admin/dashboard/submissions" },
     { text: "Documents", path: "/admin/dashboard/documents" },
+    { text: "Create User", path: "/admin/dashboard/user/create" },
   ];
 
   const breadcrumbItems = [
@@ -34,10 +39,16 @@ const AdminDashboard = ({ children }) => {
     { text: "Generate Form", path: "/admin/dashboard/generate-form" },
     { text: "Form List", path: "/admin/dashboard/forms" },
     { text: "Submissions List", path: "/admin/dashboard/submissions" },
+    { text: "Create User", path: "/admin/dashboard/user/create" },
     { text: "Documents", path: "/admin/dashboard/documents" },
   ];
 
   const handleBack = () => navigate(-1);
+
+  const handleLogout = () => {
+    localStorage.clear(); // Clear storage
+    navigate("/login"); // Redirect to login page
+  };
 
   return (
     <Box
@@ -59,46 +70,69 @@ const AdminDashboard = ({ children }) => {
             boxSizing: "border-box",
             backgroundColor: "primary.dark",
             color: "text.secondary",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
           },
         }}
       >
-        <Toolbar>
-          <img
-            src={dociq_logo}
-            alt="DocIQ Logo"
-            style={{ width: 40, marginRight: 10 }}
-          />
-          <Typography variant="h6">DocIQ</Typography>
-        </Toolbar>
-        <List>
-          {menuItems.map(({ text, path }) => (
-            <ListItem
-              button={true}
-              key={text}
-              onClick={() => navigate(path)}
-              selected={location.pathname === path}
-              sx={{
-                backgroundColor:
-                  location.pathname === path ? "primary.main" : "transparent",
-                "&:hover": { backgroundColor: "primary.light" },
-                borderRadius: 1,
-                marginBottom: 1,
-                cursor: "pointer",
-              }}
-            >
-              <ListItemText
-                primary={text}
+        {/* Logo and Navigation Menu */}
+        <Box>
+          <Toolbar>
+            <img
+              src={dociq_logo}
+              alt="DocIQ Logo"
+              style={{ width: 40, marginRight: 10 }}
+            />
+            <Typography variant="h6">DocIQ</Typography>
+          </Toolbar>
+
+          <List>
+            {menuItems.map(({ text, path }) => (
+              <ListItem
+                button={true}
+                key={text}
+                onClick={() => navigate(path)}
+                selected={location.pathname === path}
                 sx={{
-                  color:
-                    location.pathname === path ? "white" : "text.secondary",
-                  fontWeight: location.pathname === path ? "bold" : "normal",
+                  backgroundColor:
+                    location.pathname === path ? "primary.main" : "transparent",
+                  "&:hover": { backgroundColor: "primary.light" },
+                  borderRadius: 1,
+                  marginBottom: 1,
+                  cursor: "pointer",
                 }}
-              />
-            </ListItem>
-          ))}
-        </List>
+              >
+                <ListItemText
+                  primary={text}
+                  sx={{
+                    color:
+                      location.pathname === path ? "white" : "text.secondary",
+                    fontWeight: location.pathname === path ? "bold" : "normal",
+                  }}
+                />
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+
+        {/* Username and Logout Button */}
+        <Box sx={{ p: 2, textAlign: "center" }}>
+          <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+            {username}
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ mt: 1, width: "100%" }}
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
+        </Box>
       </Drawer>
 
+      {/* Main Content */}
       <Box
         component="main"
         sx={{
@@ -140,7 +174,7 @@ const AdminDashboard = ({ children }) => {
               Home
             </Link>
             {breadcrumbItems
-              .filter((item) => location.pathname.startsWith(item.path)) // Match current path
+              .filter((item) => location.pathname.startsWith(item.path))
               .map((item, index, array) => (
                 <Link
                   key={item.path}

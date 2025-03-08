@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const hashPassword = async (plainPassword) => {
     try{
@@ -19,5 +20,14 @@ const checkPassword = async (inputPassword, hash) => {
     }
 }
 
+const generateToken = (email, role) => {
+    
+    const token = jwt.sign({email, role}, process.env.JWT_SECRET_KEY, {
+        expiresIn: '15m',
+    });
+    return token;
+}
 
-module.exports = { hashPassword, checkPassword }
+
+
+module.exports = { hashPassword, checkPassword, generateToken }

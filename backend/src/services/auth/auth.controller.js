@@ -1,12 +1,13 @@
 const { findUserByEmail } = require("./auth.service");
-const generateToken = require("./generateToken");
-const { checkPassword } = require('../../utils/password');
+const { generateToken } = require("../../utils/auth.utils");
+const { checkPassword } = require('../../utils/auth.utils');
 
 exports.loginUser = async (req, res, next) => {
   try {
     const userObject = await findUserByEmail(req.body.email);
     const password = req.body.password;
     const check = await checkPassword(password, userObject.password);
+    console.log(check);
     console.log(userObject);
     if (userObject) {
       if (userObject.role != "user") {
@@ -29,10 +30,12 @@ exports.loginUser = async (req, res, next) => {
 exports.loginAdmin = async (req, res, next) => {
   try {
     const userObject = await findUserByEmail(req.body.email);
+    const password = req.body.password;
+    const check = await checkPassword(password, userObject.password);
     if (userObject) {
       if (userObject.role != "admin") {
         res.sendStatus(403);
-      } else if (userObject.password === req.body.password) {
+      } else if (check) {
         const token = generateToken(userObject.email, userObject.role);
         res.setHeader('Authorization', `Bearer ${token}`);
         res.sendStatus(200);

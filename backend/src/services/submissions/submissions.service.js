@@ -2,6 +2,7 @@ const sequelize = require('../../sequelize');
 const Submissions = require('../../models/submissions.model');
 const Form = require('../../models/form.model');
 const { createDocument } = require('../../services/documents/documents.service');
+const { deleteFiles } = require('../../utils/file.utils');
 
 const createSubmission = async (data, file_paths) => {
     console.log(data.form_id);
@@ -124,11 +125,52 @@ const getSubmissionsByUser = async (id) => {
     }
 };
 
+const delSubmission = async (submission_id) => {
+    try{
+        const submission = await Submissions.findOne({
+            where: { submission_id: submission_id }
+        });
+        if (!submission) throw new Error('Submission not found');
+        if (submission.status != "pending" && submission.status != "resubmit") {
+            const error = new Error('Cannot Delete Approved Submission');
+            error.statusCode = 403; // Forbidden
+            throw error;
+        }
+        const file_paths = submission.file_paths;
+        await deleteFiles(file_paths);
+        await Submissions.destroy({
+            where: {  submission_id: submission_id }
+        });
+        return {message: "Submission destroyed successfully"};
+    }catch(error){
+        throw error;
+    }
+}  
+
+const updateSubmission = async (submission_id, updateData) => {
+    try{
+        const submission = await Submissions.findByPk(submission_id);
+        if (!submission) throw new Error('Submission not found');
+        if (submission.status != "pending" && submission.status != "resubmit") {
+            const error = new Error('Cannot Delete Approved Submission');
+            error.statusCode = 403; // Forbidden
+            throw error;
+        }
+        await deleteFiles(submission.file_paths);
+        
+        const updatedSubmission = await submission.update(updateData);
+        return updatedSubmission;
+    }catch (error) {
+        throw new Error(error.message);
+    }
+}
 
 module.exports = { 
     createSubmission, 
     getAllSubmissions, 
     getSubmissionById, 
     approveSubmission,
-    getSubmissionsByUser
+    getSubmissionsByUser,
+    delSubmission,
+    updateSubmission
  };
