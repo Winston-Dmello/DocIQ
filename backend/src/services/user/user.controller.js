@@ -17,3 +17,13 @@ exports.createUser = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.delUserController = async (req, res, next) => {
+  try{
+    const user_id = req.params.id;
+    const response = await delUser(user_id);   
+    return res.json(response);
+  } catch(err) {
+    next(err);
+  }
+}

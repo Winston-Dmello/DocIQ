@@ -31,9 +31,22 @@ exports.addUser = async (userData) => {
 
 exports.getUserById = async (user_id) => {
   try{
-    const user = User.findOne({where: {user_id: user_id}});
+    const user = await User.findByPk(user_id);
     if(!user) throw new Error('User not found');
     return user;
+  }catch(error){
+    throw error;
+  }
+}
+
+exports.delUser = async (user_id) => {
+  try{
+    const user = await getUserById(user_id);
+    if (!user) throw new Error('User not found');
+    if (user.role != "user") throw new Error('Cannot delete admin');
+
+    await user.destroy();
+    return {message: "User deleted successfully"};
   }catch(error){
     throw error;
   }
