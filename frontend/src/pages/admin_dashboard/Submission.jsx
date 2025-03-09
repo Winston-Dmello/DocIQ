@@ -157,7 +157,7 @@ const Submission = () => {
                     >
                       <Typography
                         component="a"
-                        href={`http://192.168.193.27:3000/${fileObj}`}
+                        href={`${import.meta.env.VITE_BASE_DOCUMENT_URL}${fileObj}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         sx={{

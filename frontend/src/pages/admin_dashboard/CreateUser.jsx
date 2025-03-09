@@ -12,10 +12,10 @@ import {
   InputLabel,
 } from "@mui/material";
 import { useState } from "react";
-import { createUser } from "./users";
+import { createUser } from "./createUser";
 import { useNavigate } from "react-router-dom";
 
-const Users = () => {
+const CreateUser = () => {
   const [user_name, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -231,4 +231,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default CreateUser;

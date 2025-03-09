@@ -223,7 +223,7 @@ const DocumentsList = () => {
                         <IconButton
                           onClick={() =>
                             window.open(
-                              `http://localhost:3000/${document.file_path}`,
+                              `${import.meta.env.VITE_BASE_DOCUMENT_URL}${document.file_path}`,
                               "_blank"
                             )
                           }

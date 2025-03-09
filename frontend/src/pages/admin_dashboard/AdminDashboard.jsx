@@ -31,7 +31,7 @@ const AdminDashboard = ({ children }) => {
     { text: "Generate Form", path: "/admin/dashboard/generate-form" },
     { text: "Submissions List", path: "/admin/dashboard/submissions" },
     { text: "Documents", path: "/admin/dashboard/documents" },
-    { text: "Create User", path: "/admin/dashboard/user/create" },
+    { text: "Users", path: "/admin/dashboard/users" },
   ];
 
   const breadcrumbItems = [
@@ -39,6 +39,7 @@ const AdminDashboard = ({ children }) => {
     { text: "Generate Form", path: "/admin/dashboard/generate-form" },
     { text: "Form List", path: "/admin/dashboard/forms" },
     { text: "Submissions List", path: "/admin/dashboard/submissions" },
+    { text: "Users", path: "/admin/dashboard/users" },
     { text: "Create User", path: "/admin/dashboard/user/create" },
     { text: "Documents", path: "/admin/dashboard/documents" },
   ];

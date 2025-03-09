@@ -5,7 +5,8 @@ import AdminDashboard from "./AdminDashboard";
 import SubmissionsList from "./SubmissionsList";
 import Submission from "./Submission";
 import DocumentsList from "./DocumentsList";
-import Users from "./Users";
+import CreateUser from "./CreateUser";
+import UsersList from "./UsersList";
 
 const AdminRoutes = () => {
     return (
@@ -16,7 +17,8 @@ const AdminRoutes = () => {
             <Route path="/submissions" element={<AdminDashboard><SubmissionsList/></AdminDashboard>}/>
             <Route path="/submissions/:submissionID" element={<AdminDashboard><Submission/></AdminDashboard>}/>
             <Route path="/documents" element={<AdminDashboard><DocumentsList/></AdminDashboard>}/>
-            <Route path="/user/create" element={<AdminDashboard><Users/></AdminDashboard>}/>
+            <Route path="/users" element ={<AdminDashboard><UsersList/></AdminDashboard>}/>
+            <Route path="/user/create" element={<AdminDashboard><CreateUser/></AdminDashboard>}/>
         </Routes>
     )
 }

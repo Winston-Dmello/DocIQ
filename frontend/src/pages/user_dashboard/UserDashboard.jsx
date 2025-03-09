@@ -34,7 +34,6 @@ const UserDashboard = ({ children }) => {
     { text: "User Dashboard", path: "/user/dashboard" },
     { text: "Forms List", path: "/user/dashboard/formslist" },
     { text: "Submissions List", path: "/user/dashboard/submissionslist" },
-    { text: "Form", path: "/user/dashboard/form/" },
   ];
 
   const handleBack = () => navigate(-1);

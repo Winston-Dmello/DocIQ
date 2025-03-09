@@ -13,7 +13,6 @@ import {
   IconButton,
   Box,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore"; // "<" icon
@@ -132,9 +131,6 @@ const SubmissionsList = () => {
                       <TableCell>{submission.status}</TableCell>
                       <TableCell>{submission.updatedAt}</TableCell>
                       <TableCell>
-                        <IconButton>
-                          <EditIcon />
-                        </IconButton>
                         <IconButton
                           onClick={() =>
                             onButtonClick(submission.submission_id)

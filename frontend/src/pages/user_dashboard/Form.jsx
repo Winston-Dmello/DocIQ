@@ -14,6 +14,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { getform, submitform } from "./form";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Form = () => {
   const [form, setForm] = useState({});
@@ -21,6 +22,8 @@ const Form = () => {
   const [files, setFiles] = useState([]);
   const { formID } = useParams();
   const [formValues, setFormValues] = useState({});
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e, idx, fieldName, fieldType) => {
     setFormValues((prevValues) => ({
@@ -55,18 +58,31 @@ const Form = () => {
   };
 
   const handleDescriptionChange = (index, value) => {
+    if (/\s/.test(value)) {
+      alert("File name cannot contain spaces. Please use underscores (_) or dashes (-) instead.");
+      return;
+    }
+  
     setFiles((prevFiles) =>
       prevFiles.map((fileObj, i) =>
         i === index ? { ...fileObj, file_name: value } : fileObj
       )
     );
   };
+  
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (files.length === 0) {
       alert("Please upload at least one file.");
       return;
+    }
+
+    for (const file of files) {
+      if (!file.file_name.trim()) {
+        alert("Please provide a description for each file.");
+        return;
+      }
     }
   
     const submissionData = Object.values(formValues);
@@ -90,6 +106,7 @@ const Form = () => {
     const res = submitform(formData);
     console.log(res);
     alert("Form Submitted");
+    navigate(-1);
   };
   
 
@@ -181,7 +198,7 @@ const Form = () => {
                       sx={{ p: 0, display: "flex", gap: 2, width: "50%" }}
                     >
                       <TextField
-                        label="File Description"
+                        label="File Name"
                         variant="outlined"
                         required
                         value={fileObj.file_description}

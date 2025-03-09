@@ -5,26 +5,7 @@
         "**/.hg": true,
         "**/CVS": true,
         "**/.DS_Store": true,
-        "**/Thumbs.db": true,
-        "frontend/eslint.config.js": true,
-        "frontend/README.md": true,
-        "frontend/tsconfig.app.json": true,
-        "frontend/tsconfig.json": true,
-        "frontend/tsconfig.node.json": true,
-        "frontend/vite.config.ts": true,
-        "backend/package-lock.json": true,
-        "README.md": true,
-        ".gitignore": true
+        "**/Thumbs.db": true
     },
-    "hide-files.files": [
-        "frontend/eslint.config.js",
-        "frontend/README.md",
-        "frontend/tsconfig.app.json",
-        "frontend/tsconfig.json",
-        "frontend/tsconfig.node.json",
-        "frontend/vite.config.ts",
-        "backend/package-lock.json",
-        "README.md",
-        ".gitignore"
-    ]
+    "hide-files.files": []
 }
