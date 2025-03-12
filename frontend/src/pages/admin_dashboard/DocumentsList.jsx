@@ -71,7 +71,7 @@ const DocumentsList = () => {
 
   const handleViewDocument = async (file_path) => {
       const path = getFilePath(file_path);
-      window.open(path);
+      window.open(path.signedURL, "_blank");
   }
 
   return (
