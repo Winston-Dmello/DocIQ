@@ -14,12 +14,13 @@ import {
   Box,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { generateForm, getUsers } from "./generateForm";
+import { generateForm, getUsers, getCategories } from "./generateForm";
 
 const GenerateForm = () => {
   const [formName, setFormName] = useState("");
   const [users, setUsers] = useState([]);
   const [recipients, setRecipients] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [category, setCategory] = useState("");
   const [submissionType, setSubmissionType] = useState("one-time");
   const [customFields, setCustomFields] = useState([]);
@@ -40,6 +41,8 @@ const GenerateForm = () => {
   async function fetchUsers() {
     const response = await getUsers();
     setUsers(response);
+    const data = await getCategories();
+    setCategories(data);
   }
 
   const removeCustomField = (index) => {
@@ -144,14 +147,14 @@ const GenerateForm = () => {
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                {["Event", "Department Data", "Achievements", "Other"].map(
+                {categories.map(
                   (cat) => (
                     <MenuItem
-                      key={cat}
-                      value={cat}
+                      key={cat.category_id}
+                      value={cat.category_id}
                       sx={{ color: "text.primary" }}
                     >
-                      {cat}
+                      {cat.category_name}
                     </MenuItem>
                   )
                 )}

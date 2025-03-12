@@ -4,7 +4,7 @@ const getCategoriesController = async (req, res, next) => {
     try{
         const categories = await getAllCatgeories();
         console.log(categories);
-        return res.status(200).json({categories: categories});
+        return res.status(200).json(categories);
     }catch(error){
         next(error);
     }

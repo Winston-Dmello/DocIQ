@@ -11,8 +11,8 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { useState } from "react";
-import { createUser } from "./createUser";
+import { useState, useEffect } from "react";
+import { createUser, getDivisions } from "./createUser";
 import { useNavigate } from "react-router-dom";
 
 const CreateUser = () => {
@@ -22,29 +22,19 @@ const CreateUser = () => {
   const [designation, setDesignation] = useState("");
   const [role, setRole] = useState("");
   const [division, setDivision] = useState("");
-  const [association, setAssociation] = useState("");
+  const [divisions, setDivisions] = useState([]);
 
   const navigate = useNavigate();
 
   const roles = ["admin", "user"];
-  const divisions = [
-    "Computer Science Department",
-    "College Management",
-    "Mathematics Department",
-    "Library",
-    "Sports Department",
-    "Other",
-  ];
-  const associations = [
-    "Cybernectics",
-    "Hindi Parishad",
-    "Analytica",
-    "Student Council",
-    "Kannada Sanga",
-    "French Association",
-    "German Association",
-    "Other",
-  ];
+  const fetchDivisions = async () => {
+    const response = await getDivisions();
+    setDivisions(response);
+  }
+
+  useEffect(() => {
+    fetchDivisions();
+  },[]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -55,10 +45,10 @@ const CreateUser = () => {
       designation,
       role,
       division,
-      association,
     });
     console.log(response);
     alert(response.message);
+    navigate(-1);
   }
 
   const handleClose = () => {
@@ -170,39 +160,16 @@ const CreateUser = () => {
                   {divisions.map((d, index) => (
                     <MenuItem
                       key={index}
-                      value={d}
+                      value={d.division_id}
                       sx={{ color: "text.primary" }}
                     >
-                      {d}
+                      {d.division_name}
                     </MenuItem>
                   ))}
                 </Select>
                 </FormControl>
               </Box>
 
-              <Box sx={{ flex: "1 1 calc(50% - 8px)", minWidth: "250px" }}>
-              <FormControl fullWidth sx={{ flex: "1" }}>
-                  <InputLabel shrink sx={{ color: "text.primary" }}>
-                    Association?
-                  </InputLabel>
-                <Select
-                  label="Association?"
-                  displayEmpty
-                  value={association}
-                  onChange={(e) => setAssociation(e.target.value)}
-                >
-                  {associations.map((a, index) => (
-                    <MenuItem
-                      key={index}
-                      value={a}
-                      sx={{ color: "text.primary" }}
-                    >
-                      {a}
-                    </MenuItem>
-                  ))}
-                </Select>
-                </FormControl>
-              </Box>
             </Box>
 
             <Box sx={{ mt: 3, display: "flex", gap: 2 }}>

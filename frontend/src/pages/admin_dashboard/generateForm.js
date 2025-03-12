@@ -1,5 +1,6 @@
 const generateForm = async (form_name, recipients, category, submission_type, form_data) => {
     try{
+        console.log(form_name, recipients, category, submission_type, form_data);
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/form/create`, {
             method: 'POST',
             headers: {
@@ -45,4 +46,23 @@ const getUsers = async () => {
     }
 }
 
-export {generateForm, getUsers};
+const getCategories = async () => {
+    try{
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/categories`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        if(response.ok){
+            const users = await response.json();
+            return users;
+        }else{
+            return {type:"error", message: "Error Fetching Users"};
+        }
+    }catch{
+        return {type: "error", message: "Error Connecting to Server"};
+    }
+}
+
+export {generateForm, getUsers, getCategories};

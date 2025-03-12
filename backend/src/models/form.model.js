@@ -21,10 +21,10 @@ const Form = sequelize.define('form', {
     category: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-            notEmpty: {msg: "Category is required"},
-            len: {args: [2, 30], msg: "Category must be between 3 and 30 characters"},
-        },
+        // validate: {
+        //     notEmpty: {msg: "Category is required"},
+        //     len: {args: [2, 30], msg: "Category must be between 3 and 30 characters"},
+        // },
     },
     submission_type: {
         type: DataTypes.ENUM('one-time', 'multiple'),

@@ -19,4 +19,23 @@ const createUser = async (data) => {
     }
 }
 
-export {createUser};
+const getDivisions = async () => {
+    try {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/divisions`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        if (response.ok) {
+            const divisions = await response.json();
+            return divisions;
+        } else {
+            return { type: "error", message: "Error Fetching Divisions" };
+        }
+    } catch {
+        return { type: "error", message: "Error Connecting to Server" };
+    }
+};
+
+export {createUser, getDivisions};

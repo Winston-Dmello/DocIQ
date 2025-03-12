@@ -32,6 +32,10 @@ const AdminDashboard = ({ children }) => {
     { text: "Submissions List", path: "/admin/dashboard/submissions" },
     { text: "Documents", path: "/admin/dashboard/documents" },
     { text: "Users", path: "/admin/dashboard/users" },
+    { text: "Categories", path: "/admin/dashboard/categories" },
+    { text: "Divisions", path: "/admin/dashboard/divisions" },
+
+
   ];
 
   const breadcrumbItems = [
@@ -42,6 +46,10 @@ const AdminDashboard = ({ children }) => {
     { text: "Users", path: "/admin/dashboard/users" },
     { text: "Create User", path: "/admin/dashboard/user/create" },
     { text: "Documents", path: "/admin/dashboard/documents" },
+    { text: "Categories", path: "/admin/dashboard/categories" },
+    { text: "Divisions", path: "/admin/dashboard/divisions" },
+
+
   ];
 
   const handleBack = () => navigate(-1);

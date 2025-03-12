@@ -33,10 +33,6 @@ const User = sequelize.define('user', {
     division: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
-    association: {
-        type: DataTypes.STRING,
-        allowNull: true,
     }
 });
 

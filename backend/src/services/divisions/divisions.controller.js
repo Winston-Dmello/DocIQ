@@ -6,7 +6,7 @@ const getDivisionsController = async (req, res, next) => {
     try{
         const divisions = await getAllDivisions();
         console.log(divisions);
-        return res.status(200).json({divisions: divisions});
+        return res.status(200).json(divisions);
     }catch(error){
         next(error);
     }

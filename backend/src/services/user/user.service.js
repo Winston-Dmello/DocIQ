@@ -21,7 +21,6 @@ exports.addUser = async (userData) => {
         designation: userData.designation,
         role: userData.role,
         division: userData.division,
-        association: userData.association,
       });
       return user;
   }catch(error){
