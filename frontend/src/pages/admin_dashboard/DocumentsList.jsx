@@ -20,10 +20,10 @@ import {
 import RefreshIcon from "@mui/icons-material/Refresh";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import DownloadIcon from "@mui/icons-material/Download";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 import { useState, useEffect } from "react";
-import { getDocuments } from "./documentsList";
+import { getDocuments, getFilePath } from "./documentsList";
 
 const DocumentsList = () => {
   const [documents, setDocuments] = useState([]);
@@ -68,6 +68,11 @@ const DocumentsList = () => {
       setPage(page - 1);
     }
   };
+
+  const handleViewDocument = async (file_path) => {
+      const path = getFilePath(file_path);
+      window.open(path);
+  }
 
   return (
     <Container maxWidth sx={{ overflowY: "scroll" }}>
@@ -221,14 +226,9 @@ const DocumentsList = () => {
                       <TableCell>{document.date}</TableCell>
                       <TableCell>
                         <IconButton
-                          onClick={() =>
-                            window.open(
-                              `${import.meta.env.VITE_BASE_DOCUMENT_URL}${document.file_path}`,
-                              "_blank"
-                            )
-                          }
+                          onClick={() => handleViewDocument(document.file_path)}
                         >
-                          <DownloadIcon />
+                          <VisibilityIcon />
                         </IconButton>
                       </TableCell>
                     </TableRow>
