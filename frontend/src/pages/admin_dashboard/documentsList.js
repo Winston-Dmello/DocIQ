@@ -12,11 +12,11 @@ const getDocuments = async () => {
 const getFilePath = async (file_path) => {
     try {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/documents/getURL`, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(file_path)
+            body: JSON.stringify({"file_path":file_path})
         
         });
         const data = await response.json();
