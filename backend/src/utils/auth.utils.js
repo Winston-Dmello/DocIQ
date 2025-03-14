@@ -20,7 +20,7 @@ const checkPassword = async (inputPassword, hash) => {
     }
 }
 
-const generateToken = (email, role) => {
+const generateAccessToken = (email, role) => {
     
     const token = jwt.sign({email, role}, process.env.JWT_SECRET_KEY, {
         expiresIn: '15m',
@@ -28,6 +28,14 @@ const generateToken = (email, role) => {
     return token;
 }
 
+const generateRefreshToken = (email, role) => {
+    const token = jwt.sign({email, role}, process.env.REFRESH_SECRET_KEY, {
+        expiresIn: '1d',
+    })
+    return token;
+}
 
 
-module.exports = { hashPassword, checkPassword, generateToken }
+
+
+module.exports = { hashPassword, checkPassword, generateAccessToken, generateRefreshToken }
