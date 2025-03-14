@@ -3,7 +3,8 @@ const getDivisions = async () => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/divisions`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             }
         });
         if (response.ok) {
@@ -22,7 +23,8 @@ const createDivision = async (data) => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/divisions`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             },
             body: JSON.stringify(data)
         });
@@ -42,7 +44,8 @@ const deleteDivision = async (division_id) => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/divisions/${division_id}`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             },
         });
         if (response.ok) {

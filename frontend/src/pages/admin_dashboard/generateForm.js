@@ -4,7 +4,8 @@ const generateForm = async (form_name, recipients, category, submission_type, fo
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/form/create`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             },
             body: JSON.stringify({
                 'form_name': form_name,
@@ -32,7 +33,8 @@ const getUsers = async () => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/form/users`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             }
         })
         if(response.ok){
@@ -51,7 +53,8 @@ const getCategories = async () => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/categories`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             }
         })
         if(response.ok){

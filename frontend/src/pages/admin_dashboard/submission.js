@@ -1,6 +1,12 @@
 const getsubmission = async (id) => {
     try{
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/submissions/${id}`);
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/submissions/${id}`,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
+            }
+        });
         const data = await response.json();
         return data;
     }catch(error){
@@ -14,7 +20,8 @@ const approveSubmission = async (id, status, reason = "Ok") => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/submissions/approve`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             },
             body: JSON.stringify({
                 'submission_id': id,

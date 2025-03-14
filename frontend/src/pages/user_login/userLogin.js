@@ -10,6 +10,8 @@ const userLogin = async ({email, password}) => {
                 'password': password
             })
         })
+        const token = response.headers.get("Authorization");
+        localStorage.setItem("token", token);
         if(response.ok){
             const data = await response.json();
             return {auth: true, message: 'Login Successful', userid: data.user.user_id};
