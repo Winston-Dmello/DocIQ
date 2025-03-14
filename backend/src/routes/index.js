@@ -11,7 +11,7 @@ const isAdmin = require('../middlewares/isAdmin.js');
 const router = express.Router();
 
 // Define route modules
-router.use('/login', authRoutes); // /api/login
+router.use('/auth', authRoutes); // /api/login
 router.use('/users', authMiddleWare,  userRoutes); // middleware temporarily disabled for testing purposes
 router.use('/form', authMiddleWare,  formRoutes); //middleware temporarily disabled for testing purposes
 router.use('/categories', authMiddleWare, isAdmin, categoryRoutes);
