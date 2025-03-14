@@ -5,8 +5,8 @@ const { createUserPayload } = require('../../validators/user.validators');
 const validate = require('../../validators/validate');
 const router = express.Router();
 
-router.get('/', isAdmin, createUserPayload, validate,  getUsers); // GET /api/users
-router.post('/', isAdmin, createUser); // POST /api/users
+router.get('/', isAdmin,  getUsers); // GET /api/users
+router.post('/', isAdmin, createUserPayload, validate, createUser); // POST /api/users
 router.delete('/', isAdmin, delUserController);
 
 

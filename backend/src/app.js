@@ -12,6 +12,7 @@ corsOptions = {
     origin: ['http://localhost:5173', 'http://192.168.193.27:5173', 'http://192.168.193.194:5173'],
     methods: ['*'],
     allowedHeaders: ['*'],
+    exposedHeaders: ['*'],
     credentials: true
 }
 

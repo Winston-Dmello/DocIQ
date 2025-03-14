@@ -139,7 +139,7 @@ const AdminForms = () => {
                 {forms
                   .slice(page * itemsPerPage, (page + 1) * itemsPerPage)
                   .map((form, index) => (
-                  <TableRow key={form.id}>
+                  <TableRow key={index}>
                     <TableCell>{page * itemsPerPage + index + 1}</TableCell>
                     <TableCell>{form.form_name}</TableCell>
                     <TableCell>{form.category}</TableCell>

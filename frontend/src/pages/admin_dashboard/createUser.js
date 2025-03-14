@@ -1,18 +1,20 @@
+import authFetch from '../../contexts/jwtcontext';
 
 const createUser = async (data) => {
     try{
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/users`, {
+        const response = await authFetch('/users', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("token")
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify(data)
         })
         if(response.ok){
             return {type: "success", message: "Success"};    
         }else{
-            console.log(response);
+            const res = await response.json();
+            console.log(res.errors);
+            // console.log(response);
             return {type:"error", message: "User Email Already in Use"};
         }
     }catch{
@@ -22,11 +24,10 @@ const createUser = async (data) => {
 
 const getDivisions = async () => {
     try {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/divisions`, {
+        const response = await authFetch('/divisions', {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("token")
+                'Content-Type': 'application/json'
             }
         });
         if (response.ok) {

@@ -160,7 +160,7 @@ const CreateUser = () => {
                   {divisions.map((d, index) => (
                     <MenuItem
                       key={index}
-                      value={d.division_id}
+                      value={d.division_name}
                       sx={{ color: "text.primary" }}
                     >
                       {d.division_name}
