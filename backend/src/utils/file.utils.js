@@ -20,4 +20,28 @@ const deleteFiles = async (filePaths) => {
     }
 };
 
-module.exports = { deleteFiles };
+const generateFileName = (file, file_list) => {
+    const separator = "$$$";
+        const date = new Date().toISOString().split('T')[0];
+        const originalExt = path.extname(file.originalname); // Extract extension
+        const originalName = path.basename(file.originalname, originalExt) || `unknown_${date}`;
+
+        const matchingFile = file_list.find(f => f.original_name === file.originalname);
+        const newFileName = matchingFile 
+            ? `${date}-${separator}${matchingFile.file_name}${originalExt}` 
+            : `${date}-${originalName}${originalExt}`;
+        return newFileName;
+    
+    // const newFileName = matchingFile 
+    //     ? `${date}-${separator}${matchingFile.file_name}${originalExt}` 
+    //     : `${date}-${originalName}${originalExt}`;
+    // console.log("Multer: ", newFileName);
+
+    // if(!req.file_paths){
+    //     req.file_paths = [];
+    // }
+    // req.file_paths.push(`uploads/${newFileName}`);
+    // cb(null, newFileName);
+}
+
+module.exports = { deleteFiles, generateFileName };

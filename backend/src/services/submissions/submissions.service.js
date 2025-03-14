@@ -1,7 +1,7 @@
 const sequelize = require('../../sequelize');
 const Submissions = require('../../models/submissions.model');
 const Form = require('../../models/form.model');
-const { createDocument } = require('../../services/documents/documents.service');
+const { createDocument, delDocument } = require('../../services/documents/documents.service');
 const { deleteFiles } = require('../../utils/file.utils');
 
 const createSubmission = async (data, file_paths) => {
@@ -69,8 +69,8 @@ const approveSubmission = async (id, status, reason) => { // status is 0 (reject
         if(!submission) throw new Error('Submission not found');
         console.log("Submission: ******", submission);
         console.log("Submission ID: ",submission.submission_id);
+        const file_paths = submission.file_paths || [];
         if (status === 1){ //Submission Approved
-            const file_paths = submission.file_paths || [];
             console.log("File_paths: ",file_paths);
             
             await Promise.all(
@@ -86,6 +86,11 @@ const approveSubmission = async (id, status, reason) => { // status is 0 (reject
                 { where: { submission_id: id }, transaction }
             );
         }else if(status === 2){ //Submission Pending
+
+            await Promise.all(
+                file_paths.map(async (file_path) => await delDocument(file_path, transaction))
+            ); 
+
             await Submissions.update(
                 { status: 'pending', reason: reason ? reason : "No reason" },
                 { where: { submission_id: id }, transaction }

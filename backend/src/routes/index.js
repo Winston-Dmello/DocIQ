@@ -11,12 +11,12 @@ const router = express.Router();
 
 // Define route modules
 router.use('/login', authRoutes); // /api/login
-router.use('/users', userRoutes); // middleware temporarily disabled for testing purposes
-router.use('/form', formRoutes); //middleware temporarily disabled for testing purposes
-router.use('/categories', categoryRoutes);
-router.use('/divisions', divisionRoutes);
-router.use('/submissions', submissionRoutes);
-router.use('/documents', documentRoutes);
+router.use('/users', authMiddleWare,  userRoutes); // middleware temporarily disabled for testing purposes
+router.use('/form', authMiddleWare,  formRoutes); //middleware temporarily disabled for testing purposes
+router.use('/categories', authMiddleWare,  categoryRoutes);
+router.use('/divisions', authMiddleWare,  divisionRoutes);
+router.use('/submissions', authMiddleWare,  submissionRoutes);
+router.use('/documents', authMiddleWare,  documentRoutes);
 
 
 module.exports = router;

@@ -58,4 +58,14 @@ const getDocumentsBySubmission = async (submission_id) => {
     }
 }
 
-module.exports = { createDocument, getDocuments, getDocumentsBySubmission   }; 
+const delDocument = async (file_path, transaction=null) => {
+    try{
+        const document = await Documents.findOne({ where: { file_path } });
+        if (!document) throw new Error('Document not found');
+        await document.destroy({transaction});
+    }catch(error){
+        throw error;
+    }
+}
+
+module.exports = { createDocument, getDocuments, getDocumentsBySubmission, delDocument  }; 
