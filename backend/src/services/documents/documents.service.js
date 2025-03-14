@@ -68,4 +68,20 @@ const delDocument = async (file_path, transaction=null) => {
     }
 }
 
-module.exports = { createDocument, getDocuments, getDocumentsBySubmission, delDocument  }; 
+const getDocumentsByUser = async (user_id) => {
+    try{
+        const documents = await Documents.findAll({
+            attributes: ['document_id', 'form_name', 'user_name', 'file_name', 'division_name', 'category', 'file_path', 'date'],
+            where: {user_id: user_id}
+        });
+        if (!documents) throw new Error('No Documents Found');
+        return documents.map(document => ({
+            ...document.get({ plain: true }), // Convert to plain object
+            date: document.date.toISOString().split('T')[0] // Format date
+        }));
+    }catch(error){
+        throw error;
+    }
+}
+
+module.exports = { createDocument, getDocuments, getDocumentsBySubmission, delDocument, getDocumentsByUser }; 

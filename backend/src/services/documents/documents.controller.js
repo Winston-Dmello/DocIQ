@@ -1,4 +1,4 @@
-const { getDocuments, getDocumentsBySubmission } = require('./documents.service');
+const { getDocuments, getDocumentsBySubmission, getDocumentsByUser } = require('./documents.service');
 const { getSignedUrlForFile } = require('../s3/s3.service');
 
 const getDocumentsController = async (req, res, next) => {
@@ -32,8 +32,20 @@ const getURLController = async (req, res, next) => {
     }
 }
 
+const getDocumentsByUserController = async (req, res, next) => {
+    try{
+        const {user_id} = req.params;
+        const documents = await getDocumentsByUser(user_id);
+        if (!documents) return res.status(404).json({message: 'No Documents Found'});
+        return res.json(documents);
+    }catch(error){
+        next(error);
+    }
+}
+
 module.exports = { 
     getDocumentsController,
     getDocumentsBySubmissionController,
-    getURLController
+    getURLController,
+    getDocumentsByUserController
 }
