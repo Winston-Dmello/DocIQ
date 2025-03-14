@@ -3,7 +3,8 @@ const getUsers = async () => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/users`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             }
         })
         if(response.ok){

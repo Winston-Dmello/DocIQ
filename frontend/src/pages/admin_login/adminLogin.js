@@ -10,6 +10,8 @@ const adminLogin = async ({email, password}) => {
                 'password' : password
             }
         )})
+        const token = response.headers.get("Authorization");
+        localStorage.setItem("token", token);
         if(response.ok){
             return {auth: true, message: 'Login Successful'};
         }else if(response.status === 401){

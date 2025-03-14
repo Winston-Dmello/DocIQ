@@ -3,7 +3,8 @@ const getCategories = async () => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/categories`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             }
         })
         if(response.ok){
@@ -23,7 +24,8 @@ const createCategory = async (data) => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/categories`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             },
             body: JSON.stringify(data)
         })
@@ -43,7 +45,8 @@ const deleteCategory = async (category_id) => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/categories/${category_id}`, {
             method: 'DELETE',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             },
         })
         if(response.ok){

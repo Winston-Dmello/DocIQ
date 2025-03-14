@@ -4,7 +4,8 @@ const createUser = async (data) => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/users`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             },
             body: JSON.stringify(data)
         })
@@ -24,7 +25,8 @@ const getDivisions = async () => {
         const response = await fetch(`${import.meta.env.VITE_BASE_URL}/divisions`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             }
         });
         if (response.ok) {
