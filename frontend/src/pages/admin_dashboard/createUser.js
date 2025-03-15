@@ -1,14 +1,13 @@
-import authFetch from '../../contexts/jwtcontext';
-
 const createUser = async (data) => {
     try{
-        const response = await authFetch('/users', {
-            method: 'POST',
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/users`, {
+            method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             },
             body: JSON.stringify(data)
-        })
+        });
         if(response.ok){
             return {type: "success", message: "Success"};    
         }else{
@@ -24,10 +23,11 @@ const createUser = async (data) => {
 
 const getDivisions = async () => {
     try {
-        const response = await authFetch('/divisions', {
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/divisions`, {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': localStorage.getItem("token")
             }
         });
         if (response.ok) {
