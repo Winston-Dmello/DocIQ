@@ -49,8 +49,15 @@ exports.loginAdmin = async (req, res, next) => {
       if (userObject.role != "admin") {
         res.sendStatus(403);
       } else if (check) {
-        const token = generateToken(userObject.email, userObject.role);
+        const token = generateAccessToken(userObject.email, userObject.role);
+        const refreshToken = generateRefreshToken(userObject.email, userObject.role);
         res.setHeader('Authorization', `Bearer ${token}`);
+        res.cookie('refreshToken', refreshToken, { 
+          httpOnly: true,
+          path: '/refreshToken',
+          secure: true,
+          sameSite: 'Strict',
+        });
         res.sendStatus(200);
       } else {
         res.sendStatus(401);
