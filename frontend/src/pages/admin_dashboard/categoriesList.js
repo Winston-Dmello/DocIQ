@@ -1,11 +1,9 @@
+import { authFetch } from "../../utils/authFetch";
+
 const getCategories = async () => {
     try{
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/categories`, {
+        const response = await authFetch(`${import.meta.env.VITE_BASE_URL}/categories`, {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("token")
-            }
         })
         if(response.ok){
             const users = await response.json();
@@ -21,18 +19,13 @@ const getCategories = async () => {
 
 const createCategory = async (data) => {
     try{
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/categories`, {
+        const response = await authFetch(`${import.meta.env.VITE_BASE_URL}/categories`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("token")
-            },
             body: JSON.stringify(data)
         })
         if(response.ok){
             return {type: "success", message: "Success"};    
         }else{
-            console.log(response);
             return {type:"error", message: "Category Already Exists"};
         }
     }catch{
@@ -42,17 +35,12 @@ const createCategory = async (data) => {
 
 const deleteCategory = async (category_id) => {
     try{
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/categories/${category_id}`, {
+        const response = await authFetch(`${import.meta.env.VITE_BASE_URL}/categories/${category_id}`, {
             method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("token")
-            },
         })
         if(response.ok){
             return {type: "success", message: "Deleted"};
         }else{
-            console.log(response);
             return {type: "error", message: "Something went Wrong"};
         }
     }catch{

@@ -5,23 +5,35 @@ import UserAuth from "./pages/user_login/UserAuth";
 import AdminAuth from "./pages/admin_login/AdminAuth";
 import AdminRoutes from "./pages/admin_dashboard/AdminRoutes.jsx";
 import UserRoutes from "./pages/user_dashboard/UserRoutes.jsx";
-import { JWTProvider } from "./contexts/jwtcontext.jsx";
+import ProtectedRoute from "./utils/ProtectedRoutes.jsx";
 
 function App() {
   return (
-    <JWTProvider>
-      <Routes>
-        <Route path="/home" element={<Home />} />
-        
-        <Route path="/login/admin" element={<LoginLayout><AdminAuth /></LoginLayout>} />
-        <Route path="/login/user" element={<LoginLayout><UserAuth /></LoginLayout>} />
+    <Routes>
+      <Route path="/home" element={<Home />} />
 
-        <Route path="/admin/dashboard/*" element={<AdminRoutes />} />
-        <Route path="/user/dashboard/*" element={<UserRoutes />} />
+      <Route
+        path="/login/admin"
+        element={
+          <LoginLayout>
+            <AdminAuth />
+          </LoginLayout>
+        }
+      />
+      <Route
+        path="/login/user"
+        element={
+          <LoginLayout>
+            <UserAuth />
+          </LoginLayout>
+        }
+      />
 
-        <Route path="*" element={<Navigate to="/home" replace />} />
-      </Routes>
-    </JWTProvider>
+      <Route path="/admin/dashboard/*" element={<ProtectedRoute><AdminRoutes /></ProtectedRoute>} />
+      <Route path="/user/dashboard/*" element={<ProtectedRoute><UserRoutes /></ProtectedRoute>} />
+
+      <Route path="*" element={<Navigate to="/home" replace />} />
+    </Routes>
   );
 }
 

@@ -54,9 +54,9 @@ exports.loginAdmin = async (req, res, next) => {
         res.setHeader('Authorization', `Bearer ${token}`);
         res.cookie('refreshToken', refreshToken, { 
           httpOnly: true,
-          path: '/refreshToken',
+          path: '/',
           secure: true,
-          sameSite: 'Strict',
+          sameSite: 'None',
         });
         res.sendStatus(200);
       } else {
@@ -74,6 +74,7 @@ exports.loginAdmin = async (req, res, next) => {
 exports.refreshTokenController = async (req, res, next) => {
   try {
     const refreshToken = req.cookies.refreshToken;
+    console.log("Refresh Token: ",refreshToken);
     if (!refreshToken) {
       return res.status(401).json({message: "Unauthorized"});
     } else {

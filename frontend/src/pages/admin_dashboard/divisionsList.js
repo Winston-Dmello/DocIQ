@@ -1,11 +1,9 @@
+import { authFetch } from "../../utils/authFetch";
+
 const getDivisions = async () => {
     try {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/divisions`, {
+        const response = await authFetch(`${import.meta.env.VITE_BASE_URL}/divisions`, {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("token")
-            }
         });
         if (response.ok) {
             const divisions = await response.json();
@@ -20,12 +18,8 @@ const getDivisions = async () => {
 
 const createDivision = async (data) => {
     try {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/divisions`, {
+        const response = await authFetch(`${import.meta.env.VITE_BASE_URL}/divisions`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("token")
-            },
             body: JSON.stringify(data)
         });
         if (response.ok) {
@@ -41,12 +35,8 @@ const createDivision = async (data) => {
 
 const deleteDivision = async (division_id) => {
     try {
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/divisions/${division_id}`, {
+        const response = await authFetch(`${import.meta.env.VITE_BASE_URL}/divisions/${division_id}`, {
             method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("token")
-            },
         });
         if (response.ok) {
             return { type: "success", message: "Deleted" };
