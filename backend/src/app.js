@@ -4,22 +4,26 @@ const routes = require('./routes');
 const path = require('path');
 const { errorHandler } = require('./middlewares/errorHandler');
 const logger = require('./middlewares/logger');
+const cookieParser = require('cookie-parser');
 
 
 const app = express();
 
-corsOptions = {
+const corsOptions = {
     origin: ['http://localhost:5173', 'http://192.168.193.27:5173', 'http://192.168.193.194:5173'],
-    methods: ['*'],
-    allowedHeaders: ['*'],
-    exposedHeaders: ['*'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Authorization'],
     credentials: true
-}
+  };
 
 // Middleware
 app.use(cors(corsOptions));
-app.use(express.json()); // Parse JSON bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.options('*', cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(cookieParser());
 
 app.use(logger);
 // Routes

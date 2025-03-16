@@ -1,16 +1,13 @@
+import { authFetch } from "../../utils/authFetch";
+
 const getsubmissions = async () => {
     try{
         const userID = localStorage.getItem("UserID");
-        console.log(userID)
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/submissions/user/${userID}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("token")
-            }
+        console.log(userID);
+        const response = await authFetch(`${import.meta.env.VITE_BASE_URL}/submissions/user/${userID}`, {
+            method: 'GET'
         });
         const data = await response.json();
-        console.log(data);
         return data;
     }catch{
         return [];

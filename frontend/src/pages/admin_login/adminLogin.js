@@ -8,8 +8,9 @@ const adminLogin = async ({email, password}) => {
             body: JSON.stringify({
                 'email': email,
                 'password' : password
-            }
-        )})
+            }),
+            credentials: 'include'
+        })
         const token = response.headers.get("Authorization");
         localStorage.setItem("token", token);
         console.log(token);

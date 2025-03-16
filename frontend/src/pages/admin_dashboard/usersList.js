@@ -1,11 +1,9 @@
+import { authFetch } from "../../utils/authFetch";
+
 const getUsers = async () => {
     try{
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/users`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("token")
-            }
+        const response = await authFetch(`${import.meta.env.VITE_BASE_URL}/users`, {
+            method: 'GET'
         })
         if(response.ok){
             const users = await response.json();

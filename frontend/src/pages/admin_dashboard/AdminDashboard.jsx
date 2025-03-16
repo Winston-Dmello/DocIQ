@@ -19,6 +19,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
+import { logoutUser } from "../../utils/authFetch";
 
 const drawerWidth = 240;
 
@@ -63,8 +64,7 @@ const AdminDashboard = ({ children }) => {
   const handleBack = () => navigate(-1);
 
   const handleLogout = () => {
-    localStorage.clear(); // Clear storage
-    navigate("/login"); // Redirect to login page
+    logoutUser();
   };
 
   return (
