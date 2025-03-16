@@ -13,6 +13,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getsubmission } from "./submission";
 import { useNavigate } from "react-router-dom";
+import { getFilePath } from "./submission";
 
 const Submission = () => {
   const [submission, setSubmission] = useState(null);
@@ -58,6 +59,12 @@ const Submission = () => {
   const handleCloseButton = () => {
     navigate(-1);
   };
+
+  const handleViewDocument = async (file_path) => {
+    const path = await getFilePath(file_path);
+    console.log(path);
+    window.open(path, "_blank");
+}
 
   return (
     <Container maxWidth sx={{ height: "100%" }}>
@@ -120,8 +127,7 @@ const Submission = () => {
                     >
                       <Typography
                         component="a"
-                        href={`http://${import.meta.env.VITE_BASE_DOCUMENT_URL}${fileObj}`}
-                        target="_blank"
+                        onClick={() => handleViewDocument(fileObj)}
                         rel="noopener noreferrer"
                         sx={{
                           cursor: "pointer",

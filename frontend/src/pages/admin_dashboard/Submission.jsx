@@ -16,6 +16,7 @@ import {
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getsubmission, approveSubmission } from "./submission";
+import { getFilePath } from "./documentsList";
 
 const Submission = () => {
   const [submission, setSubmission] = useState(null);
@@ -71,6 +72,12 @@ const Submission = () => {
     handleCloseRejectDialog();
     fetchSubmission();
   };
+
+  const handleViewDocument = async (file_path) => {
+    const path = await getFilePath(file_path);
+    console.log(path);
+    window.open(path, "_blank");
+}
 
   useEffect(() => {
     fetchSubmission();
@@ -157,8 +164,7 @@ const Submission = () => {
                     >
                       <Typography
                         component="a"
-                        href={`${import.meta.env.VITE_BASE_DOCUMENT_URL}${fileObj}`}
-                        target="_blank"
+                        onClick={() => handleViewDocument(fileObj)}
                         rel="noopener noreferrer"
                         sx={{
                           cursor: "pointer",
