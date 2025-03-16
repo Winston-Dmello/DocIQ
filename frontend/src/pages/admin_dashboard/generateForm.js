@@ -40,7 +40,7 @@ const getUsers = async () => {
 
 const getCategories = async () => {
     try{
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/categories`, {
+        const response = await authFetch(`${import.meta.env.VITE_BASE_URL}/categories`, {
             method: 'GET',
         })
         if(response.ok){
