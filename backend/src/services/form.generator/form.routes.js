@@ -1,5 +1,11 @@
 const express = require('express');
-const {createForm, getAllForms, getFormByIdController, getFormsByUserController, getUsersController} = require('./form.controller');
+const {
+    createForm, 
+    getAllForms, 
+    getFormByIdController, 
+    getFormsByUserController, 
+    getUsersController,
+    updateFormController } = require('./form.controller');
 const {createFormPayload} = require('../../validators/form.validators');
 const validate = require('../../validators/validate');
 const isAdmin = require('../../middlewares/isAdmin');
@@ -11,5 +17,6 @@ router.get('/get', isAdmin, getAllForms); // get all forms
 router.get('/get/:form_id', hasRole, getFormByIdController); // get form by form_id
 router.get('/user/:user_id', hasRole, getFormsByUserController); // get form by user_id
 router.get('/users', isAdmin, getUsersController); // get all users
+router.put('/:form_id', isAdmin, createFormPayload, validate, updateFormController); // update form
 
 module.exports = router;

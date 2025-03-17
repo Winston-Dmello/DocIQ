@@ -44,6 +44,7 @@ exports.loginAdmin = async (req, res, next) => {
     const userObject = await findUserByEmail(req.body.email);
     const password = req.body.password;
     const check = await checkPassword(password, userObject.password);
+    
     if (userObject) {
       if (userObject.role != "admin") {
         res.sendStatus(403);

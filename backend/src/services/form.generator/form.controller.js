@@ -1,13 +1,10 @@
-const {insertFormIntoDB, getFormsFromDB, getFormById, getFormsByUser, getUsers} = require('./form.service');
+const {insertFormIntoDB, getFormsFromDB, getFormById, getFormsByUser, getUsers, updateForm} = require('./form.service');
 
 
 //Validate payload in controller?   
 
 
 const createForm = async (req, res, next) => {
-    // if (req.user.role != "admin"){
-    //     res.status(403).json({message: "Forbidden route"});
-    // }
     try{
         const form = req.body;
         const response = await insertFormIntoDB(form); //returns the created form
@@ -67,4 +64,24 @@ const getUsersController = async (req, res, next) => {
     }
 }
 
-module.exports = {createForm, getAllForms, getFormByIdController, getFormsByUserController, getUsersController};
+const updateFormController = async (req, res, next) => { 
+    try{
+        const form = req.body;
+        const {form_id} = req.params;
+        const response = await updateForm(form, form_id);
+        return res.status(200).json({message: "form updated successfully", form: response});
+    }catch(error){
+        if (error.status == 400){
+            return res.status(400).json(error);
+        }
+        next(error);
+    }
+}
+
+module.exports = {
+    createForm, 
+    getAllForms, 
+    getFormByIdController, 
+    getFormsByUserController, 
+    getUsersController,
+    updateFormController};

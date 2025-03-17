@@ -28,7 +28,7 @@ const Form = sequelize.define('form', {
         allowNull: false,
     },
     recipients: {
-        type: DataTypes.ARRAY(DataTypes.INTEGER),
+        type: DataTypes.ARRAY(DataTypes.UUID),
         allowNull: false,
     }
 });

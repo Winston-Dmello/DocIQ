@@ -98,4 +98,41 @@ const getUsers = async () => {
     }
 }
 
-module.exports = {insertFormIntoDB, getFormsFromDB, getFormById, getFormsByUser, getUsers};
+const updateForm = async (updatedForm, form_id) => {
+    const transaction = await sequelize.transaction();
+    try{
+        const form = await Form.findByPk(form_id);
+        if(!form){
+            throw {status: 404, message: 'Form not found'};
+        }
+
+        await form.update({
+            form_name: updatedForm.form_name,
+            category: updatedForm.category,
+            submission_type: updatedForm.submission_type,
+            form_data: updatedForm.form_data,
+            recipients: updatedForm.recipients,
+        }, {transaction});
+
+        const newRecipients = updatedForm.recipients || [];
+        if(newRecipients.length > 0){
+            await UsersToForms.destroy({where: {form_id: form_id}}, {transaction});
+
+            const recipientEntries = newRecipients.map(user_id => ({
+                user_id: user_id,
+                form_id: form_id,
+                form_status: 'open',
+            }));
+            
+            await UsersToForms.bulkCreate(recipientEntries, {transaction});
+        }
+        
+        await transaction.commit();
+        return form;
+    }catch(error){
+        await transaction.rollback();
+        throw error;
+    }
+}
+
+module.exports = {insertFormIntoDB, getFormsFromDB, getFormById, getFormsByUser, getUsers, updateForm};

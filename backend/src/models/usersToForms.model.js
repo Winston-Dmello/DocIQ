@@ -14,13 +14,14 @@ const UsersToForms = sequelize.define('users_to_forms', {
 User.belongsToMany(Forms, {
     through: UsersToForms,
     foreignKey: 'user_id',
-    otherKey: 'form_id'
+    otherKey: 'form_id',
 });
 
 Forms.belongsToMany(User, {
     through: UsersToForms,
     foreignKey: 'form_id',
-    otherKey: 'user_id'
+    otherKey: 'user_id',
+    onDelete: 'CASCADE',
 });
 
 module.exports = UsersToForms;
