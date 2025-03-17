@@ -1,10 +1,22 @@
+import SnackbarService from "./SnackbarService";
+
 const logoutUser = () => {
+    try{
     localStorage.removeItem("token"); // Remove token
     fetch(`${import.meta.env.VITE_BASE_URL}/auth/logout`, { method: "POST", credentials: "include" }) // Inform backend
         .finally(() => {
+            SnackbarService.showSnackbar("Logging out User", {
+                severity: "warning",
+            });
+            setTimeout(() => {
             window.location.href = "/login/user"; // Redirect to login page
-            alert("Your Session has Expired Sorry!");
+                
+            }, 2000);
         });
+    } catch {
+        SnackbarService.showSnackbar("Error Something went wrong", {
+            severity: "error"});
+    }
 };
 
 const authFetch = async (url, options = {}) => {
@@ -26,7 +38,12 @@ const authFetch = async (url, options = {}) => {
         const refreshResponse = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/refreshToken`, { method: "POST", credentials: "include" });
 
         if (!refreshResponse.ok) {
-            logoutUser(); // If refresh also fails, log out
+            SnackbarService.showSnackbar("Your Session Has Expired Please Login again", {
+                severity: "error"
+            })
+            setTimeout(() => {       
+            logoutUser();
+            }, 2000) // If refresh also fails, log out
             throw new Error("Unauthorized. User logged out.");
         }
 

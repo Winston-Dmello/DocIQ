@@ -17,6 +17,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getsubmission, approveSubmission } from "./submission";
 import { getFilePath } from "./documentsList";
+import SnackbarService from "../../utils/SnackbarService";
 
 const Submission = () => {
   const [submission, setSubmission] = useState(null);
@@ -38,7 +39,7 @@ const Submission = () => {
 
   const handleOnApproveClick = async () => {
     const response = await approveSubmission(submissionID, 1, "approved");
-    alert(response.message);
+    SnackbarService.showSnackbar(response.message);
     fetchSubmission();
   };
 
@@ -48,7 +49,7 @@ const Submission = () => {
       2,
       "sorry i made a mistake"
     );
-    alert(response.message);
+    SnackbarService.showSnackbar(response.message);
     fetchSubmission();
   };
 
@@ -63,12 +64,12 @@ const Submission = () => {
 
   const handleRejectClick = async () => {
     if (!rejectReason.trim()) {
-      alert("Please enter a reason for rejection.");
+      SnackbarService.showSnackbar("Please enter a reason for rejection.", {severity: "warning"});
       return;
     }
 
     const response = await approveSubmission(submissionID, 0, rejectReason);
-    alert("Submission Rejected", response.message);
+    SnackbarService.showSnackbar(response.message, {severity: response.type});
     handleCloseRejectDialog();
     fetchSubmission();
   };

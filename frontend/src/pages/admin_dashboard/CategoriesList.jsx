@@ -21,6 +21,7 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import { getCategories, createCategory, deleteCategory } from "./categoriesList";
 import { useState, useEffect } from "react";
+import SnackbarService from "../../utils/SnackbarService";
 
 const CategoriesList = () => {
   const [categories, setCategories] = useState([]);
@@ -44,13 +45,12 @@ const CategoriesList = () => {
   const handleAdd = async (e) => {
     e.preventDefault();
     if (!category_name.trim()) {
-      alert("Category name is required!");
+      SnackbarService.showSnackbar("Category name is required!", {severity: "warning"});
       return;
     }
 
     const response = await createCategory({ category_name });
-    console.log(response);
-    alert(response.message);
+    SnackbarService.showSnackbar(response.message);
     setCategoryName("");
     fetchCategories();
   };
@@ -62,10 +62,10 @@ const CategoriesList = () => {
   
     try {
       await deleteCategory(categoryID); // Call API to delete category
-      alert("Category deleted successfully!");
+      SnackbarService.showSnackbar("Category deleted successfully!", {severity: "success"});
       fetchCategories(); // Refresh the list
     } catch (error) {
-      alert("Failed to delete category. Try again.");
+      SnackbarService.showSnackbar("Failed to delete category. Try again.", {severity: "error"});
       console.error(error);
     }
   };

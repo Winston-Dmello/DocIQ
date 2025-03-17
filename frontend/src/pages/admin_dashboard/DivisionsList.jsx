@@ -21,6 +21,7 @@ import {
   import NavigateNextIcon from "@mui/icons-material/NavigateNext";
   import { getDivisions, createDivision, deleteDivision } from "./divisionsList";
   import { useState, useEffect } from "react";
+  import SnackbarService from "../../utils/SnackbarService";
   
   const DivisionsList = () => {
     const [divisions, setDivisions] = useState([]);
@@ -44,13 +45,12 @@ import {
     const handleAdd = async (e) => {
       e.preventDefault();
       if (!division_name.trim()) {
-        alert("Division name is required!");
+        SnackbarService.showSnackbar("Division name is required!", {severity: "warning"});
         return;
       }
   
       const response = await createDivision({ division_name });
-      console.log(response);
-      alert(response.message);
+      SnackbarService.showSnackbar(response.message);
       setDivisionName("");
       fetchDivisions();
     };
@@ -61,10 +61,10 @@ import {
   
       try {
         await deleteDivision(divisionID);
-        alert("Division deleted successfully!");
+        SnackbarService.showSnackbar("Division deleted successfully!", {severity: "success"});
         fetchDivisions();
       } catch (error) {
-        alert("Failed to delete division. Try again.");
+        SnackbarService.showSnackbar("Failed to delete division. Try again.", {severity: "error"});
         console.error(error);
       }
     };

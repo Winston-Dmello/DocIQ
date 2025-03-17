@@ -14,6 +14,7 @@ import {
 import { useState, useEffect } from "react";
 import { createUser, getDivisions } from "./createUser";
 import { useNavigate } from "react-router-dom";
+import SnackbarService from "../../utils/SnackbarService";
 
 const CreateUser = () => {
   const [user_name, setUsername] = useState("");
@@ -46,8 +47,7 @@ const CreateUser = () => {
       role,
       division,
     });
-    console.log(response);
-    alert(response.message);
+    SnackbarService.showSnackbar(response.message);
     navigate(-1);
   }
 

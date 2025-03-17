@@ -17,7 +17,8 @@ const generateForm = async (form_name, recipients, category, submission_type, fo
         }else{
             return {type:"error", message: "Form Name is Taken"};
         }
-    }catch{
+    }catch(error){
+        console.log(error);
         return {type: "error", message: "Error Connecting to Server"};
     }
 }

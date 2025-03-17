@@ -28,7 +28,6 @@ const submitform = async (formData) => {
 
         );
         const reply = await response.json();
-        console.log(reply);
         return reply;
     }catch{
         return [];
