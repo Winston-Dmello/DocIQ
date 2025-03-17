@@ -1,11 +1,13 @@
 const {DataTypes} = require('sequelize');
 const sequelize = require('../sequelize');
+const { v4: uuidv4 } = require('uuid');
+
 
 const Documents = sequelize.define('documents', {
     document_id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
+        type: DataTypes.UUID,
         primaryKey: true, 
+        defaultValue: uuidv4,
         allowNull: false,
     },
     form_name: {

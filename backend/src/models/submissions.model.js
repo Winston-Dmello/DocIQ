@@ -2,17 +2,17 @@ const { DataTypes } = require('sequelize');
 const sequelize = require('../../src/sequelize');
 const Form = require('./form.model');
 const User = require('./user.model');
-
+const { v4: uuidv4 } = require('uuid');
 
 const Submissions = sequelize.define('submissions', {
     submission_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
+        defaultValue: uuidv4,
         primaryKey: true,
-        autoIncrement: true,
     },
     form_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         references: {
             model: Form,
@@ -21,7 +21,7 @@ const Submissions = sequelize.define('submissions', {
         onDelete: 'CASCADE',
     },
     user_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
         references: {
             model: User,
