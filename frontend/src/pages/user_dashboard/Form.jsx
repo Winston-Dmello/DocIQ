@@ -15,6 +15,7 @@ import { getform, submitform } from "./form";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import SnackbarService from "../../utils/SnackbarService";
 
 const Form = () => {
   const [form, setForm] = useState({});
@@ -59,28 +60,33 @@ const Form = () => {
 
   const handleDescriptionChange = (index, value) => {
     if (/\s/.test(value)) {
-      alert("File name cannot contain spaces. Please use underscores (_) or dashes (-) instead.");
-      return;
+      const sanitizedValue = value.replace(/\s+/g, '_');
+      SnackbarService.showSnackbar("Spaces automatically replaced with underscores (_) in file name.", {severity: "warning"});
+      setFiles((prevFiles) =>
+        prevFiles.map((fileObj, i) =>
+          i === index ? { ...fileObj, file_name: sanitizedValue } : fileObj
+        )
+      );
+    } else {
+      setFiles((prevFiles) =>
+        prevFiles.map((fileObj, i) =>
+          i === index ? { ...fileObj, file_name: value } : fileObj
+        )
+      );
     }
-  
-    setFiles((prevFiles) =>
-      prevFiles.map((fileObj, i) =>
-        i === index ? { ...fileObj, file_name: value } : fileObj
-      )
-    );
   };
   
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (files.length === 0) {
-      alert("Please upload at least one file.");
+      SnackbarService.showSnackbar("Please upload at least one file.", {severity: "warning"});
       return;
     }
 
     for (const file of files) {
       if (!file.file_name.trim()) {
-        alert("Please provide a description for each file.");
+        SnackbarService.showSnackbar("Please provide a description for each file.", {severity: "warning"});
         return;
       }
     }
@@ -105,7 +111,7 @@ const Form = () => {
     console.log(formData);
     const res = submitform(formData);
     console.log(res);
-    alert("Form Submitted");
+    SnackbarService.showSnackbar("Form Submitted", {severity: "success"});
     navigate(-1);
   };
   

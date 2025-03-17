@@ -3,7 +3,7 @@ import { authFetch } from "../../utils/authFetch";
 const createUser = async (data) => {
     try{
         const response = await authFetch(`${import.meta.env.VITE_BASE_URL}/users`, {
-            method: 'GET',
+            method: 'POST',
             body: JSON.stringify(data)
         });
         if(response.ok){
@@ -14,7 +14,8 @@ const createUser = async (data) => {
             // console.log(response);
             return {type:"error", message: "User Email Already in Use"};
         }
-    }catch{
+    }catch(error){
+        console.log(error);
         return {type: "error", message: "Error Connecting to Server"};
     }
 }

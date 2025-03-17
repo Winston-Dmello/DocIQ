@@ -15,6 +15,8 @@ import {
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { generateForm, getUsers, getCategories } from "./generateForm";
+import SnackbarService from "../../utils/SnackbarService";
+import { useNavigate } from "react-router-dom";
 
 const GenerateForm = () => {
   const [formName, setFormName] = useState("");
@@ -26,6 +28,7 @@ const GenerateForm = () => {
   const [customFields, setCustomFields] = useState([]);
   const [newField, setNewField] = useState("");
   const [newFieldType, setNewFieldType] = useState("text");
+  const navigate = useNavigate();
 
   const addCustomField = () => {
     if (newField.trim()) {
@@ -59,7 +62,8 @@ const GenerateForm = () => {
       submissionType,
       customFields
     );
-    alert(response.message);
+    SnackbarService.showSnackbar(response.message);
+    navigate("/admin/dashboard/forms");
   };
 
   useEffect(() => {
@@ -151,7 +155,7 @@ const GenerateForm = () => {
                   (cat) => (
                     <MenuItem
                       key={cat.category_id}
-                      value={cat.category_id}
+                      value={cat.category_name}
                       sx={{ color: "text.primary" }}
                     >
                       {cat.category_name}

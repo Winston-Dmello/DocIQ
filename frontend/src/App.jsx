@@ -6,9 +6,11 @@ import AdminAuth from "./pages/admin_login/AdminAuth";
 import AdminRoutes from "./pages/admin_dashboard/AdminRoutes.jsx";
 import UserRoutes from "./pages/user_dashboard/UserRoutes.jsx";
 import ProtectedRoute from "./utils/ProtectedRoutes.jsx";
+import GlobalSnackbar from "./utils/GlobalSnackbar.jsx";
 
 function App() {
   return (
+    <>
     <Routes>
       <Route path="/home" element={<Home />} />
 
@@ -34,6 +36,9 @@ function App() {
 
       <Route path="*" element={<Navigate to="/home" replace />} />
     </Routes>
+    <GlobalSnackbar/>
+    </>
+    
   );
 }
 
