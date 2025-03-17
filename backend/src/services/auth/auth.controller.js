@@ -24,8 +24,7 @@ exports.loginUser = async (req, res, next) => {
         res.cookie('refreshToken', refreshToken, { 
           httpOnly: true,
           path: '/refreshToken',
-          secure: true,
-          sameSite: 'Strict',
+          maxAge: 24 * 60 * 60 * 1000,
         });
         res.status(200).json({message: "Success", user: userObject});
 
@@ -55,8 +54,7 @@ exports.loginAdmin = async (req, res, next) => {
         res.cookie('refreshToken', refreshToken, { 
           httpOnly: true,
           path: '/',
-          secure: true,
-          sameSite: 'None',
+          maxAge: 24 * 60 * 60 * 1000,
         });
         res.sendStatus(200);
       } else {
@@ -73,7 +71,7 @@ exports.loginAdmin = async (req, res, next) => {
 
 exports.refreshTokenController = async (req, res, next) => {
   try {
-    const refreshToken = req.cookies.refreshToken;
+    const refreshToken = await req.cookies.refreshToken;
     console.log("Refresh Token: ",refreshToken);
     if (!refreshToken) {
       return res.status(401).json({message: "Unauthorized"});
