@@ -12,7 +12,7 @@ const {
     getSubmissionsByUserController,
     delSubmissionController } = require('./submissions.controller');
 
-router.post('/create', upload.array('files', 10), createSubmissionPayload, validate, createSubmissionController);
+router.post('/create', upload.array('files', 10), createSubmissionController);
 router.get('/', getSubmissionsController);
 router.get('/:id', getSubmissionByIdController);
 router.put('/approve', approveSubmissionController);

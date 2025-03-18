@@ -10,7 +10,7 @@ const Submissions = require('./src/models/submissions.model');
 const Documents = require('./src/models/documents.model');
 const Categories = require('./src/models/categories.model');
 const Divisions = require('./src/models/divisions.model');
-
+const {hashPassword} = require('./src/utils/auth.utils')
 const PORT = process.env.PORT || 3000;
 
 const server = http.createServer(app);

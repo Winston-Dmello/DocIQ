@@ -77,7 +77,7 @@ const Form = () => {
   };
   
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
     if (files.length === 0) {
       SnackbarService.showSnackbar("Please upload at least one file.", {severity: "warning"});
@@ -109,7 +109,7 @@ const Form = () => {
     });
   
     console.log(formData);
-    const res = submitform(formData);
+    const res = await submitform(formData);
     console.log(res);
     SnackbarService.showSnackbar("Form Submitted", {severity: "success"});
     navigate(-1);
