@@ -14,10 +14,10 @@ import {
   Box,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { generateForm, getUsers, getCategories } from "./generateForm";
+import { getUsers, getCategories } from "./generateForm";
 import SnackbarService from "../../utils/SnackbarService";
 import { useNavigate, useParams } from "react-router-dom";
-import { getform } from "./form";
+import { getform, editform } from "./form";
 
 
 const EditForm = () => {
@@ -65,14 +65,15 @@ const EditForm = () => {
   };
 
   const handleSubmitForm = async () => {
-    const response = await generateForm(
+    await editform(
+      formID,
       formName,
       recipients,
       category,
       submissionType,
       customFields
     );
-    SnackbarService.showSnackbar(response.message);
+    SnackbarService.showSnackbar("Form is successfully edited");
     navigate("/admin/dashboard/forms");
   };
 
