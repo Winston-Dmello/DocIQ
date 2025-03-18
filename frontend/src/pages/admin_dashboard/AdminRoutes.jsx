@@ -9,6 +9,8 @@ import CreateUser from "./CreateUser";
 import UsersList from "./UsersList";
 import CategoriesList from "./CategoriesList";
 import DivisionsList from "./DivisionsList";
+import Form from "./Form";
+import EditForm from "./EditForm";
 
 const AdminRoutes = () => {
     return (
@@ -16,6 +18,8 @@ const AdminRoutes = () => {
             <Route path="/" element={<AdminDashboard><AdminForms/></AdminDashboard>}/>
             <Route path="/generate-form" element={<AdminDashboard><GenerateForm/></AdminDashboard>}/>
             <Route path="/forms" element={<AdminDashboard><AdminForms/></AdminDashboard>}/>
+            <Route path="/forms/:formID" element={<AdminDashboard><Form/></AdminDashboard>}/>
+            <Route path="/forms/edit/:formID" element={<AdminDashboard><EditForm/></AdminDashboard>}/>
             <Route path="/submissions" element={<AdminDashboard><SubmissionsList/></AdminDashboard>}/>
             <Route path="/submissions/:submissionID" element={<AdminDashboard><Submission/></AdminDashboard>}/>
             <Route path="/documents" element={<AdminDashboard><DocumentsList/></AdminDashboard>}/>
