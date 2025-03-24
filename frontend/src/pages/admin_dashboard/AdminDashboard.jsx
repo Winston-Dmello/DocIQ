@@ -45,14 +45,15 @@ const AdminDashboard = ({ children }) => {
   const username = localStorage.getItem("username") || "Admin";
 
   const menuItems = [
-    { text: "Admin Dashboard", path: "/admin/dashboard", icon: <DashboardIcon /> },
-    { text: "Form List", path: "/admin/dashboard/forms", icon: <ListAltIcon /> },
-    { text: "Generate Form", path: "/admin/dashboard/generate-form", icon: <CreateIcon /> },
-    { text: "Submissions List", path: "/admin/dashboard/submissions", icon: <AssignmentTurnedInIcon /> },
-    { text: "Documents", path: "/admin/dashboard/documents", icon: <DescriptionIcon /> },
+    { text: "Dashboard", path: "/admin/dashboard", icon: <DashboardIcon /> },
+    { text: "Divisions", path: "/admin/dashboard/divisions", icon: <BusinessIcon /> },
     { text: "Users", path: "/admin/dashboard/users", icon: <PeopleIcon /> },
     { text: "Categories", path: "/admin/dashboard/categories", icon: <CategoryIcon /> },
-    { text: "Divisions", path: "/admin/dashboard/divisions", icon: <BusinessIcon /> },
+    { text: "Create Form", path: "/admin/dashboard/generate-form", icon: <CreateIcon /> },
+    { text: "Forms", path: "/admin/dashboard/forms", icon: <ListAltIcon /> },
+    { text: "Submissions", path: "/admin/dashboard/submissions", icon: <AssignmentTurnedInIcon /> },
+    { text: "Documents", path: "/admin/dashboard/documents", icon: <DescriptionIcon /> },
+
   ];
 
   const breadcrumbItems = [
