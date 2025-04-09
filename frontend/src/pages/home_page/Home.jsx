@@ -6,7 +6,6 @@ import "./Home.css";
 const Home = () => {
   const navigate = useNavigate();
 
-  // Create references for each block
   const block1Ref = useRef(null);
   const block2Ref = useRef(null);
   const block3Ref = useRef(null);
@@ -16,7 +15,6 @@ const Home = () => {
     navigate("/login/user");
   };
 
-  // Scroll handler function
   const scrollToBlock = (ref) => {
     ref.current.scrollIntoView({ behavior: "smooth" });
   };
