@@ -14,10 +14,13 @@ import {
   Box,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { generateForm, getUsers, getCategories } from "./generateForm";
+import { getUsers, getCategories } from "./generateForm";
 import SnackbarService from "../../utils/SnackbarService";
+import { useNavigate, useParams } from "react-router-dom";
+import { getform, editform } from "./form";
 
-const GenerateForm = () => {
+
+const EditForm = () => {
   const [formName, setFormName] = useState("");
   const [users, setUsers] = useState([]);
   const [recipients, setRecipients] = useState([]);
@@ -27,6 +30,8 @@ const GenerateForm = () => {
   const [customFields, setCustomFields] = useState([]);
   const [newField, setNewField] = useState("");
   const [newFieldType, setNewFieldType] = useState("text");
+  const navigate = useNavigate();
+  const { formID } = useParams();
 
   const addCustomField = () => {
     if (newField.trim()) {
@@ -39,7 +44,14 @@ const GenerateForm = () => {
     }
   };
 
-  async function fetchUsers() {
+  async function fetchinfo() {
+    const formstuff = await getform(formID);
+    console.log(formstuff)
+    setFormName(formstuff.form_name);
+    setRecipients(formstuff.recipients);
+    setCategory(formstuff.category);
+    setSubmissionType(formstuff.submission_type);
+    setCustomFields(formstuff.form_data);
     const response = await getUsers();
     setUsers(response);
     const data = await getCategories();
@@ -53,32 +65,20 @@ const GenerateForm = () => {
   };
 
   const handleSubmitForm = async () => {
-
-    if (!formName.trim()) {
-      SnackbarService.showSnackbar("Please provide a form name.", {severity: "warning"});
-      return;
-    }
-    if (recipients.length === 0) {
-      SnackbarService.showSnackbar("Please select at least one recipient.", {severity: "warning"});
-      return;
-    }
-    if (!category) {
-      SnackbarService.showSnackbar("Please select a category.", {severity: "warning"});
-      return;
-    }
-
-    const response = await generateForm(
+    await editform(
+      formID,
       formName,
       recipients,
       category,
       submissionType,
       customFields
     );
-    SnackbarService.showSnackbar(response.message);
+    SnackbarService.showSnackbar("Form is successfully edited");
+    navigate("/admin/dashboard/forms");
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchinfo();
   }, []);
 
   return (
@@ -296,11 +296,12 @@ const GenerateForm = () => {
               onClick={handleSubmitForm}
               sx={{ backgroundColor: "primary.main", color: "secondary.main" }}
             >
-              Generate
+              Edit
             </Button>
             <Button
               variant="outlined"
               sx={{ borderColor: "primary.main", color: "text.primary" }}
+              onClick={() => navigate(-1)}
             >
               Cancel
             </Button>
@@ -311,4 +312,4 @@ const GenerateForm = () => {
   );
 };
 
-export default GenerateForm;
+export default EditForm;

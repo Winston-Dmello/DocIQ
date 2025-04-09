@@ -32,7 +32,7 @@ const authFetch = async (url, options = {}) => {
 
         const response = await fetch(url, { ...options, headers });
 
-        if (response.ok) return response;
+        if (response.status !== 401 && response.status !== 403) return response;
 
         // Token expired, try refreshing
         const refreshResponse = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/refreshToken`, { method: "POST", credentials: "include" });

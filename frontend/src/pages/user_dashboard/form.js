@@ -1,11 +1,9 @@
+import { authFetch } from "../../utils/authFetch";
+
 const getform = async (formID) => {
     try{
-        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/form/get/${formID}`, {
+        const response = await authFetch(`${import.meta.env.VITE_BASE_URL}/form/get/${formID}`, {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem("token")
-            }
         });
         const data = await response.json();
         return data;
@@ -16,13 +14,10 @@ const getform = async (formID) => {
 
 const submitform = async (formData) => {
     try{
-        const response = await fetch(
+        const response = await authFetch(
             `${import.meta.env.VITE_BASE_URL}/submissions/create`,
             {
                 method: 'POST',
-                headers: {
-                    'Authorization': localStorage.getItem("token")
-                },
                 body: formData
             }
 

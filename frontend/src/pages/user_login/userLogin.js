@@ -16,6 +16,10 @@ const userLogin = async ({email, password}) => {
         console.log(token);
         if(response.ok){
             const data = await response.json();
+            localStorage.setItem("user_name", data.user.user_name);
+            localStorage.setItem("designation", data.user.designation);
+            localStorage.setItem("division", data.user.division);
+
             return {auth: true, message: 'Login Successful', userid: data.user.user_id};
         }else if(response.status === 401){
             return {auth: false, message: 'Email or Password Incorrect'};

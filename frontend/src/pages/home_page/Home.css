@@ -20,7 +20,7 @@
     border-radius: 15px;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    scroll-margin-top: 10vh; /* Helps position correctly after scroll */
+    scroll-margin-top: 10vh;
 }
 
 .block1:hover, .block2:hover, .block3:hover, .block4:hover {

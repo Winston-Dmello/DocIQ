@@ -19,7 +19,7 @@ import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore"; // "<" icon
 import NavigateNextIcon from "@mui/icons-material/NavigateNext"; // ">" icon
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-
+import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getforms } from "./adminForms";
 // import { useNavigate } from "react-router-dom";
@@ -30,7 +30,7 @@ const AdminForms = () => {
   const [selectedRecipients, setSelectedRecipients] = useState([]);
   const [page, setPage] = useState(0);
   const itemsPerPage = 6;
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   async function fetchForms() {
     const response = await getforms();
@@ -62,6 +62,14 @@ const AdminForms = () => {
       setPage(page - 1);
     }
   };
+
+  const handleEditButton = (formID) => {
+    navigate(`/admin/dashboard/forms/edit/${formID}`);
+  }
+
+  const handleViewButton = (formID) => {
+    navigate(`/admin/dashboard/forms/${formID}`);
+  }
 
   return (
     <Container maxWidth sx={{ overflowY: "scroll" }}>
@@ -158,10 +166,14 @@ const AdminForms = () => {
                     </TableCell>
                     <TableCell>{form.submission_type}</TableCell>
                     <TableCell>
-                        <IconButton>
+                        <IconButton
+                        onClick={() => handleEditButton(form.form_id)}
+                        >
                           <EditIcon />
                         </IconButton>
-                        <IconButton>
+                        <IconButton
+                        onClick={() => handleViewButton(form.form_id)}
+                        >
                           <VisibilityIcon />
                         </IconButton>
                       </TableCell>

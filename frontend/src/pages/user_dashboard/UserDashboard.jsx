@@ -10,8 +10,13 @@ import {
   IconButton,
   Breadcrumbs,
   Link,
-  Button
+  Button,
+  ListItemIcon,
 } from "@mui/material";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
 import dociq_logo from "../../assets/dociq_logo.png";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -26,9 +31,9 @@ const UserDashboard = ({ children }) => {
   const username = localStorage.getItem("username") || "User";
 
   const menuItems = [
-    { text: "User Dashboard", path: "/user/dashboard" },
-    { text: "Forms List", path: "/user/dashboard/formslist" },
-    { text: "Submissions List", path: "/user/dashboard/submissionslist" },
+    { text: "Dashboard", path: "/user/dashboard", icon: <DashboardIcon /> },
+    { text: "Forms", path: "/user/dashboard/formslist", icon: <ListAltIcon /> },
+    { text: "Submissions", path: "/user/dashboard/submissionslist", icon: <AssignmentTurnedInIcon /> },
   ];
 
   const breadcrumbItems = [
@@ -80,7 +85,7 @@ const UserDashboard = ({ children }) => {
           </Toolbar>
 
           <List>
-            {menuItems.map(({ text, path }) => (
+            {menuItems.map(({ text, path, icon }) => (
               <ListItem
                 button={true}
                 key={text}
@@ -95,6 +100,9 @@ const UserDashboard = ({ children }) => {
                   cursor: "pointer",
                 }}
               >
+                <ListItemIcon sx={{ color: location.pathname === path ? "white" : "text.secondary" }}>
+                      {icon}
+                    </ListItemIcon>
                 <ListItemText
                   primary={text}
                   sx={{
@@ -116,9 +124,10 @@ const UserDashboard = ({ children }) => {
           <Button
             variant="contained"
             color="primary"
-            sx={{ mt: 1, width: "100%" }}
+            sx={{ mt: 1, width: "100%", gap: 1 }}
             onClick={handleLogout}
           >
+            <ExitToAppIcon/>
             Logout
           </Button>
         </Box>

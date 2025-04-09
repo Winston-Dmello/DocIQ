@@ -19,7 +19,7 @@ const Documents = sequelize.define('documents', {
         allowNull: false,
     },
     submission_id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
         allowNull: false,
     },
     file_name: {

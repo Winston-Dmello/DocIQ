@@ -31,17 +31,6 @@ const generateFileName = (file, file_list) => {
             ? `${date}-${separator}${matchingFile.file_name}${originalExt}` 
             : `${date}-${originalName}${originalExt}`;
         return newFileName;
-    
-    // const newFileName = matchingFile 
-    //     ? `${date}-${separator}${matchingFile.file_name}${originalExt}` 
-    //     : `${date}-${originalName}${originalExt}`;
-    // console.log("Multer: ", newFileName);
-
-    // if(!req.file_paths){
-    //     req.file_paths = [];
-    // }
-    // req.file_paths.push(`uploads/${newFileName}`);
-    // cb(null, newFileName);
 }
 
 module.exports = { deleteFiles, generateFileName };

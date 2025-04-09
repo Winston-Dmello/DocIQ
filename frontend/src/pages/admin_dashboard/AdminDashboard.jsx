@@ -14,6 +14,16 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import CreateIcon from "@mui/icons-material/Create";
+import AssignmentTurnedInIcon from "@mui/icons-material/AssignmentTurnedIn";
+import DescriptionIcon from "@mui/icons-material/Description";
+import PeopleIcon from "@mui/icons-material/People";
+import CategoryIcon from "@mui/icons-material/Category";
+import BusinessIcon from "@mui/icons-material/Business";
+import { ListItemIcon } from "@mui/material";
+import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import dociq_logo from "../../assets/dociq_logo.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -35,14 +45,15 @@ const AdminDashboard = ({ children }) => {
   const username = localStorage.getItem("username") || "Admin";
 
   const menuItems = [
-    { text: "Admin Dashboard", path: "/admin/dashboard" },
-    { text: "Form List", path: "/admin/dashboard/forms" },
-    { text: "Generate Form", path: "/admin/dashboard/generate-form" },
-    { text: "Submissions List", path: "/admin/dashboard/submissions" },
-    { text: "Documents", path: "/admin/dashboard/documents" },
-    { text: "Users", path: "/admin/dashboard/users" },
-    { text: "Categories", path: "/admin/dashboard/categories" },
-    { text: "Divisions", path: "/admin/dashboard/divisions" },
+    { text: "Dashboard", path: "/admin/dashboard", icon: <DashboardIcon /> },
+    { text: "Divisions", path: "/admin/dashboard/divisions", icon: <BusinessIcon /> },
+    { text: "Users", path: "/admin/dashboard/users", icon: <PeopleIcon /> },
+    { text: "Categories", path: "/admin/dashboard/categories", icon: <CategoryIcon /> },
+    { text: "Create Form", path: "/admin/dashboard/generate-form", icon: <CreateIcon /> },
+    { text: "Forms", path: "/admin/dashboard/forms", icon: <ListAltIcon /> },
+    { text: "Submissions", path: "/admin/dashboard/submissions", icon: <AssignmentTurnedInIcon /> },
+    { text: "Documents", path: "/admin/dashboard/documents", icon: <DescriptionIcon /> },
+
   ];
 
   const breadcrumbItems = [
@@ -116,7 +127,7 @@ const AdminDashboard = ({ children }) => {
               </Toolbar>
 
               <List>
-                {menuItems.map(({ text, path }) => (
+                {menuItems.map(({ text, path, icon }) => (
                   <ListItem
                     button={true}
                     key={text}
@@ -133,6 +144,9 @@ const AdminDashboard = ({ children }) => {
                       cursor: "pointer",
                     }}
                   >
+                    <ListItemIcon sx={{ color: location.pathname === path ? "white" : "text.secondary" }}>
+                      {icon}
+                    </ListItemIcon>
                     <ListItemText
                       primary={text}
                       sx={{
@@ -194,7 +208,7 @@ const AdminDashboard = ({ children }) => {
             </Toolbar>
 
             <List>
-              {menuItems.map(({ text, path }) => (
+              {menuItems.map(({ text, path, icon }) => (
                 <ListItem
                   button={true}
                   key={text}
@@ -211,6 +225,9 @@ const AdminDashboard = ({ children }) => {
                     cursor: "pointer",
                   }}
                 >
+                  <ListItemIcon sx={{ color: location.pathname === path ? "white" : "text.secondary" }}>
+                      {icon}
+                    </ListItemIcon>
                   <ListItemText
                     primary={text}
                     sx={{
@@ -233,9 +250,11 @@ const AdminDashboard = ({ children }) => {
             <Button
               variant="contained"
               color="primary"
-              sx={{ mt: 1, width: "100%" }}
+              sx={{ mt: 1, width: "100%", gap: 1
+               }}
               onClick={handleLogout}
             >
+              <ExitToAppIcon/>
               Logout
             </Button>
           </Box>
