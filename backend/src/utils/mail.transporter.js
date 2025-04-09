@@ -11,6 +11,6 @@ const transporter = nodemailer.createTransport({
 });
 
 //Also, drop tables once because there are changes in the user model.
-
+//Also Im making this commit because I feel like I have to or else something will happen.
 
 module.exports = transporter;
