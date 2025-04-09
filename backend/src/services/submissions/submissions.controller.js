@@ -16,9 +16,9 @@ const createSubmissionController = async (req, res, next) => {
     if (!req.file_paths) req.file_paths = [];
     try{
         req.file_list = req.body.file_list ? JSON.parse(req.body.file_list) : [];
-        req.file_paths = await Promise.all(req.files.map(file => uploadFile(file, req.file_list)));
-        console.log("File paths: ", req.file_paths);
-        const newSubmission = await createSubmission(req.body, req.file_paths);
+        // req.file_paths = await Promise.all(req.files.map(file => uploadFile(file, req.file_list)));
+        // console.log("File paths: ", req.file_paths);
+        const newSubmission = await createSubmission(req.body, req.file_list, req.files);
        return res.status(200).json({message: "Submission successful", details: newSubmission});
     }catch(error){
         next(error);

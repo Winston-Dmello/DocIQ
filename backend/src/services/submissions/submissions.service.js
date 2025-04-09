@@ -3,12 +3,10 @@ const Submissions = require('../../models/submissions.model');
 const Form = require('../../models/form.model');
 const UsersToForms = require('../../models/usersToForms.model');
 const { createDocument, delDocument } = require('../../services/documents/documents.service');
-const { deleteFiles } = require('../../utils/file.utils');
-const { deleteFile } = require('../s3/s3.service');
+const { uploadFile, deleteFile } = require('../s3/s3.service');
 
-const createSubmission = async (data, file_paths) => {
+const createSubmission = async (data, file_list, files) => {
     console.log(data.form_id);
-    console.log(file_paths);
 
     try{ 
         const form = await Form.findByPk(data.form_id);
@@ -25,6 +23,8 @@ const createSubmission = async (data, file_paths) => {
         if(form.submission_type === 'one-time' && form_status === 'close') {
             throw new Error('This Form is closed');
         }
+
+        const file_paths = await Promise.all(files.map(file => uploadFile(file, file_list)));
 
         const newSubmission = await Submissions.create({
             form_id: data.form_id,

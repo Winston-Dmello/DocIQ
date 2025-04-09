@@ -22,10 +22,10 @@ const server = http.createServer(app);
       await sequelize.sync({force: false});
       // await User.create({
       //   user_name: 'Nanda',
-      //   email: 'postnanda200@gmail.com',
+      //   email: 'walk4915@gmail.com',
       //   password: password, // make sure to hash it in a real app!
       //   designation: 'Developer',
-      //   role: 'user',
+      //   role: 'admin',
       //   division: 'Engineering',
       // })
       console.log("All models synchronized successfully");
