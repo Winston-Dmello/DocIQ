@@ -15,9 +15,19 @@ const PORT = process.env.PORT || 3000;
 
 const server = http.createServer(app);
 
+
 (async () => {
+  const password = await hashPassword('password1234');
   try{
       await sequelize.sync({force: false});
+      // await User.create({
+      //   user_name: 'Nanda',
+      //   email: 'postnanda200@gmail.com',
+      //   password: password, // make sure to hash it in a real app!
+      //   designation: 'Developer',
+      //   role: 'user',
+      //   division: 'Engineering',
+      // })
       console.log("All models synchronized successfully");
   }catch(err){
       console.log(err);

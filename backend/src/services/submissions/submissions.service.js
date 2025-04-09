@@ -1,6 +1,7 @@
 const sequelize = require('../../sequelize');
 const Submissions = require('../../models/submissions.model');
 const Form = require('../../models/form.model');
+const UsersToForms = require('../../models/usersToForms.model');
 const { createDocument, delDocument } = require('../../services/documents/documents.service');
 const { deleteFiles } = require('../../utils/file.utils');
 const { deleteFile } = require('../s3/s3.service');
@@ -8,14 +9,37 @@ const { deleteFile } = require('../s3/s3.service');
 const createSubmission = async (data, file_paths) => {
     console.log(data.form_id);
     console.log(file_paths);
+
     try{ 
+        const form = await Form.findByPk(data.form_id);
+        const relatedFormAndUser = await UsersToForms.findOne({
+            where: {
+                user_id: data.user_id,
+                form_id: data.form_id,
+            }
+        });
+        const form_status = relatedFormAndUser.form_status;
         const sub_data = JSON.parse(data.submission_data);
+        console.log("FORM STATUS: ", form_status);
+        console.log("SUBMISSION TYPE: ", form.submission_type);
+        if(form.submission_type === 'one-time' && form_status === 'close') {
+            throw new Error('This Form is closed');
+        }
+
         const newSubmission = await Submissions.create({
             form_id: data.form_id,
             user_id: data.user_id,
             submission_data: sub_data,
             file_paths: file_paths,
         });
+        
+        if(newSubmission && form.submission_type === 'one-time') {
+            await UsersToForms.update(
+                {form_status: 'close'},
+                { where: { user_id: data.user_id, form_id: data.form_id } }
+            );
+        }
+
         return newSubmission;
     }catch(error){
         throw error;
@@ -142,6 +166,14 @@ const delSubmission = async (submission_id) => {
             error.statusCode = 403; // Forbidden
             throw error;
         }
+        const user_id = submission.user_id;
+        const form_id = submission.form_id;
+
+        await UsersToForms.update( //update the users_to_forms table to keep the form open
+            {form_status: 'open'},
+            { where: { user_id: user_id, form_id: form_id } }
+        );
+
         const file_paths = submission.file_paths;
         await Promise.all(file_paths.map((file) => deleteFile(file)));
         await Submissions.destroy({
