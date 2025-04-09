@@ -3,6 +3,7 @@ const Submissions = require('../../models/submissions.model');
 const Form = require('../../models/form.model');
 const { createDocument, delDocument } = require('../../services/documents/documents.service');
 const { deleteFiles } = require('../../utils/file.utils');
+const { deleteFile } = require('../s3/s3.service');
 
 const createSubmission = async (data, file_paths) => {
     console.log(data.form_id);
@@ -142,7 +143,7 @@ const delSubmission = async (submission_id) => {
             throw error;
         }
         const file_paths = submission.file_paths;
-        await deleteFiles(file_paths);
+        await Promise.all(file_paths.map((file) => deleteFile(file)));
         await Submissions.destroy({
             where: {  submission_id: submission_id }
         });
@@ -157,11 +158,12 @@ const updateSubmission = async (submission_id, updateData) => {
         const submission = await Submissions.findByPk(submission_id);
         if (!submission) throw new Error('Submission not found');
         if (submission.status != "pending" && submission.status != "resubmit") {
-            const error = new Error('Cannot Delete Approved Submission');
+            const error = new Error('Cannot Edit Approved Submission');
             error.statusCode = 403; // Forbidden
             throw error;
         }
-        await deleteFiles(submission.file_paths);
+        const file_paths = submission.file_paths;
+        await Promise.all(file_paths.map((file) => deleteFile(file)));
         
         const updatedSubmission = await submission.update(updateData);
         return updatedSubmission;

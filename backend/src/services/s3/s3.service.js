@@ -1,5 +1,5 @@
 const {s3, BUCKET_NAME} = require('./s3.config');
-const { PutObjectCommand, GetObjectCommand } = require("@aws-sdk/client-s3");
+const { PutObjectCommand, GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 const { generateFileName } = require('../../utils/file.utils');
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 
@@ -25,6 +25,24 @@ async function uploadFile(file, file_list) {
         throw error;
     }
 }
+
+async function deleteFile(fileKey) {
+    const params = {
+        Bucket: BUCKET_NAME,
+        Key: fileKey,
+    };
+
+    try {
+        const command = new DeleteObjectCommand(params);
+        const response = await s3.send(command);
+        console.log("File deleted successfully!");
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+
 
 async function getSignedUrlForFile(filePath) {
     const params = {
@@ -64,4 +82,4 @@ async function getSignedUrlForFile(filePath) {
 // };
 
 
-module.exports = {uploadFile, getSignedUrlForFile};
+module.exports = {uploadFile, getSignedUrlForFile, deleteFile};
