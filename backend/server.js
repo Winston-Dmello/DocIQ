@@ -21,10 +21,10 @@ const server = http.createServer(app);
   try{
       await sequelize.sync({force: false});
       // await User.create({
-      //   user_name: 'Nanda',
-      //   email: 'walk4915@gmail.com',
+      //   user_name: 'Winston',
+      //   email: 'dmellowinston@gmail.com',
       //   password: password, // make sure to hash it in a real app!
-      //   designation: 'Developer',
+      //   designation: 'teacher',
       //   role: 'admin',
       //   division: 'Engineering',
       // })

@@ -7,38 +7,61 @@ import AdminRoutes from "./pages/admin_dashboard/AdminRoutes.jsx";
 import UserRoutes from "./pages/user_dashboard/UserRoutes.jsx";
 import ProtectedRoute from "./utils/ProtectedRoutes.jsx";
 import GlobalSnackbar from "./utils/GlobalSnackbar.jsx";
+import ResetPassword from "./pages/reset_password/ResetPassword.jsx";
 
 function App() {
   return (
     <>
-    <Routes>
-      <Route path="/home" element={<Home />} />
+      <Routes>
+        <Route path="/home" element={<Home />} />
 
-      <Route
-        path="/login/admin"
-        element={
-          <LoginLayout>
-            <AdminAuth />
-          </LoginLayout>
-        }
-      />
-      <Route
-        path="/login/user"
-        element={
-          <LoginLayout>
-            <UserAuth />
-          </LoginLayout>
-        }
-      />
+        <Route
+          path="/reset-password/:token"
+          element={
+            <LoginLayout>
+              <ResetPassword />
+            </LoginLayout>
+          }
+        />
 
-      <Route path="/admin/dashboard/*" element={<ProtectedRoute><AdminRoutes /></ProtectedRoute>} />
-      <Route path="/user/dashboard/*" element={<ProtectedRoute><UserRoutes /></ProtectedRoute>} />
+        <Route
+          path="/login/admin"
+          element={
+            <LoginLayout>
+              <AdminAuth />
+            </LoginLayout>
+          }
+        />
+        <Route
+          path="/login/user"
+          element={
+            <LoginLayout>
+              <UserAuth />
+            </LoginLayout>
+          }
+        />
 
-      <Route path="*" element={<Navigate to="/home" replace />} />
-    </Routes>
-    <GlobalSnackbar/>
+        <Route
+          path="/admin/dashboard/*"
+          element={
+            <ProtectedRoute>
+              <AdminRoutes />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user/dashboard/*"
+          element={
+            <ProtectedRoute>
+              <UserRoutes />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="*" element={<Navigate to="/home" replace />} />
+      </Routes>
+      <GlobalSnackbar />
     </>
-    
   );
 }
 

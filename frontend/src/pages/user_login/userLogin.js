@@ -35,4 +35,29 @@ const userLogin = async ({email, password}) => {
     }
 }
 
-export default userLogin;
+
+const forgotpassword = async (email) => {
+    try{
+        const response = await fetch(`${import.meta.env.VITE_BASE_URL}/auth/forgot-password`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'email': email
+            }),
+            credentials: 'include'
+        })
+        if(response.ok){
+            return {message: 'Email Sent Successfully', severity:"success"};
+        }else if(response.status === 404){
+            return {message: 'Email does not exist', severity:"warning"};
+        }else {
+            return {message: 'Something went wrong!', severity:"error"};
+        }    
+    } catch {
+        return {message: 'Error Connecting to Server', severity:"error"};
+    }
+}
+
+export {userLogin, forgotpassword};
