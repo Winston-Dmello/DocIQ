@@ -10,7 +10,8 @@ const {
     updateSubmissionController,
     approveSubmissionController,
     getSubmissionsByUserController,
-    delSubmissionController } = require('./submissions.controller');
+    delSubmissionController, 
+    searchSubmissionsController} = require('./submissions.controller');
 
 router.post('/create', upload.array('files', 10), createSubmissionController);
 router.get('/', getSubmissionsController);
@@ -19,5 +20,6 @@ router.put('/approve', approveSubmissionController);
 router.get('/user/:user_id', getSubmissionsByUserController);
 router.put('/:id', upload.array('files', 10), updateSubmissionController);
 router.delete('/:id', delSubmissionController);
+router.get('/search/:query', searchSubmissionsController);
 
 module.exports = router;

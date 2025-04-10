@@ -6,7 +6,8 @@ const {
     getSubmissionsByUser, 
     approveSubmission,
     delSubmission,
-    updateSubmission } = require('./submissions.service');
+    updateSubmission, 
+    searchSubmissions} = require('./submissions.service');
 const { uploadFile } = require('../s3/s3.service');
 
 const createSubmissionController = async (req, res, next) => {  
@@ -90,6 +91,18 @@ const updateSubmissionController = async (req, res, next) => {
     }
 }
 
+const searchSubmissionsController = async (req, res, next) => {
+    try{
+        const query = req.params.query;
+        if (!query) return res.status(400).json({ error: 'Search query is required' });
+        const submissions = await searchSubmissions(query);
+        if(!submissions) return res.status(404).json({message: 'No submissions found'});
+        return res.json(submissions);
+    }catch(error){
+        next(error);
+    }
+}
+
 module.exports = { 
     createSubmissionController,
     getSubmissionByIdController,
@@ -97,5 +110,6 @@ module.exports = {
     updateSubmissionController,
     approveSubmissionController,
     getSubmissionsByUserController,
-    delSubmissionController
+    delSubmissionController,
+    searchSubmissionsController
 };

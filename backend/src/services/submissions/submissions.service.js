@@ -4,6 +4,7 @@ const Form = require('../../models/form.model');
 const UsersToForms = require('../../models/usersToForms.model');
 const { createDocument, delDocument } = require('../../services/documents/documents.service');
 const { uploadFile, deleteFile } = require('../s3/s3.service');
+const { Sequelize } = require('sequelize');
 
 const createSubmission = async (data, file_list, files) => {
     console.log(data.form_id);
@@ -204,6 +205,29 @@ const updateSubmission = async (submission_id, updateData) => {
     }
 }
 
+const searchSubmissions = async (query) => {
+    try {
+      await Submissions.sequelize.query(`
+        UPDATE "submissions"
+        SET search_vector = to_tsvector('english', submission_data::text)
+      `);
+  
+      const results = await Submissions.sequelize.query(`
+        SELECT *
+        FROM "submissions"
+        WHERE search_vector @@ plainto_tsquery('english', :query)
+      `, {
+        replacements: { query },
+        type: Sequelize.QueryTypes.SELECT
+      });
+  
+      return results;
+    } catch (error) {
+      console.error('Search failed:', error);
+    }
+  };
+  
+
 module.exports = { 
     createSubmission, 
     getAllSubmissions, 
@@ -211,5 +235,6 @@ module.exports = {
     approveSubmission,
     getSubmissionsByUser,
     delSubmission,
-    updateSubmission
+    updateSubmission,
+    searchSubmissions
  };
