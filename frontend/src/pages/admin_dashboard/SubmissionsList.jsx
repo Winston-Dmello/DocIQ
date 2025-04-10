@@ -1,4 +1,4 @@
-import { getsubmissions } from "./submissionsList";
+import { getsubmissions, searchsubmissions } from "./submissionsList";
 import {
   Typography,
   Container,
@@ -13,15 +13,16 @@ import {
   IconButton,
   Box,
   TextField,
-  MenuItem,
-  Select,
-  InputLabel,
-  FormControl,
+  Grid,
+  Button,
+  Modal,
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore"; // "<" icon
-import NavigateNextIcon from "@mui/icons-material/NavigateNext"; // ">" icon
+import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore";
+import NavigateNextIcon from "@mui/icons-material/NavigateNext";
+import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
@@ -30,7 +31,8 @@ const SubmissionsList = () => {
   const [filteredSubmissions, setFilteredSubmissions] = useState([]);
   const [page, setPage] = useState(0);
   const [searchQuery, setSearchQuery] = useState("");
-  const [statusFilter, setStatusFilter] = useState("All");
+  const [searchBoxOpen, setSearchBoxOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
   const itemsPerPage = 5;
   const navigate = useNavigate();
 
@@ -60,33 +62,15 @@ const SubmissionsList = () => {
     }
   };
 
-  const handleSearch = (e) => {
-    const value = e.target.value.toLowerCase();
-    setSearchQuery(value);
-    filterSubmissions(value, statusFilter);
-  };
-
-  const handleStatusChange = (e) => {
-    const value = e.target.value;
-    setStatusFilter(value);
-    filterSubmissions(searchQuery, value);
-  };
-
-  const filterSubmissions = (search, status) => {
-    let filtered = submissions;
-
-    if (search) {
-      filtered = filtered.filter((submission) =>
-        submission.form_name.toLowerCase().includes(search)
-      );
+  const handleSearch = async () => {
+    if (!searchQuery) return;
+    try {
+      const response = await searchsubmissions(searchQuery);
+      const data = await response.json();
+      setSearchResults(data);
+    } catch (err) {
+      console.error("Search failed:", err);
     }
-
-    if (status !== "All") {
-      filtered = filtered.filter((submission) => submission.status === status);
-    }
-
-    setFilteredSubmissions(filtered);
-    setPage(0); // Reset to first page after filtering
   };
 
   return (
@@ -100,83 +84,41 @@ const SubmissionsList = () => {
         }}
       >
         <CardContent>
-          <Typography
-            variant="h4"
-            align="center"
-            gutterBottom
-            sx={{ color: "text.primary", fontWeight: 600 }}
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            marginBottom={2}
           >
-            Submissions
-          </Typography>
+            <Typography
+              variant="h4"
+              sx={{ color: "text.primary", fontWeight: 600 }}
+            >
+              Submissions
+            </Typography>
 
-          {/* Search and Filter Controls */}
-          <Box sx={{ display: "flex", gap: 2 ,marginBottom: 2, justifyContent: "flex-end" }}>
-            <TextField
-              label="Search by Form Name"
-              variant="outlined"
-              value={searchQuery}
-              onChange={handleSearch}
-            />
-            <FormControl variant="outlined" sx={{ minWidth: 200 }}>
-              <InputLabel>Status</InputLabel>
-              <Select value={statusFilter} onChange={handleStatusChange} label="Status">
-                <MenuItem value="All">All</MenuItem>
-                <MenuItem value="pending">Pending</MenuItem>
-                <MenuItem value="approved">Approved</MenuItem>
-                <MenuItem value="resubmit">Resubmit</MenuItem>
-              </Select>
-            </FormControl>
+            <IconButton onClick={() => setSearchBoxOpen(true)}>
+              <SearchIcon />
+            </IconButton>
           </Box>
 
+          {/* Table */}
           <TableContainer sx={{ borderRadius: 2 }}>
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell
-                    sx={{
-                      backgroundColor: "primary.main",
-                      color: "text.secondary",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Serial Number
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      backgroundColor: "primary.main",
-                      color: "text.secondary",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Form Name
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      backgroundColor: "primary.main",
-                      color: "text.secondary",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Submission Status
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      backgroundColor: "primary.main",
-                      color: "text.secondary",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Last Modified
-                  </TableCell>
-                  <TableCell
-                    sx={{
-                      backgroundColor: "primary.main",
-                      color: "text.secondary",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Actions
-                  </TableCell>
+                  {["Serial Number", "Form Name", "Submission Status", "Last Modified", "Actions"].map((header) => (
+                    <TableCell
+                      key={header}
+                      sx={{
+                        backgroundColor: "primary.main",
+                        color: "text.secondary",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {header}
+                    </TableCell>
+                  ))}
                 </TableRow>
               </TableHead>
               <TableBody sx={{ backgroundColor: "background.default" }}>
@@ -212,39 +154,104 @@ const SubmissionsList = () => {
               marginTop: 2,
             }}
           >
-            {/* Refresh Button */}
-            <IconButton
-              onClick={fetchSubmissions}
-              sx={{ color: "text.primary" }}
-            >
+            <IconButton onClick={fetchSubmissions}>
               <RefreshIcon />
             </IconButton>
-
-            {/* Previous Button */}
-            <IconButton
-              onClick={handlePrev}
-              disabled={page === 0}
-              sx={{ color: "text.primary" }}
-            >
+            <IconButton onClick={handlePrev} disabled={page === 0}>
               <NavigateBeforeIcon />
             </IconButton>
-
-            {/* Page Indicator */}
-            <Typography sx={{ marginX: 1, color: "text.primary" }}>
+            <Typography sx={{ marginX: 1 }}>
               {page + 1} / {Math.ceil(filteredSubmissions.length / itemsPerPage) || 1}
             </Typography>
-
-            {/* Next Button */}
             <IconButton
               onClick={handleNext}
               disabled={(page + 1) * itemsPerPage >= filteredSubmissions.length}
-              sx={{ color: "text.primary" }}
             >
               <NavigateNextIcon />
             </IconButton>
           </Box>
         </CardContent>
       </Card>
+
+      {/* Centered Search Modal */}
+      <Modal open={searchBoxOpen} onClose={() => setSearchBoxOpen(false)}>
+        <Box
+          sx={{
+            width: 500,
+            bgcolor: "background.paper",
+            borderRadius: 3,
+            p: 4,
+            boxShadow: 24,
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <Box display="flex" justifyContent="space-between" mb={2}>
+            <Typography variant="h6">Search Submissions</Typography>
+            <IconButton onClick={() => setSearchBoxOpen(false)}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+
+          <Box display="flex" gap={2}>
+            <TextField
+              fullWidth
+              label="Search by Form Name"
+              variant="outlined"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            />
+            <Button
+              variant="contained"
+              onClick={handleSearch}
+              startIcon={<SearchIcon />}
+            >
+              Search
+            </Button>
+          </Box>
+          {/* Results */}
+      {searchResults.length > 0 && (
+        <Box mt={4}>
+          <Typography variant="h5" mb={2}>
+            Search Results
+          </Typography>
+          <Grid container spacing={2}>
+            {searchResults.map((submission) => (
+              <Grid item xs={12} sm={6} md={4} key={submission.submission_id}>
+                <Card sx={{ borderRadius: 3 }}>
+                  <CardContent>
+                    <Typography variant="subtitle1" fontWeight={600}>
+                      {submission.form_name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Status: {submission.status}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Updated: {submission.updatedAt}
+                    </Typography>
+                    <Button
+                      size="small"
+                      onClick={() =>
+                        onButtonClick(submission.submission_id)
+                      }
+                      sx={{ mt: 1 }}
+                    >
+                      View Details
+                    </Button>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      )}
+        </Box>
+      </Modal>
+
+      
     </Container>
   );
 };

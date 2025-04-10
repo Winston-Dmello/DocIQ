@@ -13,7 +13,6 @@ import {
   Box,
 } from "@mui/material";
 
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import AddIcon from "@mui/icons-material/Add";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import NavigateBeforeIcon from "@mui/icons-material/NavigateBefore"; // "<" icon
@@ -40,9 +39,6 @@ const UsersList = () => {
     fetchUsers();
   }, []);
 
-  const onButtonClick = (userID) => {
-    navigate(`/admin/dashboard/users/${userID}`);
-  };
 
   const handleNext = () => {
     if ((page + 1) * itemsPerPage < users.length) {
@@ -175,15 +171,7 @@ const UsersList = () => {
                   >
                     Division
                   </TableCell>
-                  <TableCell
-                    sx={{
-                      backgroundColor: "primary.main",
-                      color: "text.secondary",
-                      fontWeight: "bold",
-                    }}
-                  >
-                    Actions
-                  </TableCell>
+                  
                 </TableRow>
               </TableHead>
               <TableBody sx={{ backgroundColor: "background.default" }}>
@@ -197,13 +185,7 @@ const UsersList = () => {
                       <TableCell>{user.designation}</TableCell>
                       <TableCell>{user.division}</TableCell>
 
-                      <TableCell>
-                        <IconButton
-                          onClick={() => onButtonClick(user.submission_id)}
-                        >
-                          <VisibilityIcon />
-                        </IconButton>
-                      </TableCell>
+                      
                     </TableRow>
                   ))}
               </TableBody>
